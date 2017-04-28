@@ -148,8 +148,6 @@ function PositionEntities()
         }
         pathsList.splice(i, 1);
     }
-
-
 }
 
 //endregion
@@ -259,9 +257,6 @@ function UpdatePositionAndDraw()
     board[pacShape.i][pacShape.j] = BoardEntity.PacMan;
     var currentTime = new Date();
     timeElapsed = (currentTime - startTime) / 1000;
-
-    if (score >= 20 && timeElapsed <= 10)
-        pacColor = "green";
 
     Draw();
 
