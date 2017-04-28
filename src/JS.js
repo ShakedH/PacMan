@@ -2,11 +2,13 @@
 var BoardEntity =
     {
         Path: 0,
-        Food: 1,
+        Food_5: 1,
         PacMan: 2,
         Ghost: 3,
         Obstacle: 4,
-        Bonus: 5
+        Bonus: 5,
+        Food_15: 6,
+        Food_25: 7
     };
 var Keys =
     {
@@ -37,6 +39,19 @@ var interval;
 
 function Start()
 {
+    CreateBoard();
+    SetKeyEvents();
+    interval = setInterval(Run, 250);
+}
+
+function Run()
+{
+    Draw();
+    UpdatePosition();
+}
+
+function CreateBoard()
+{
     canvas = document.getElementById("canvas");
     lblScore = document.getElementById("lblScore");
     lblTime = document.getElementById("lblTime");
@@ -58,7 +73,7 @@ function Start()
             if (randomNum <= 1.0 * food_remain / remainingBoardCells)
             {
                 food_remain--;
-                board[row][col] = BoardEntity.Food;
+                board[row][col] = BoardEntity.Food_5;
             }
             else if (randomNum < 1.0 * (pacman_remain + food_remain) / remainingBoardCells)
             {
@@ -74,6 +89,10 @@ function Start()
             remainingBoardCells--;
         }
     }
+}
+
+function SetKeyEvents()
+{
     keysDown = new Object();
 
     addEventListener("keydown", function (e)
@@ -84,8 +103,6 @@ function Start()
     {
         keysDown[e.keyCode] = false;
     }, false);
-
-    interval = setInterval(UpdatePosition, 250);
 }
 
 function GetKeyPressed()
@@ -133,7 +150,7 @@ function Draw()
                 canvasContext.fillStyle = "black"; //color
                 canvasContext.fill();
             }
-            else if (board[row][col] == BoardEntity.Food)
+            else if (board[row][col] == BoardEntity.Food_5)
             {
                 canvasContext.beginPath();
                 canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, 15, 0, 2 * Math.PI); // circle
@@ -164,16 +181,16 @@ function UpdatePosition()
             break;
     }
 
-    if (board[pacShape.i][pacShape.j] == BoardEntity.Food)
+    if (board[pacShape.i][pacShape.j] == BoardEntity.Food_5)
         score++;
 
     board[pacShape.i][pacShape.j] = BoardEntity.PacMan;
     var currentTime = new Date();
     timeElapsed = (currentTime - startTime) / 1000;
+
     if (score >= 20 && timeElapsed <= 10)
-    {
         pacColor = "green";
-    }
+
     if (score == MAX_FOOD)
     {
         window.clearInterval(interval);
