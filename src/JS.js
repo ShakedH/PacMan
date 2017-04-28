@@ -23,8 +23,8 @@ var Keys =
 var COLS = 28, ROWS = 28, MAX_FOOD = 50;
 var TileSize = 15, HalfTileSize = TileSize / 2;
 var LevelBoard = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
@@ -32,14 +32,14 @@ var LevelBoard = [
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1],
+    [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1],
+    [0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0],
+    [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
@@ -50,7 +50,7 @@ var LevelBoard = [
     [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]];
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]];
 //endregion
 
 //region Members
@@ -65,6 +65,9 @@ var pacColor;
 var startTime;
 var timeElapsed;
 var interval;
+var lives;
+var foodsOnBoard;
+var pathsList;
 //endregion
 
 function Start()
@@ -72,11 +75,6 @@ function Start()
     CreateBoard();
     SetKeyEvents();
     interval = setInterval(Run, 250);
-}
-
-function Run()
-{
-    UpdatePositionAndDraw();
 }
 
 //region Build Board Functions
@@ -90,68 +88,76 @@ function CreateBoard()
     board = new Array();
     score = 0;
     pacColor = "yellow";
+    foodsOnBoard = MAX_FOOD;
     startTime = new Date();
+    lives = 3;
+    pathsList = new Array();
 
     FillBoardWithPathsAndWalls();
-    PositionObstacles();
     PositionEntities();
 }
 
 function FillBoardWithPathsAndWalls()
 {
-    for (var row = 0; row < ROWS; row++)
+    for (var col = 0; col < COLS; col++)
     {
-        board[row] = new Array(COLS);
-        for (var col = 0; col < COLS; col++)
+        board[col] = new Array(ROWS);
+        for (var row = 0; row < ROWS; row++)
             if (LevelBoard[row][col] == 1)
-                board[row][col] = BoardEntity.Obstacle;
+                board[col][row] = BoardEntity.Obstacle;
             else
-                board[row][col] = BoardEntity.Path;
+            {
+                board[col][row] = BoardEntity.Path;
+                pathsList.push({col: col, row: row});
+            }
     }
-}
-
-function PositionObstacles()
-{
-
 }
 
 function PositionEntities()
 {
     var remainingBoardCells = ROWS * COLS;
     var food_remain = MAX_FOOD;
-    var pacman_remain = 1;
-    for (var row = 0; row < ROWS; row++)
+    while (true)
     {
-        for (var col = 0; col < COLS; col++)
+        var row = Math.floor(Math.random() * ROWS);
+        var col = Math.floor(Math.random() * COLS);
+        if (board[col][row] == BoardEntity.Path)
         {
-            if (board[row][col] != BoardEntity.Path)
-            {
-                remainingBoardCells--;
-                continue;
-            }
-            var randomNum = Math.random();
-            if (randomNum <= 1.0 * food_remain / remainingBoardCells)
-            {
-                food_remain--;
-                board[row][col] = BoardEntity.Food_5;
-            }
-            else if (randomNum < 1.0 * (pacman_remain + food_remain) / remainingBoardCells)
-            {
-                pacShape.i = row;
-                pacShape.j = col;
-                pacman_remain--;
-                board[row][col] = BoardEntity.PacMan;
-            }
-            else
-            {
-                board[row][col] = BoardEntity.Path;
-            }
-            remainingBoardCells--;
+            board[col][row] = BoardEntity.PacMan;
+            pacShape.i = col;
+            pacShape.j = row;
+            break;
         }
     }
+
+    while (food_remain > 0)
+    {
+        var i = Math.floor(Math.random() * pathsList.length);
+        row = pathsList[i].row;
+        col = pathsList[i].col;
+        if (board[col][row] == BoardEntity.Path)
+        {
+            var randomFood = Math.floor(Math.random() * 100)
+            if (randomFood <= 10)
+                board[col][row] = BoardEntity.Food_25;
+            else if (randomFood <= 30)
+                board[col][row] = BoardEntity.Food_15;
+            else
+                board[col][row] = BoardEntity.Food_5;
+            food_remain--;
+        }
+        pathsList.splice(i, 1);
+    }
+
+
 }
 
 //endregion
+
+function Run()
+{
+    UpdatePositionAndDraw();
+}
 
 function SetKeyEvents()
 {
@@ -192,39 +198,55 @@ function Draw()
     canvas.width = canvas.width; //clean board
     lblScore.value = score;
     lblTime.value = timeElapsed;
-    for (var row = 0; row < ROWS; row++)
+    for (var col = 0; col < COLS; col++)
     {
-        for (var col = 0; col < COLS; col++)
+        for (var row = 0; row < ROWS; row++)
         {
             var boardEntityCenter = new Object();
-            boardEntityCenter.x = row * TileSize + HalfTileSize;
-            boardEntityCenter.y = col * TileSize + HalfTileSize;
-            if (board[row][col] == BoardEntity.PacMan)
+            boardEntityCenter.x = col * TileSize + HalfTileSize;
+            boardEntityCenter.y = row * TileSize + HalfTileSize;
+            switch (board[col][row])
             {
-                canvasContext.beginPath();
-                canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, HalfTileSize, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
-                canvasContext.lineTo(boardEntityCenter.x, boardEntityCenter.y);
-                canvasContext.fillStyle = pacColor; //color
-                canvasContext.fill();
+                case BoardEntity.PacMan:
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, HalfTileSize, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
+                    canvasContext.lineTo(boardEntityCenter.x, boardEntityCenter.y);
+                    canvasContext.fillStyle = pacColor; //color
+                    canvasContext.fill();
 
-                canvasContext.beginPath();
-                canvasContext.arc(boardEntityCenter.x + 5, boardEntityCenter.y - TileSize / 4, 5, 0, 2 * Math.PI); // pacman eye
-                canvasContext.fillStyle = "black"; //color
-                canvasContext.fill();
-            }
-            else if (board[row][col] == BoardEntity.Food_5)
-            {
-                canvasContext.beginPath();
-                canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TileSize / 4, 0, 2 * Math.PI); // circle
-                canvasContext.fillStyle = "black"; //color
-                canvasContext.fill();
-            }
-            else if (board[row][col] == BoardEntity.Obstacle)
-            {
-                canvasContext.beginPath();
-                canvasContext.rect(boardEntityCenter.x - HalfTileSize, boardEntityCenter.y - HalfTileSize, TileSize, TileSize);
-                canvasContext.fillStyle = "grey"; //color
-                canvasContext.fill();
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x + 2, boardEntityCenter.y - TileSize / 4, 2, 0, 2 * Math.PI); // pacman eye
+                    canvasContext.fillStyle = "black"; //color
+                    canvasContext.fill();
+                    break;
+
+                case BoardEntity.Food_5:
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TileSize / 4, 0, 2 * Math.PI); // circle
+                    canvasContext.fillStyle = "black"; //color
+                    canvasContext.fill();
+                    break;
+
+                case BoardEntity.Food_15:
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TileSize / 4, 0, 2 * Math.PI); // circle
+                    canvasContext.fillStyle = "red"; //color
+                    canvasContext.fill();
+                    break;
+
+                case BoardEntity.Food_25:
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TileSize / 4, 0, 2 * Math.PI); // circle
+                    canvasContext.fillStyle = "gold"; //color
+                    canvasContext.fill();
+                    break;
+
+                case BoardEntity.Obstacle:
+                    canvasContext.beginPath();
+                    canvasContext.rect(boardEntityCenter.x - HalfTileSize, boardEntityCenter.y - HalfTileSize, TileSize, TileSize);
+                    canvasContext.fillStyle = "grey"; //color
+                    canvasContext.fill();
+                    break;
             }
         }
     }
@@ -232,27 +254,8 @@ function Draw()
 
 function UpdatePositionAndDraw()
 {
-    board[pacShape.i][pacShape.j] = BoardEntity.Path;
-
-    switch (GetKeyPressed())
-    {
-        case Keys.Up:
-            pacShape.j = pacShape.j > 0 ? pacShape.j - 1 : pacShape.j;
-            break;
-        case  Keys.Down:
-            pacShape.j = pacShape.j < ROWS - 1 ? pacShape.j + 1 : pacShape.j;
-            break;
-        case Keys.Left:
-            pacShape.i = pacShape.i > 0 ? pacShape.i - 1 : pacShape.i;
-            break;
-        case Keys.Right:
-            pacShape.i = pacShape.i < COLS - 1 ? pacShape.i + 1 : pacShape.i;
-            break;
-    }
-
-    if (board[pacShape.i][pacShape.j] == BoardEntity.Food_5)
-        score++;
-
+    TryToMove();
+    var previousEntity = board[pacShape.i][pacShape.j];
     board[pacShape.i][pacShape.j] = BoardEntity.PacMan;
     var currentTime = new Date();
     timeElapsed = (currentTime - startTime) / 1000;
@@ -260,11 +263,83 @@ function UpdatePositionAndDraw()
     if (score >= 20 && timeElapsed <= 10)
         pacColor = "green";
 
-    if (score == MAX_FOOD)
+    Draw();
+
+    switch (previousEntity)
+    {
+        case BoardEntity.Food_5:
+            score += 5;
+            foodsOnBoard--;
+            break;
+        case BoardEntity.Food_15:
+            score += 15;
+            foodsOnBoard--;
+            break;
+        case BoardEntity.Food_25:
+            score += 25;
+            foodsOnBoard--;
+            break;
+        case BoardEntity.Bonus:
+            score += 50;
+            break;
+        case BoardEntity.Ghost:
+            Die();
+            break;
+    }
+    if (foodsOnBoard == 0)
     {
         window.clearInterval(interval);
         window.alert("Game completed");
     }
+}
+
+function Die()
+{
+    lives--;
+    window.clearInterval(interval);
+    if (lives == 0)
+        window.alert("You lost!");
     else
-        Draw();
+    {
+        // TODO
+        // 1. Die animation
+        // 2. Restart game
+    }
+}
+
+function TryToMove()
+{
+    var originalI = pacShape.i;
+    var originalJ = pacShape.j;
+
+    switch (GetKeyPressed())
+    {
+        case Keys.Up:
+            if (pacShape.j == 0 && board[pacShape.i][ROWS - 1] != BoardEntity.Obstacle)
+                pacShape.j = ROWS - 1;
+            else if (pacShape.j > 0 && board[pacShape.i][pacShape.j - 1] != BoardEntity.Obstacle)
+                pacShape.j--;
+            break;
+        case  Keys.Down:
+            if (pacShape.j == ROWS - 1 && board[pacShape.i][0] != BoardEntity.Obstacle)
+                pacShape.j = 0;
+            else if (pacShape.j < ROWS - 1 && board[pacShape.i][pacShape.j + 1] != BoardEntity.Obstacle)
+                pacShape.j++;
+            break;
+        case Keys.Left:
+            if (pacShape.i == 0 && board[COLS - 1][pacShape.j] != BoardEntity.Obstacle)
+                pacShape.i = COLS - 1;
+            else if (pacShape.i > 0 && board[pacShape.i - 1][pacShape.j] != BoardEntity.Obstacle)
+                pacShape.i--;
+            break;
+        case Keys.Right:
+            if (pacShape.i == COLS - 1 && board[0][pacShape.j] != BoardEntity.Obstacle)
+                pacShape.i = 0;
+            else if (pacShape.i < COLS - 1 && board[pacShape.i + 1][pacShape.j] != BoardEntity.Obstacle)
+                pacShape.i++;
+            break;
+    }
+
+    if (originalI != pacShape.i || originalJ != pacShape.j) // Pacman moved
+        board[originalI][originalJ] = BoardEntity.Path;
 }
