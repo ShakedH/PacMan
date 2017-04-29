@@ -5,14 +5,20 @@ window.onload = InitPage;
 
 function InitPage()
 {
-    ErrorToUser("Init");
     Users = [{
         UserName: 'a',
         Password: 'a',
-        FirstName: 'test',
-        Surname: 'man',
+        FirstName: 'Test',
+        Surname: 'Man',
         Email: 'a@a.com',
         BirthDate: '1990-01-01'
+    }, {
+        UserName: 'test2017',
+        Password: 'test2017',
+        FirstName: 'Tests',
+        Surname: 'Guy',
+        Email: 'Test@2017.com',
+        BirthDate: '2017-05-10'
     }];
 }
 
@@ -55,14 +61,15 @@ function AddUser()
         Surname: surname,
         Email: email,
         BirthDate: birthDate
-    }
+    };
+
     // Check if user already exists:
     var exists = Users.some(function (other)
     {
-        return other.Email === user.Email;
+        return other.UserName === user.UserName;
     });
     if (exists)
-        ErrorToUser("Email already used!");
+        ErrorToUser("User name already exists!");
     else
         Users.push(user);
 }
