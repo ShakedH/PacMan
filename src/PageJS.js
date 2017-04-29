@@ -42,7 +42,6 @@ function OpenDiv(divID)
     document.getElementById(divID).style.visibility = 'visible';
 }
 
-
 function AddUser()
 {
     var userName = $("#UserNameSignUp").get(0);
@@ -144,18 +143,12 @@ function VerifyEmail(textbox)
     var email = textbox.value;
     if (!email || email == '')
         textbox.setCustomValidity('Email is required');
-    else if (textbox.validity.typeMismatch)
+    else if (email.indexOf('@') == -1 || email.indexOf('.') == -1)
         textbox.setCustomValidity('Please enter valid Email address');
     else
         textbox.setCustomValidity('');
 }
 
-function VerifyBirthDate(textbox)
-{
-    var dateText = textbox.value;
-    if (!dateText || dateText == '')
-        textbox.setCustomValidity('Birth Date is required');
-}
 function MessageToUser(message)
 {
     window.alert(message)
