@@ -20,8 +20,11 @@ var Keys =
 //endregion
 
 //region Consts
-var COLS = 28, ROWS = 28, MAX_FOOD = 50;
-var TileSize = 15, HalfTileSize = TileSize / 2;
+var COLS = 28;
+var ROWS = 28;
+var MAX_FOOD = 50;
+var TILE_SIZE = 15;
+var HALF_TILE_SIZE = TILE_SIZE / 2;
 var LevelBoard = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -68,33 +71,50 @@ var interval;
 var lives;
 var foodsOnBoard;
 var pathsList;
+var numOfGhosts;
+var ghostsArray;
+var prevGhostEntity;
 //endregion
+
+window.onload = Start;
 
 function Start()
 {
-    CreateBoard();
-    SetKeyEvents();
-    interval = setInterval(Run, 250);
+    InitializeMembers();
+    FillBoardWithPathsAndWalls();
+    PositionEntities();
+    interval = setInterval(UpdatePositionAndDraw, 200);
 }
 
 //region Build Board Functions
-function CreateBoard()
+function InitializeMembers()
 {
     canvas = document.getElementById("canvas");
     lblScore = document.getElementById("lblScore");
     lblTime = document.getElementById("lblTime");
     canvasContext = canvas.getContext("2d");
-    pacShape = new Object();
+
+    startTime = new Date();
     board = new Array();
+    pathsList = new Array();
+    ghostsArray = new Array();
+    prevGhostEntity = new Array();
+    pacShape = new Object();
+    keysDown = new Object();
     score = 0;
+    lives = 3;
+    numOfGhosts = 3;
     pacColor = "yellow";
     foodsOnBoard = MAX_FOOD;
-    startTime = new Date();
-    lives = 3;
-    pathsList = new Array();
 
-    FillBoardWithPathsAndWalls();
-    PositionEntities();
+    addEventListener("keydown", function (e)
+    {
+        keysDown[Keys.Up] = false;
+        keysDown[Keys.Down] = false;
+        keysDown[Keys.Left] = false;
+        keysDown[Keys.Right] = false;
+        keysDown[e.keyCode] = true;
+    }, false);
 }
 
 function FillBoardWithPathsAndWalls()
@@ -132,7 +152,7 @@ function PositionEntities()
         }
     }
 
-    // Positiion food
+    // Position food
     while (food_remain > 0)
     {
         var i = Math.floor(Math.random() * pathsList.length);
@@ -151,122 +171,46 @@ function PositionEntities()
         }
         pathsList.splice(i, 1);
     }
+
+    // Position numOfGhosts
+    for (i = 0; i < numOfGhosts; i++)    // 1-3 ghosts allowed
+    {
+        switch (i)
+        {
+            case 0: // First ghost
+                col = 1;
+                row = 1;
+                break;
+            case 1: // Second ghost
+                col = COLS - 2;
+                row = 1;
+                break;
+            case 2: // Third ghost
+                col = COLS - 2;
+                row = ROWS - 2;
+                break;
+        }
+        prevGhostEntity.push(board[col][row]);
+        board[col][row] = BoardEntity.Ghost;
+        var ghost = new Object();
+        ghost.i = col;
+        ghost.j = row;
+        ghostsArray.push(ghost);
+    }
 }
 
 //endregion
 
-function Run()
-{
-    UpdatePositionAndDraw();
-}
-
-function SetKeyEvents()
-{
-    keysDown = new Object();
-    addEventListener("keydown", function (e)
-    {
-        keysDown[Keys.Up] = false;
-        keysDown[Keys.Down] = false;
-        keysDown[Keys.Left] = false;
-        keysDown[Keys.Right] = false;
-        keysDown[e.keyCode] = true;
-    }, false);
-}
-
-function GetKeyPressed()
-{
-    if (keysDown[Keys.Up])
-    {
-        return Keys.Up;
-    }
-    if (keysDown[Keys.Down])
-    {
-        return Keys.Down;
-    }
-    if (keysDown[Keys.Left])
-    {
-        return Keys.Left;
-    }
-    if (keysDown[Keys.Right])
-    {
-        return Keys.Right;
-    }
-}
-
-function Draw()
-{
-    canvas.width = canvas.width; //clean board
-    lblScore.value = score;
-    lblTime.value = timeElapsed;
-    for (var col = 0; col < COLS; col++)
-        for (var row = 0; row < ROWS; row++)
-        {
-            var boardEntityCenter = new Object();
-            boardEntityCenter.x = col * TileSize + HalfTileSize;
-            boardEntityCenter.y = row * TileSize + HalfTileSize;
-
-            switch (board[col][row])
-            {
-                case BoardEntity.PacMan:
-                    canvasContext.beginPath();
-                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, HalfTileSize, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
-                    canvasContext.lineTo(boardEntityCenter.x, boardEntityCenter.y);
-                    canvasContext.fillStyle = pacColor; //color
-                    canvasContext.fill();
-
-                    canvasContext.beginPath();
-                    canvasContext.arc(boardEntityCenter.x + 2, boardEntityCenter.y - TileSize / 4, 2, 0, 2 * Math.PI); // pacman eye
-                    canvasContext.fillStyle = "black"; //color
-                    canvasContext.fill();
-                    break;
-
-                case BoardEntity.Food_5:
-                    canvasContext.beginPath();
-                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TileSize / 4, 0, 2 * Math.PI); // circle
-                    canvasContext.fillStyle = "black"; //color
-                    canvasContext.fill();
-                    break;
-
-                case BoardEntity.Food_15:
-                    canvasContext.beginPath();
-                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TileSize / 4, 0, 2 * Math.PI); // circle
-                    canvasContext.fillStyle = "red"; //color
-                    canvasContext.fill();
-                    break;
-
-                case BoardEntity.Food_25:
-                    canvasContext.beginPath();
-                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TileSize / 4, 0, 2 * Math.PI); // circle
-                    canvasContext.fillStyle = "gold"; //color
-                    canvasContext.fill();
-                    break;
-
-                case BoardEntity.Bonus:
-                    // TODO
-                    break;
-
-                case BoardEntity.Ghost:
-                    // TODO
-                    break;
-
-                case BoardEntity.Obstacle:
-                    canvasContext.beginPath();
-                    canvasContext.rect(boardEntityCenter.x - HalfTileSize, boardEntityCenter.y - HalfTileSize, TileSize, TileSize);
-                    canvasContext.fillStyle = "grey"; //color
-                    canvasContext.fill();
-                    break;
-            }
-        }
-}
-
 function UpdatePositionAndDraw()
 {
-    TryToMove();
+    TryToMovePacman();
 
     var previousEntity = board[pacShape.i][pacShape.j];
     board[pacShape.i][pacShape.j] = BoardEntity.PacMan;
     var currentTime = new Date();
     timeElapsed = (currentTime - startTime) / 1000;
+
+    MoveGhosts();
 
     Draw();
 
@@ -298,21 +242,7 @@ function UpdatePositionAndDraw()
     }
 }
 
-function Die()
-{
-    lives--;
-    window.clearInterval(interval);
-    if (lives == 0)
-        window.alert("You lost!");
-    else
-    {
-        // TODO
-        // 1. Die animation
-        // 2. Restart game
-    }
-}
-
-function TryToMove()
+function TryToMovePacman()
 {
     var originalI = pacShape.i;
     var originalJ = pacShape.j;
@@ -348,3 +278,156 @@ function TryToMove()
     if (originalI != pacShape.i || originalJ != pacShape.j) // Pacman moved
         board[originalI][originalJ] = BoardEntity.Path;
 }
+
+function GetKeyPressed()
+{
+    if (keysDown[Keys.Up])
+    {
+        return Keys.Up;
+    }
+    if (keysDown[Keys.Down])
+    {
+        return Keys.Down;
+    }
+    if (keysDown[Keys.Left])
+    {
+        return Keys.Left;
+    }
+    if (keysDown[Keys.Right])
+    {
+        return Keys.Right;
+    }
+}
+
+function Draw()
+{
+    canvas.width = canvas.width; //clean board
+    lblScore.value = score;
+    lblTime.value = timeElapsed;
+    for (var col = 0; col < COLS; col++)
+        for (var row = 0; row < ROWS; row++)
+        {
+            var boardEntityCenter = new Object();
+            boardEntityCenter.x = col * TILE_SIZE + HALF_TILE_SIZE;
+            boardEntityCenter.y = row * TILE_SIZE + HALF_TILE_SIZE;
+
+            switch (board[col][row])
+            {
+                case BoardEntity.PacMan:
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, HALF_TILE_SIZE, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
+                    canvasContext.lineTo(boardEntityCenter.x, boardEntityCenter.y);
+                    canvasContext.fillStyle = pacColor; //color
+                    canvasContext.fill();
+
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x + 2, boardEntityCenter.y - TILE_SIZE / 4, 2, 0, 2 * Math.PI); // pacman eye
+                    canvasContext.fillStyle = "black"; //color
+                    canvasContext.fill();
+                    break;
+
+                case BoardEntity.Food_5:
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TILE_SIZE / 4, 0, 2 * Math.PI); // circle
+                    canvasContext.fillStyle = "black"; //color
+                    canvasContext.fill();
+                    break;
+
+                case BoardEntity.Food_15:
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TILE_SIZE / 4, 0, 2 * Math.PI); // circle
+                    canvasContext.fillStyle = "blue"; //color
+                    canvasContext.fill();
+                    break;
+
+                case BoardEntity.Food_25:
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TILE_SIZE / 4, 0, 2 * Math.PI); // circle
+                    canvasContext.fillStyle = "gold"; //color
+                    canvasContext.fill();
+                    break;
+
+                case BoardEntity.Bonus:
+                    // TODO
+                    break;
+
+                case BoardEntity.Ghost:
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TILE_SIZE / 2, 0, 2 * Math.PI); // circle
+                    canvasContext.fillStyle = "red"; //color
+                    canvasContext.fill();
+                    break;
+
+                case BoardEntity.Obstacle:
+                    canvasContext.beginPath();
+                    canvasContext.rect(boardEntityCenter.x - HALF_TILE_SIZE, boardEntityCenter.y - HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                    canvasContext.fillStyle = "grey"; //color
+                    canvasContext.fill();
+                    break;
+            }
+        }
+}
+
+function MoveGhosts()
+{
+    for (var i = 0; i < ghostsArray.length; i++)
+    {
+        var ghost = ghostsArray[i];
+        var originalI = ghost.i;
+        var originalJ = ghost.j;
+        var colDiff = ghost.i - pacShape.i;
+        var rowDiff = ghost.j - pacShape.j;
+
+        if (Math.abs(colDiff) < Math.abs(rowDiff))  // x distance from ghost to Pacman is shorter than y distance
+        {
+            if (colDiff > 0 && board[ghost.i - 1][ghost.j] != BoardEntity.Obstacle)    // Ghost is located right to Pacman
+                ghost.i--;
+
+            else if (colDiff < 0 && board[ghost.i + 1][ghost.j] != BoardEntity.Obstacle)    // Ghost is located left to Pacman
+                ghost.i++;
+
+            else if (originalI == ghost.i && originalJ == ghost.j)  // Ghost didn't move. Try to move down or up
+            {
+                if (board[ghost.i][ghost.j + 1] != BoardEntity.Obstacle)
+                    ghost.j++;
+                else
+                    ghost.j--;
+            }
+        }
+        else   // y distance from ghost to Pacman is shorter or equal to x distance
+        {
+            if (rowDiff > 0 && board[ghost.i][ghost.j - 1] != BoardEntity.Obstacle)    // Ghost is located below Pacman
+                ghost.j--;
+
+            else if (rowDiff < 0 && board[ghost.i][ghost.j + 1] != BoardEntity.Obstacle)    // Ghost is located above Pacman
+                ghost.j++;
+
+            else if (originalI == ghost.i && originalJ == ghost.j)  // Ghost didn't move. Try to move right or left
+            {
+                if (board[ghost.i + 1][ghost.j] != BoardEntity.Obstacle)
+                    ghost.i++;
+                else
+                    ghost.i--;
+            }
+        }
+        prevGhostEntity.push(board[ghost.i][ghost.j]);
+        board[ghost.i][ghost.j] = BoardEntity.Ghost;
+        board[originalI][originalJ] = prevGhostEntity[i - prevGhostEntity.length];
+        prevGhostEntity.splice(i - prevGhostEntity.length, 1);
+    }
+}
+
+function Die()
+{
+    lives--;
+    window.clearInterval(interval);
+    if (lives == 0)
+        window.alert("You lost!");
+    else
+    {
+        // TODO
+        // 1. Die animation
+        // 2. Restart game
+    }
+}
+
