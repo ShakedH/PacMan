@@ -22,22 +22,23 @@
     <div id="SignUpDiv" class="MainWinDiv" style="visibility: hidden">
         <form id="SignUpForm" onsubmit="return false;">
             <label class="SignUpLabel">User Name:</label>
-            <input id="UserNameSignUp" type="text" placeholder="Username" name="username">
+            <input id="UserNameSignUp" type="text" placeholder="Username" name="username"
+                   oninput="Reset(this)">
             <br/>
             <label class="SignUpLabel">Password</label>
-            <input id="PasswordSignUp" type="password" placeholder="Password" name="password">
+            <input id="PasswordSignUp" type="password" placeholder="Password" name="password" oninput="Reset(this)">
             <br/>
             <label class="SignUpLabel">First Name:</label>
-            <input id="FirstNameSignUp" type="text" placeholder="First Name" name="firstName">
+            <input id="FirstNameSignUp" type="text" placeholder="First Name" name="firstName" oninput="Reset(this)">
             <br/>
             <label class="SignUpLabel">Surname:</label>
-            <input id="SurnameSignUp" type="text" placeholder="Surname" name="surname">
+            <input id="SurnameSignUp" type="text" placeholder="Surname" name="surname" oninput="Reset(this)">
             <br/>
             <label class="SignUpLabel">Email:</label>
-            <input id="EmailSignUp" type="email" placeholder="Email" name="email" required>
+            <input id="EmailSignUp" type="email" placeholder="Email" name="email" required oninput="Reset(this)">
             <br/>
             <label class="SignUpLabel">Birth Date:</label>
-            <input id="BirthDateSignUp" type="date" placeholder="Birth Date" name="birthDate">
+            <input id="BirthDateSignUp" type="date" placeholder="Birth Date" name="birthDate" oninput="Reset(this)">
             <br/>
             <input type="submit" onclick="AddUser()">
         </form>

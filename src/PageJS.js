@@ -48,32 +48,32 @@ function AddUser()
     var userName = $("#UserNameSignUp").get(0);
     VerifyUserName(userName);
     if (!userName.validity.valid)
-        return;
+        return false;
 
     var password = $("#PasswordSignUp").get(0);
     VerifyPassword(password);
     if (!password.validity.valid)
-        return;
+        return false;
 
     var firstName = $("#FirstNameSignUp").get(0);
     VerifyName(firstName);
     if (!firstName.validity.valid)
-        return;
+        return false;
 
     var surname = $("#SurnameSignUp").get(0);
     VerifyName(surname);
     if (!surname.validity.valid)
-        return;
+        return false;
 
     var Email = $("#EmailSignUp").get(0);
     VerifyEmail(Email);
     if (!Email.validity.valid)
-        return;
+        return false;
 
     var birthDate = $("#BirthDateSignUp").get(0);
     VerifyBirthDate(birthDate);
     if (!birthDate.validity.valid)
-        return;
+        return false;
 
 
     var user = {
@@ -81,22 +81,18 @@ function AddUser()
         Password: password.val(),
         FirstName: firstName.val(),
         Surname: surname.val(),
-        Email: email.val(),
+        Email: Email.val(),
         BirthDate: birthDate.val()
     };
 
-    // Check if user already exists:
-    var exists = Users.some(function (other)
-    {
-        return other.UserName === user.UserName;
-    });
-    if (exists)
-        ErrorToUser("User name already exists!");
-    else
-    {
-        document.getElementById("SignUpForm").reset();
-        Users.push(user);
-    }
+    document.getElementById("SignUpForm").reset();
+    Users.push(user);
+    return true;
+}
+
+function Reset(input)
+{
+    input.setCustomValidity("");
 }
 
 function VerifyUserName(textbox)
@@ -105,7 +101,16 @@ function VerifyUserName(textbox)
     if (!userName || userName == '')
         textbox.setCustomValidity('User Name is required');
     else
-        textbox.setCustomValidity('');
+    {
+        var exists = Users.some(function (other)
+        {
+            return other.UserName === userName;
+        });
+        if (exists)
+            textbox.setCustomValidity("User name already exists!");
+        else
+            textbox.setCustomValidity("");
+    }
 }
 
 function VerifyPassword(textbox)
@@ -150,17 +155,6 @@ function VerifyBirthDate(textbox)
     var dateText = textbox.value;
     if (!dateText || dateText == '')
         textbox.setCustomValidity('Birth Date is required');
-    else
-    {
-        var comp = dateText.split('-');
-        var m = parseInt(comp[0], 10);
-        var d = parseInt(comp[1], 10);
-        var y = parseInt(comp[2], 10);
-        var date = new Date(y, m - 1, d);
-        if (date.getFullYear() != y || date.getMonth() + 1 != m || date.getDate() != d)
-            textbox.setCustomValidity('Invalid Birth date');
-    }
-
 }
 function MessageToUser(message)
 {
