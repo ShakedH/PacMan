@@ -89,7 +89,8 @@ function AddUser()
     return true;
 }
 
-function Reset(input)
+//region Verification Functions
+function ResetValidation(input)
 {
     input.setCustomValidity("");
 }
@@ -148,6 +149,7 @@ function VerifyEmail(textbox)
     else
         textbox.setCustomValidity('');
 }
+//endregion
 
 function MessageToUser(message)
 {

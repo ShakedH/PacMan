@@ -23,19 +23,19 @@
         <form id="SignUpForm" onsubmit="return false;">
             <label class="SignUpLabel">User Name:</label>
             <input id="UserNameSignUp" type="text" placeholder="Username" name="username"
-                   oninput="Reset(this)">
+                   oninput="ResetValidation(this)">
             <br/>
             <label class="SignUpLabel">Password</label>
-            <input id="PasswordSignUp" type="password" placeholder="Password" name="password" oninput="Reset(this)">
+            <input id="PasswordSignUp" type="password" placeholder="Password" name="password" oninput="ResetValidation(this)">
             <br/>
             <label class="SignUpLabel">First Name:</label>
-            <input id="FirstNameSignUp" type="text" placeholder="First Name" name="firstName" oninput="Reset(this)">
+            <input id="FirstNameSignUp" type="text" placeholder="First Name" name="firstName" oninput="ResetValidation(this)">
             <br/>
             <label class="SignUpLabel">Surname:</label>
-            <input id="SurnameSignUp" type="text" placeholder="Surname" name="surname" oninput="Reset(this)">
+            <input id="SurnameSignUp" type="text" placeholder="Surname" name="surname" oninput="ResetValidation(this)">
             <br/>
             <label class="SignUpLabel">Email:</label>
-            <input id="EmailSignUp" type="text" placeholder="Email" name="email" oninput="Reset(this)" required>
+            <input id="EmailSignUp" type="text" placeholder="Email" name="email" oninput="ResetValidation(this)" required>
             <br/>
             <label class="SignUpLabel">Birth Date:</label>
             <input id="BirthDateSignUp" type="date" placeholder="Birth Date" name="birthDate" required>
