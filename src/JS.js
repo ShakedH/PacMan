@@ -83,7 +83,7 @@ function Start()
     InitializeMembers();
     FillBoardWithPathsAndWalls();
     PositionEntities();
-    interval = setInterval(UpdatePositionAndDraw, 200);
+    interval = setInterval(UpdatePositionAndDraw, 500);
 }
 
 //region Build Board Functions
@@ -375,45 +375,56 @@ function MoveGhosts()
         var ghost = ghostsArray[i];
         var originalI = ghost.i;
         var originalJ = ghost.j;
-        var colDiff = ghost.i - pacShape.i;
-        var rowDiff = ghost.j - pacShape.j;
-
-        if (Math.abs(colDiff) < Math.abs(rowDiff))  // x distance from ghost to Pacman is shorter than y distance
-        {
-            if (colDiff > 0 && board[ghost.i - 1][ghost.j] != BoardEntity.Obstacle)    // Ghost is located right to Pacman
-                ghost.i--;
-
-            else if (colDiff < 0 && board[ghost.i + 1][ghost.j] != BoardEntity.Obstacle)    // Ghost is located left to Pacman
-                ghost.i++;
-
-            else if (originalI == ghost.i && originalJ == ghost.j)  // Ghost didn't move. Try to move down or up
-            {
-                if (board[ghost.i][ghost.j + 1] != BoardEntity.Obstacle)
-                    ghost.j++;
-                else
-                    ghost.j--;
-            }
-        }
-        else   // y distance from ghost to Pacman is shorter or equal to x distance
-        {
-            if (rowDiff > 0 && board[ghost.i][ghost.j - 1] != BoardEntity.Obstacle)    // Ghost is located below Pacman
-                ghost.j--;
-
-            else if (rowDiff < 0 && board[ghost.i][ghost.j + 1] != BoardEntity.Obstacle)    // Ghost is located above Pacman
-                ghost.j++;
-
-            else if (originalI == ghost.i && originalJ == ghost.j)  // Ghost didn't move. Try to move right or left
-            {
-                if (board[ghost.i + 1][ghost.j] != BoardEntity.Obstacle)
-                    ghost.i++;
-                else
-                    ghost.i--;
-            }
-        }
+        var nextStep = BFS(ghost.i, ghost.j);
+        ghost.i = nextStep.i;
+        ghost.j = nextStep.j;
         prevGhostEntity.push(board[ghost.i][ghost.j]);
         board[ghost.i][ghost.j] = BoardEntity.Ghost;
         board[originalI][originalJ] = prevGhostEntity[i - prevGhostEntity.length];
         prevGhostEntity.splice(i - prevGhostEntity.length, 1);
+
+        // if (Math.abs(colDiff) < Math.abs(rowDiff))  // x distance from ghost to Pacman is shorter than y distance
+        // {
+        //     if (colDiff > 0 && GhostCanMove(ghost.i - 1, ghost.j))    // Ghost is located right to Pacman
+        //         ghost.i--;
+        //
+        //     else if (colDiff < 0 && GhostCanMove(ghost.i + 1, ghost.j))    // Ghost is located left to Pacman
+        //         ghost.i++;
+        //
+        //     else if (originalI == ghost.i && originalJ == ghost.j)  // Ghost didn't move. Try to move down or up
+        //     {
+        //         if (GhostCanMove(ghost.i, ghost.j + 1) && GhostCanMove(ghost.i, ghost.j - 1))
+        //         {
+        //             var chance = Math.random();
+        //             ghost.j = chance < 0.5 ? ghost.j + 1 : ghost.j - 1;
+        //         }
+        //         else if (GhostCanMove(ghost.i, ghost.j + 1))
+        //             ghost.j++;
+        //         else
+        //             ghost.j--;
+        //     }
+        // }
+        // else   // y distance from ghost to Pacman is shorter or equal to x distance
+        // {
+        //     if (rowDiff > 0 && GhostCanMove(ghost.i, ghost.j - 1))    // Ghost is located below Pacman
+        //         ghost.j--;
+        //
+        //     else if (rowDiff < 0 && GhostCanMove(ghost.i, ghost.j + 1))    // Ghost is located above Pacman
+        //         ghost.j++;
+        //
+        //     else if (originalI == ghost.i && originalJ == ghost.j)  // Ghost didn't move. Try to move right or left
+        //     {
+        //         if (GhostCanMove(ghost.i + 1, ghost.j) && GhostCanMove(ghost.i - 1, ghost.j))
+        //         {
+        //             var chance = Math.random();
+        //             ghost.i = chance < 0.5 ? ghost.i + 1 : ghost.i - 1;
+        //         }
+        //         else if (GhostCanMove(ghost.i + 1, ghost.j))
+        //             ghost.i++;
+        //         else
+        //             ghost.i--;
+        //     }
+        // }
     }
 }
 
@@ -431,3 +442,59 @@ function Die()
     }
 }
 
+function BFS(col, row)
+{
+    // window.alert("Pac col: " + pacShape.i + ", Pac row: " + pacShape.j);
+    var visited = new Array();
+    var queue = new Array();
+    var first = new Object();
+    first.i = col;
+    first.j = row;
+    visited.push(first);
+    queue.push(first);
+
+    while (queue.length > 0)
+    {
+        var current = queue[0];
+        // window.alert("col: " + current.i + ", row: " + current.j);
+        queue.splice(0, 1);
+        if (board[current.i][current.j] == BoardEntity.PacMan)
+        {
+            while (current.parentNode.parentNode != null)
+                current = current.parentNode;
+            return current;
+        }
+        for (var i = current.i - 1; i <= current.i + 1; i++)
+            for (var j = current.j - 1; j <= current.j + 1; j++)
+            {
+                var neighbor = new Object();
+                neighbor.i = i;
+                neighbor.j = j;
+                if (GhostCanMove(i, j) && !IsVisited(neighbor, visited))
+                {
+                    visited.push(neighbor);
+                    neighbor.parentNode = current;
+                    queue.push(neighbor);
+                }
+            }
+    }
+}
+
+function GhostCanMove(col, row)
+{
+    return col >= 0 && col < COLS &&
+        row >= 0 && row < ROWS &&
+        board[col][row] != BoardEntity.Obstacle && board[col][row] != BoardEntity.Ghost;
+}
+
+function IsVisited(neighbor, visited)
+{
+    var i = visited.length - 1;
+    while (i >= 0)
+    {
+        if (visited[i].i == neighbor.i && visited[i].j == neighbor.j)
+            return true;
+        i--;
+    }
+    return false;
+}
