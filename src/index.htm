@@ -2,7 +2,8 @@
 <html>
 
 <head>
-    <script src="ShakJS.js" type="text/javascript"></script>
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="PageJS.js" type="text/javascript"></script>
     <script src="JS.js" type="text/javascript"></script>
     <link rel="stylesheet" href="CSS.css">
 </head>
@@ -13,35 +14,36 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="#" onclick="OpenDiv('SignUpDiv')">Sign Up</a>
         <a href="#" onclick="OpenDiv('LoginDiv')">Login</a>
+
         <a href="#">About</a>
     </div>
-    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
 
     <div id="SignUpDiv" class="MainWinDiv" style="visibility: hidden">
         <form id="SignUpForm" onsubmit="return false;">
             <label class="SignUpLabel">User Name:</label>
-            <input id="UserNameSignUp" type="text" placeholder="Username" name="username" required>
+            <input id="UserNameSignUp" type="text" placeholder="Username" name="username">
             <br/>
             <label class="SignUpLabel">Password</label>
-            <input id="PasswordSignUp" type="password" placeholder="Password" name="password" required>
+            <input id="PasswordSignUp" type="password" placeholder="Password" name="password">
             <br/>
             <label class="SignUpLabel">First Name:</label>
-            <input id="FirstNameSignUp" type="text" placeholder="First Name" name="firstName" required>
+            <input id="FirstNameSignUp" type="text" placeholder="First Name" name="firstName">
             <br/>
             <label class="SignUpLabel">Surname:</label>
-            <input id="SurnameSignUp" type="text" placeholder="Surname" name="surname" required>
+            <input id="SurnameSignUp" type="text" placeholder="Surname" name="surname">
             <br/>
             <label class="SignUpLabel">Email:</label>
             <input id="EmailSignUp" type="email" placeholder="Email" name="email" required>
             <br/>
             <label class="SignUpLabel">Birth Date:</label>
-            <input id="BirthDateSignUp" type="date" placeholder="Birth Date" name="birthDate" required>
+            <input id="BirthDateSignUp" type="date" placeholder="Birth Date" name="birthDate">
             <br/>
             <input type="submit" onclick="AddUser()">
         </form>
     </div>
 
-    <div id="GameDiv" class="MainWinDiv" style="visibility: visible">
+    <div id="GameDiv" class="MainWinDiv" style="visibility: hidden">
         SCORE:
         <input id="lblScore" type="text"/>
         <br/>
