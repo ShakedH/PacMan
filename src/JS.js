@@ -117,6 +117,8 @@ function PositionEntities()
 {
     var remainingBoardCells = ROWS * COLS;
     var food_remain = MAX_FOOD;
+
+    // Position Pacman
     while (true)
     {
         var row = Math.floor(Math.random() * ROWS);
@@ -130,6 +132,7 @@ function PositionEntities()
         }
     }
 
+    // Positiion food
     while (food_remain > 0)
     {
         var i = Math.floor(Math.random() * pathsList.length);
@@ -160,14 +163,13 @@ function Run()
 function SetKeyEvents()
 {
     keysDown = new Object();
-
     addEventListener("keydown", function (e)
     {
+        keysDown[Keys.Up] = false;
+        keysDown[Keys.Down] = false;
+        keysDown[Keys.Left] = false;
+        keysDown[Keys.Right] = false;
         keysDown[e.keyCode] = true;
-    }, false);
-    addEventListener("keyup", function (e)
-    {
-        keysDown[e.keyCode] = false;
     }, false);
 }
 
@@ -197,12 +199,12 @@ function Draw()
     lblScore.value = score;
     lblTime.value = timeElapsed;
     for (var col = 0; col < COLS; col++)
-    {
         for (var row = 0; row < ROWS; row++)
         {
             var boardEntityCenter = new Object();
             boardEntityCenter.x = col * TileSize + HalfTileSize;
             boardEntityCenter.y = row * TileSize + HalfTileSize;
+
             switch (board[col][row])
             {
                 case BoardEntity.PacMan:
@@ -239,6 +241,14 @@ function Draw()
                     canvasContext.fill();
                     break;
 
+                case BoardEntity.Bonus:
+                    // TODO
+                    break;
+
+                case BoardEntity.Ghost:
+                    // TODO
+                    break;
+
                 case BoardEntity.Obstacle:
                     canvasContext.beginPath();
                     canvasContext.rect(boardEntityCenter.x - HalfTileSize, boardEntityCenter.y - HalfTileSize, TileSize, TileSize);
@@ -247,12 +257,12 @@ function Draw()
                     break;
             }
         }
-    }
 }
 
 function UpdatePositionAndDraw()
 {
     TryToMove();
+
     var previousEntity = board[pacShape.i][pacShape.j];
     board[pacShape.i][pacShape.j] = BoardEntity.PacMan;
     var currentTime = new Date();
@@ -310,7 +320,7 @@ function TryToMove()
     switch (GetKeyPressed())
     {
         case Keys.Up:
-            if (pacShape.j == 0 && board[pacShape.i][ROWS - 1] != BoardEntity.Obstacle)
+            if (pacShape.j == 0 && board[pacShape.i][ROWS - 1] != BoardEntity.Obstacle)     // Interstellar transition
                 pacShape.j = ROWS - 1;
             else if (pacShape.j > 0 && board[pacShape.i][pacShape.j - 1] != BoardEntity.Obstacle)
                 pacShape.j--;
