@@ -173,7 +173,7 @@ function PositionEntities()
     }
 
     // Position numOfGhosts
-    for (i = 0; i < numOfGhosts; i++)    // 1-3 numOfGhosts allowed
+    for (i = 0; i < numOfGhosts; i++)    // 1-3 ghosts allowed
     {
         switch (i)
         {
@@ -190,6 +190,7 @@ function PositionEntities()
                 row = ROWS - 2;
                 break;
         }
+        prevGhostEntity.push(board[col][row]);
         board[col][row] = BoardEntity.Ghost;
         var ghost = new Object();
         ghost.i = col;
@@ -372,46 +373,47 @@ function MoveGhosts()
     for (var i = 0; i < ghostsArray.length; i++)
     {
         var ghost = ghostsArray[i];
+        var originalI = ghost.i;
+        var originalJ = ghost.j;
         var colDiff = ghost.i - pacShape.i;
         var rowDiff = ghost.j - pacShape.j;
 
         if (Math.abs(colDiff) < Math.abs(rowDiff))  // x distance from ghost to Pacman is shorter than y distance
         {
             if (colDiff > 0 && board[ghost.i - 1][ghost.j] != BoardEntity.Obstacle)    // Ghost is located right to Pacman
-            {
                 ghost.i--;
-                continue;
-            }
-            if (colDiff < 0 && board[ghost.i + 1][ghost.j] != BoardEntity.Obstacle)    // Ghost is located left to Pacman
-            {
+
+            else if (colDiff < 0 && board[ghost.i + 1][ghost.j] != BoardEntity.Obstacle)    // Ghost is located left to Pacman
                 ghost.i++;
-                continue;
+
+            else if (originalI == ghost.i && originalJ == ghost.j)  // Ghost didn't move. Try to move down or up
+            {
+                if (board[ghost.i][ghost.j + 1] != BoardEntity.Obstacle)
+                    ghost.j++;
+                else
+                    ghost.j--;
             }
-            // Ghost cannot move directly to Pacman, try to move down or up
-            if (board[ghost.i][ghost.j + 1] != BoardEntity.Obstacle)
-                ghost.j++;
-            else
-                ghost.j--;
         }
         else   // y distance from ghost to Pacman is shorter or equal to x distance
         {
             if (rowDiff > 0 && board[ghost.i][ghost.j - 1] != BoardEntity.Obstacle)    // Ghost is located below Pacman
-            {
                 ghost.j--;
-                continue;
-            }
-            if (rowDiff < 0 && board[ghost.i][ghost.j + 1] != BoardEntity.Obstacle)    // Ghost is located above Pacman
-            {
+
+            else if (rowDiff < 0 && board[ghost.i][ghost.j + 1] != BoardEntity.Obstacle)    // Ghost is located above Pacman
                 ghost.j++;
-                continue;
+
+            else if (originalI == ghost.i && originalJ == ghost.j)  // Ghost didn't move. Try to move right or left
+            {
+                if (board[ghost.i + 1][ghost.j] != BoardEntity.Obstacle)
+                    ghost.i++;
+                else
+                    ghost.i--;
             }
-            // Ghost cannot move directly to Pacman, try to move right or left
-            if (board[ghost.i + 1][ghost.j] != BoardEntity.Obstacle)
-                ghost.i++;
-            else
-                ghost.i--;
         }
+        prevGhostEntity.push(board[ghost.i][ghost.j]);
         board[ghost.i][ghost.j] = BoardEntity.Ghost;
+        board[originalI][originalJ] = prevGhostEntity[i - prevGhostEntity.length];
+        prevGhostEntity.splice(i - prevGhostEntity.length, 1);
     }
 }
 
