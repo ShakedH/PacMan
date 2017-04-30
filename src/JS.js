@@ -83,10 +83,10 @@ function Start()
     InitializeMembers();
     FillBoardWithPathsAndWalls();
     PositionEntities();
-    interval = setInterval(UpdatePositionAndDraw, 500);
+    interval = setInterval(UpdatePositionAndDraw, 200);
 }
 
-//region Build Board Functions
+//region Init & board creation functions
 function InitializeMembers()
 {
     canvas = document.getElementById("canvas");
@@ -109,11 +109,33 @@ function InitializeMembers()
 
     addEventListener("keydown", function (e)
     {
-        keysDown[Keys.Up] = false;
-        keysDown[Keys.Down] = false;
-        keysDown[Keys.Left] = false;
-        keysDown[Keys.Right] = false;
-        keysDown[e.keyCode] = true;
+        switch (e.keyCode)
+        {
+            case Keys.Up:
+                if (pacShape.j > 0 && board[pacShape.i][pacShape.j - 1] != BoardEntity.Obstacle)
+                    SetKeyAsPressed();
+                break;
+            case Keys.Down:
+                if (pacShape.j < ROWS - 1 && board[pacShape.i][pacShape.j + 1] != BoardEntity.Obstacle)
+                    SetKeyAsPressed();
+                break;
+            case Keys.Left:
+                if (pacShape.i > 0 && board[pacShape.i - 1][pacShape.j] != BoardEntity.Obstacle)
+                    SetKeyAsPressed();
+                break;
+            case Keys.Right:
+                if (pacShape.i < COLS - 1 && board[pacShape.i + 1][pacShape.j] != BoardEntity.Obstacle)
+                    SetKeyAsPressed();
+                break;
+        }
+        function SetKeyAsPressed()
+        {
+            keysDown[Keys.Up] = false;
+            keysDown[Keys.Down] = false;
+            keysDown[Keys.Left] = false;
+            keysDown[Keys.Right] = false;
+            keysDown[e.keyCode] = true;
+        }
     }, false);
 }
 
@@ -198,7 +220,6 @@ function PositionEntities()
         ghostsArray.push(ghost);
     }
 }
-
 //endregion
 
 function UpdatePositionAndDraw()
@@ -376,6 +397,8 @@ function MoveGhosts()
         var originalI = ghost.i;
         var originalJ = ghost.j;
         var nextStep = BFS(ghost.i, ghost.j);
+        if (typeof nextStep === "undefined")    // Ghost caught Pacman
+            continue;
         ghost.i = nextStep.i;
         ghost.j = nextStep.j;
         prevEntityQueue.push(board[nextStep.i][nextStep.j]);
@@ -399,6 +422,7 @@ function Die()
     }
 }
 
+// region Ghosts movement help functions
 function BFS(col, row)
 {
     var visited = new Array();
@@ -415,9 +439,15 @@ function BFS(col, row)
         queue.splice(0, 1);
         if (board[current.i][current.j] == BoardEntity.PacMan)
         {
-            while (current.parentNode.parentNode != null)
-                current = current.parentNode;
-            return current;
+            try
+            {
+                while (current.parentNode.parentNode != null)
+                    current = current.parentNode;
+                return current;
+            }
+            catch (ex)
+            {
+            }
         }
         for (var i = current.i - 1; i <= current.i + 1; i++)
             for (var j = current.j - 1; j <= current.j + 1; j++)
@@ -455,3 +485,4 @@ function IsVisited(neighbor, visited)
     }
     return false;
 }
+//endregion
