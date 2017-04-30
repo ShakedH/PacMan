@@ -73,7 +73,9 @@ var foodsOnBoard;
 var pathsList;
 var numOfGhosts;
 var ghostsArray;
-var prevEntityQueue;
+var ghostsPrevEntityQueue;
+var bonus;
+var bonusPrevEntityQueue;
 //endregion
 
 window.onload = Start;
@@ -83,7 +85,7 @@ function Start()
     InitializeMembers();
     FillBoardWithPathsAndWalls();
     PositionEntities();
-    interval = setInterval(UpdatePositionAndDraw, 200);
+    interval = setInterval(UpdatePositionAndDraw, 500);
 }
 
 //region Init & board creation functions
@@ -98,8 +100,10 @@ function InitializeMembers()
     board = new Array();
     pathsList = new Array();
     ghostsArray = new Array();
-    prevEntityQueue = new Array();
+    ghostsPrevEntityQueue = new Array();
+    bonusPrevEntityQueue = new Array();
     pacShape = new Object();
+    bonus = new Object();
     keysDown = new Object();
     score = 0;
     lives = 3;
@@ -212,29 +216,46 @@ function PositionEntities()
                 row = ROWS - 2;
                 break;
         }
-        prevEntityQueue.push(board[col][row]);
+        ghostsPrevEntityQueue.push(board[col][row]);
         board[col][row] = BoardEntity.Ghost;
         var ghost = new Object();
         ghost.i = col;
         ghost.j = row;
         ghostsArray.push(ghost);
     }
+
+    // Position bonus
+    while (true)
+    {
+        i = Math.floor(Math.random() * pathsList.length);
+        row = pathsList[i].row;
+        col = pathsList[i].col;
+        if (board[col][row] == BoardEntity.Path)
+        {
+            bonusPrevEntityQueue.push(board[col][row]);
+            board[col][row] = BoardEntity.Bonus;
+            bonus.i = col;
+            bonus.j = row;
+            break;
+        }
+        pathsList.splice(i, 1);
+    }
 }
 //endregion
 
 function UpdatePositionAndDraw()
 {
-    TryToMovePacman();
+    // Update time elapsed
+    var currentTime = new Date();
+    timeElapsed = Math.floor((currentTime - startTime) / 1000);
 
+    TryToMovePacman();
     var previousEntity = board[pacShape.i][pacShape.j];
     board[pacShape.i][pacShape.j] = BoardEntity.PacMan;
-    var currentTime = new Date();
-    timeElapsed = (currentTime - startTime) / 1000;
-
     MoveGhosts();
-
+    if (bonus != null)
+        MoveBonus();
     Draw();
-
     switch (previousEntity)
     {
         case BoardEntity.Food_5:
@@ -250,6 +271,7 @@ function UpdatePositionAndDraw()
             foodsOnBoard--;
             break;
         case BoardEntity.Bonus:
+            bonus = undefined;
             score += 50;
             break;
         case BoardEntity.Ghost:
@@ -369,7 +391,10 @@ function Draw()
                     break;
 
                 case BoardEntity.Bonus:
-                    // TODO
+                    canvasContext.beginPath();
+                    canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TILE_SIZE / 2, 0, 2 * Math.PI); // circle
+                    canvasContext.fillStyle = "pink"; //color
+                    canvasContext.fill();
                     break;
 
                 case BoardEntity.Ghost:
@@ -389,25 +414,6 @@ function Draw()
         }
 }
 
-function MoveGhosts()
-{
-    for (var i = 0; i < ghostsArray.length; i++)
-    {
-        var ghost = ghostsArray[i];
-        var originalI = ghost.i;
-        var originalJ = ghost.j;
-        var nextStep = BFS(ghost.i, ghost.j);
-        if (typeof nextStep === "undefined")    // Ghost caught Pacman
-            continue;
-        ghost.i = nextStep.i;
-        ghost.j = nextStep.j;
-        prevEntityQueue.push(board[nextStep.i][nextStep.j]);
-        board[nextStep.i][nextStep.j] = BoardEntity.Ghost;
-        board[originalI][originalJ] = prevEntityQueue[0];
-        prevEntityQueue.splice(0, 1);
-    }
-}
-
 function Die()
 {
     lives--;
@@ -422,7 +428,57 @@ function Die()
     }
 }
 
-// region Ghosts movement help functions
+function MoveBonus()
+{
+    var options = new Array();
+
+    for (var i = bonus.i - 1; i <= bonus.i + 1; i++)
+        for (var j = bonus.j - 1; j <= bonus.j + 1; j++)
+            if ((Math.abs(bonus.j - j) == 0 || Math.abs(bonus.i - i) == 0) && CanMove(i, j))   // Not a diagonal move and can move
+                options.push({i: i, j: j});
+
+    var chance = Math.floor(Math.random() * options.length);  // Chance = 0-3 (4 possible moves)
+    var nextStep = options[chance];
+    if (nextStep == null)    // Pacman caught the bonus
+        return;
+    var originalI = bonus.i;
+    var originalJ = bonus.j;
+    bonus.i = nextStep.i;
+    bonus.j = nextStep.j;
+    bonusPrevEntityQueue.push(board[nextStep.i][nextStep.j]);
+    board[nextStep.i][nextStep.j] = BoardEntity.Bonus;
+    board[originalI][originalJ] = bonusPrevEntityQueue[0];
+    bonusPrevEntityQueue.splice(0, 1);
+}
+
+// Relevant only to ghosts and bonus
+function CanMove(col, row)
+{
+    return col >= 0 && col < COLS &&
+        row >= 0 && row < ROWS &&
+        board[col][row] != BoardEntity.Obstacle && board[col][row] != BoardEntity.Ghost &&board[col][row] != BoardEntity.Bonus;
+}
+
+// region Ghosts movement functions
+function MoveGhosts()
+{
+    for (var i = 0; i < ghostsArray.length; i++)
+    {
+        var ghost = ghostsArray[i];
+        var originalI = ghost.i;
+        var originalJ = ghost.j;
+        var nextStep = BFS(ghost.i, ghost.j);
+        if (nextStep == null)    // Ghost caught Pacman
+            continue;
+        ghost.i = nextStep.i;
+        ghost.j = nextStep.j;
+        ghostsPrevEntityQueue.push(board[nextStep.i][nextStep.j]);
+        board[nextStep.i][nextStep.j] = BoardEntity.Ghost;
+        board[originalI][originalJ] = ghostsPrevEntityQueue[0];
+        ghostsPrevEntityQueue.splice(0, 1);
+    }
+}
+
 function BFS(col, row)
 {
     var visited = new Array();
@@ -452,12 +508,12 @@ function BFS(col, row)
         for (var i = current.i - 1; i <= current.i + 1; i++)
             for (var j = current.j - 1; j <= current.j + 1; j++)
             {
-                if (Math.abs(current.j - j) == 1 && Math.abs(current.i - i) == 1)   // If it's a diagonal move
+                if (Math.abs(current.j - j) == 1 && Math.abs(current.i - i) == 1)   // Diagonal move
                     continue;
                 var neighbor = new Object();
                 neighbor.i = i;
                 neighbor.j = j;
-                if (GhostCanMove(i, j) && !IsVisited(neighbor, visited))
+                if (CanMove(i, j) && !IsVisited(neighbor, visited))
                 {
                     visited.push(neighbor);
                     queue.push(neighbor);
@@ -465,13 +521,6 @@ function BFS(col, row)
                 }
             }
     }
-}
-
-function GhostCanMove(col, row)
-{
-    return col >= 0 && col < COLS &&
-        row >= 0 && row < ROWS &&
-        board[col][row] != BoardEntity.Obstacle && board[col][row] != BoardEntity.Ghost;
 }
 
 function IsVisited(neighbor, visited)
