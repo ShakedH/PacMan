@@ -34,11 +34,7 @@ function closeNav()
 function OpenDiv(divID)
 {
     // Close Other Divs
-    DivsNames.forEach(function (divName)
-    {
-        if (document.getElementById(divName) !== null && divName != divID)
-            document.getElementById(divName).style.visibility = 'hidden';
-    });
+    $(".MainWinDiv").css('visibility', 'hidden');
     document.getElementById(divID).style.visibility = 'visible';
 }
 
@@ -70,18 +66,17 @@ function AddUser()
         return false;
 
     var birthDate = $("#BirthDateSignUp").get(0);
-    VerifyBirthDate(birthDate);
     if (!birthDate.validity.valid)
         return false;
 
 
     var user = {
-        UserName: userName.val(),
-        Password: password.val(),
-        FirstName: firstName.val(),
-        Surname: surname.val(),
-        Email: Email.val(),
-        BirthDate: birthDate.val()
+        UserName: userName.value,
+        Password: password.value,
+        FirstName: firstName.value,
+        Surname: surname.value,
+        Email: Email.value,
+        BirthDate: birthDate.value
     };
 
     document.getElementById("SignUpForm").reset();
@@ -100,6 +95,8 @@ function VerifyUserName(textbox)
     var userName = textbox.value;
     if (!userName || userName == '')
         textbox.setCustomValidity('User Name is required');
+    else if (!/^[a-z0-9]+$/i.test(userName)) // User name is not alpha numeric
+        textbox.setCustomValidity('User name must contain letters or numbers only');
     else
     {
         var exists = Users.some(function (other)
@@ -133,8 +130,8 @@ function VerifyName(textbox)
     name = textbox.value;
     if (!name || name == '')
         textbox.setCustomValidity('First and surname are required');
-    else if (/\d/.test(name))
-        textbox.setCustomValidity('Name can not contain digits');
+    else if (!/^[a-zA-Z()]+$/.test(name))
+        textbox.setCustomValidity('Name can must contain letters only');
     else
         textbox.setCustomValidity('');
 }
@@ -144,7 +141,7 @@ function VerifyEmail(textbox)
     var email = textbox.value;
     if (!email || email == '')
         textbox.setCustomValidity('Email is required');
-    else if (email.indexOf('@') == -1 || email.indexOf('.') == -1)
+    else if (!/^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{1,4}\b$/i.test(email))
         textbox.setCustomValidity('Please enter valid Email address');
     else
         textbox.setCustomValidity('');
