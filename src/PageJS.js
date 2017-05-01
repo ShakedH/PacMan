@@ -84,6 +84,12 @@ function AddUser()
     return true;
 }
 
+function Login()
+{
+    var userName = $("#UsernameLogin").get(0).value;
+    var exists = Users.filter('[UserName="' + userName + '"]');
+}
+
 //region Verification Functions
 function ResetValidation(input)
 {

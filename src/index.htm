@@ -47,7 +47,21 @@
         </form>
     </div>
 
-    <div id="GameDiv" class="MainWinDiv" style="visibility: visible">
+    <div id="LoginDiv" class="MainWinDiv" style="visibility: hidden">
+        <form id="LoginForm" onsubmit="return false;">
+            <label class="LoginLabel">User Name:</label>
+            <br/>
+            <input id="UsernameLogin" class="LoginInput" type="text" placeholder="User Name" name="Username">
+            <br/>
+            <label class="LoginLabel">Password:</label>
+            <br/>
+            <input id="PasswordLogin" class="LoginInput" type="text" placeholder="Password" name="Password">
+            <br/>
+            <button onclick="Login()">Login</button>
+        </form>
+    </div>
+
+    <div id="GameDiv" class="MainWinDiv" style="visibility: hidden">
         SCORE:
         <input id="lblScore" type="text"/>
         <br/>
