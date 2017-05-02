@@ -1,3 +1,8 @@
+:root {
+    --headerHeight: 35px;
+    --mainContentBorder: 3px;
+}
+
 /*<editor-fold desc="Side Bar Design">*/
 .sidenav {
     height: 100%;
@@ -21,7 +26,7 @@
     transition: 0.3s;
 }
 
-.sidenav a:hover, .offcanvas a:focus{
+.sidenav a:hover, .offcanvas a:focus {
     color: #f1f1f1;
 }
 
@@ -34,12 +39,42 @@
 }
 
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
 }
+
 /*</editor-fold>*/
 
-.MainWinDiv {
+/*<editor-fold desc="Header & Footer">*/
+header, footer {
+    height: var(--headerHeight);
+    position: fixed;
+    background-color: aqua;
+    width: 100%;
+    display: inline-block;
+}
+
+header {
+    top: 0;
+}
+
+footer {
+    bottom: 0;
+}
+
+/*</editor-fold>*/
+
+.MainWinInformationDiv, .gamediv {
+    width: 100%;
+    height: inherit;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .SignUpLabel {
@@ -47,4 +82,19 @@
 
 #SignUpFormDiv {
     float: left;
+}
+
+#ContentDiv {
+    align-items: center;
+    justify-content: center;
+    width: 100vmin;
+    height: calc(99.5vmin - var(--mainContentBorder) - var(--headerHeight) * 2);
+    margin: var(--headerHeight) auto;
+    position: relative;
+    border: var(--mainContentBorder) solid green;
+}
+
+#canvas {
+    width: 100%;
+    height: 100%;
 }

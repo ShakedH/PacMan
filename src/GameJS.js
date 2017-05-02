@@ -418,7 +418,7 @@ function Die()
     lives--;
     window.clearInterval(interval);
     if (lives == 0)
-        window.alert("You lost!");
+        MessageToUser("You lost!");
     else
     {
         // TODO
