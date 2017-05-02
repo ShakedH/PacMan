@@ -93,11 +93,11 @@ function Login()
     if (!userName.validity.valid)
         return false;
 
-    VerifyPasswordLogin(password, GetUsers(userName.value).get(0));
+    VerifyPasswordLogin(password, GetUsers(userName.value)[0]);
     if (!password.validity.valid)
         return false;
 
-    UpdateCurrentUser(userName);
+    UpdateCurrentUser(userName.value);
     OpenDiv('GameDiv');
 }
 
