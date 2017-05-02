@@ -78,7 +78,6 @@ var bonus;
 var bonusPrevEntityQueue;
 //endregion
 
-window.onload = Start;
 
 function Start()
 {
