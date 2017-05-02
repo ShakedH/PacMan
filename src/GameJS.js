@@ -78,7 +78,6 @@ var bonus;
 var bonusPrevEntityQueue;
 //endregion
 
-
 function Start()
 {
     InitializeMembers();
@@ -270,6 +269,8 @@ function UpdatePositionAndDraw()
             foodsOnBoard--;
             break;
         case BoardEntity.Bonus:
+            board[bonus.i][bonus.j] = bonusPrevEntityQueue[0];
+            bonusPrevEntityQueue.splice(0, 1);
             bonus = undefined;
             score += 50;
             break;
@@ -436,7 +437,7 @@ function MoveBonus()
             if ((Math.abs(bonus.j - j) == 0 || Math.abs(bonus.i - i) == 0) && CanMove(i, j))   // Not a diagonal move and can move
                 options.push({i: i, j: j});
 
-    var chance = Math.floor(Math.random() * options.length);  // Chance = 0-3 (4 possible moves)
+    var chance = Math.floor(Math.random() * options.length);  // Chance can be 0 to 3 (4 possible moves)
     var nextStep = options[chance];
     if (nextStep == null)    // Pacman caught the bonus
         return;
