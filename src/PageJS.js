@@ -98,7 +98,7 @@ function Login()
         return false;
 
     UpdateCurrentUser(userName.value);
-    OpenDiv('GameDiv');
+    StartGame();
 }
 
 function UpdateCurrentUser(userName)
@@ -112,6 +112,11 @@ function GetUsers(userName)
     {
         return u.UserName === userName;
     });
+}
+
+function StartGame()
+{
+    OpenDiv('GameDiv');
 }
 
 //region Verification Functions

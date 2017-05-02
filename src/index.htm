@@ -9,17 +9,15 @@
 </head>
 
 <body>
-    <header>
+    <span id="header">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
         Hello
-        <h1 id="username">aaa</h1>
-    </header>
+        <textblock id="username"></textblock>
+    </span>
     <div id="sideNavBar" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="#" onclick="OpenDiv('SignUpDiv')">Sign Up</a>
         <a href="#" onclick="OpenDiv('LoginDiv')">Login</a>
-        <a href="#" onclick="OpenDiv('GameDiv')">Game</a>
-
         <a href="#">About</a>
     </div>
     <div id="ContentDiv">
@@ -74,7 +72,7 @@
             </form>
         </div>
 
-        <div id="GameDiv" class="GameDiv" style="visibility: hidden">
+        <div id="GameDiv" class="MainWinInformationDiv" style="visibility: hidden">
             SCORE:
             <input id="lblScore" type="text"/>
             <br/>
@@ -82,9 +80,9 @@
             <input id="lblTime" type="text"/>
             <br/>
             <button id="StartButton" onclick="Start()">Start</button>
-            <canvas id="canvas"></canvas>
+            <canvas id="canvas" style="border: #000000;"></canvas>
         </div>
     </div>
-    <footer>Hello</footer>
+    <span id="footer">Hello</span>
 </body>
 </html>

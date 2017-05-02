@@ -51,7 +51,7 @@
 /*</editor-fold>*/
 
 /*<editor-fold desc="Header & Footer">*/
-header, footer {
+#header, #footer {
     height: var(--headerHeight);
     position: fixed;
     background-color: aqua;
@@ -59,11 +59,11 @@ header, footer {
     display: inline-block;
 }
 
-header {
+#header {
     top: 0;
 }
 
-footer {
+#footer {
     bottom: 0;
 }
 
