@@ -28,7 +28,7 @@
         </div>
 
         <div id="SignUpDiv" class="MainWinInformationDiv" style="visibility: hidden">
-            <form id="SignUpForm" action="mailto:hazons@post.bgu.ac.il" onsubmit="return false;">
+            <form id="SignUpForm" onsubmit="return false;">
                 <label class="SignUpLabel">User Name:</label>
                 <input id="UserNameSignUp" type="text" placeholder="Username" name="username"
                        oninput="ResetValidation(this)">
@@ -72,16 +72,20 @@
             </form>
         </div>
 
-        <div id="GameDiv" class="MainWinInformationDiv" style="visibility: hidden">
-            SCORE:
-            <input id="lblScore" type="text"/>
-            <br/>
-            TIME:
-            <input id="lblTime" type="text"/>
-            <br/>
-            <button id="StartButton" onclick="Start()">Start</button>
-            <canvas id="canvas" style="border: #000000;"></canvas>
-        </div>
+        <section id="GameDiv" class="MainWinInformationDiv" style="visibility: hidden">
+            <div id="ScoreBoard">
+                SCORE:
+                <input id="lblScore" type="text"/>
+                <br/>
+                TIME:
+                <input id="lblTime" type="text"/>
+                <br/>
+                <button id="StartButton" onclick="Start()">Start</button>
+            </div>
+            <div id="CanvasDiv">
+                <canvas id="canvas"></canvas>
+            </div>
+        </section>
     </div>
     <span id="footer">Hello</span>
 </body>
