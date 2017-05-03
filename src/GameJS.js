@@ -83,7 +83,7 @@ function Start()
     InitializeMembers();
     FillBoardWithPathsAndWalls();
     PositionEntities();
-    interval = setInterval(UpdatePositionAndDraw, 500);
+    StartInterval();
 }
 
 //region Init & board creation functions
@@ -111,6 +111,7 @@ function InitializeMembers()
 
     addEventListener("keydown", function (e)
     {
+        e.preventDefault();
         switch (e.keyCode)
         {
             case Keys.Up:
@@ -162,26 +163,14 @@ function PositionEntities()
     var remainingBoardCells = ROWS * COLS;
     var food_remain = MAX_FOOD;
 
-    // Position Pacman
-    while (true)
-    {
-        var row = Math.floor(Math.random() * ROWS);
-        var col = Math.floor(Math.random() * COLS);
-        if (board[col][row] == BoardEntity.Path)
-        {
-            board[col][row] = BoardEntity.PacMan;
-            pacShape.i = col;
-            pacShape.j = row;
-            break;
-        }
-    }
+    PositionPacman();
 
     // Position food
     while (food_remain > 0)
     {
         var i = Math.floor(Math.random() * pathsList.length);
-        row = pathsList[i].row;
-        col = pathsList[i].col;
+        var row = pathsList[i].row;
+        var col = pathsList[i].col;
         if (board[col][row] == BoardEntity.Path)
         {
             var randomFood = Math.floor(Math.random() * 100)
@@ -240,6 +229,28 @@ function PositionEntities()
     }
 }
 //endregion
+
+function PositionPacman()
+{
+    while (true)
+    {
+        var i = Math.floor(Math.random() * pathsList.length);
+        var row = pathsList[i].row;
+        var col = pathsList[i].col;
+        if (board[col][row] == BoardEntity.Path)
+        {
+            board[col][row] = BoardEntity.PacMan;
+            pacShape.i = col;
+            pacShape.j = row;
+            break;
+        }
+    }
+}
+
+function StartInterval()
+{
+    interval = setInterval(UpdatePositionAndDraw, 500);
+}
 
 function UpdatePositionAndDraw()
 {
@@ -416,12 +427,14 @@ function Draw()
 
 function Die()
 {
+    board[pacShape.i][pacShape.j] = BoardEntity.Path; // BoardEntity.Ghost?
     lives--;
     window.clearInterval(interval);
     if (lives == 0)
-        window.alert("You lost!");
+        MessageToUser("You lost!");
     else
     {
+        PositionPacman();
         // TODO
         // 1. Die animation
         // 2. Restart game
@@ -456,7 +469,7 @@ function CanMove(col, row)
 {
     return col >= 0 && col < COLS &&
         row >= 0 && row < ROWS &&
-        board[col][row] != BoardEntity.Obstacle && board[col][row] != BoardEntity.Ghost &&board[col][row] != BoardEntity.Bonus;
+        board[col][row] != BoardEntity.Obstacle && board[col][row] != BoardEntity.Ghost && board[col][row] != BoardEntity.Bonus;
 }
 
 // region Ghosts movement functions
