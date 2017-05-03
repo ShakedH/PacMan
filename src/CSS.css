@@ -99,11 +99,7 @@ body {
 #GameDiv, #InnerGameDiv {
     overflow: hidden;
     height: 100%;
-}
-
-#canvas {
-    width: 100%;
-    height: 100%;
+    position: relative;
 }
 
 #ScoreBoard {
@@ -112,10 +108,24 @@ body {
     height: 100%;
 }
 
+.ScoreBoardText {
+    width: 100%;
+}
+
 #CanvasDiv {
     width: 85%;
     margin-left: 15%;
-    height: calc(100% - var(--headerHeight));
+    height: 100%;
+}
+
+#InnerCanvasDiv {
+    display: table;
+    margin: 0 auto;
+}
+
+#canvas {
+    width: 100%;
+    height: 100%;
 }
 
 /*</editor-fold>*/
