@@ -72,20 +72,23 @@
             </form>
         </div>
 
-        <section id="GameDiv" class="MainWinInformationDiv" style="visibility: hidden">
-            <div id="ScoreBoard">
-                SCORE:
-                <input id="lblScore" type="text"/>
-                <br/>
-                TIME:
-                <input id="lblTime" type="text"/>
-                <br/>
-                <button id="StartButton" onclick="Start()">Start</button>
+        <div id="GameDiv" class="MainWinInformationDiv" style="visibility: hidden">
+            <div id="InnerGameDiv">
+                <div id="ScoreBoard">
+                    SCORE:
+                    <input id="lblScore" type="text"/>
+                    <br/>
+                    TIME:
+                    <input id="lblTime" type="text"/>
+                    <br/>
+                    <button id="StartButton" onclick="Start()">Start</button>
+                </div>
+                <div id="CanvasDiv">
+                    <canvas id="canvas"></canvas>
+                </div>
             </div>
-            <div id="CanvasDiv">
-                <canvas id="canvas"></canvas>
-            </div>
-        </section>
+
+        </div>
     </div>
     <span id="footer">Hello</span>
 </body>

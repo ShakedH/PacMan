@@ -23,8 +23,8 @@ var Keys =
 var COLS = 28;
 var ROWS = 28;
 var MAX_FOOD = 50;
-var TILE_SIZE = 15;
-var HALF_TILE_SIZE = TILE_SIZE / 2;
+var TILE_SIZE;
+var HALF_TILE_SIZE;
 var LevelBoard = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -108,6 +108,8 @@ function InitializeMembers()
     numOfGhosts = 3;
     pacColor = "yellow";
     foodsOnBoard = MAX_FOOD;
+    TILE_SIZE = Math.floor(Math.min(canvas.width, canvas.height) / ROWS);
+    HALF_TILE_SIZE = TILE_SIZE / 2;
 
     addEventListener("keydown", function (e)
     {
