@@ -34,7 +34,7 @@ function closeNav()
 function OpenDiv(divID)
 {
     // Close Other Divs
-    $(".MainWinDiv").css('visibility', 'hidden');
+    $(".MainWinInformationDiv").css('visibility', 'hidden');
     document.getElementById(divID).style.visibility = 'visible';
 }
 
@@ -86,8 +86,37 @@ function AddUser()
 
 function Login()
 {
-    var userName = $("#UsernameLogin").get(0).value;
-    var exists = Users.filter('[UserName="' + userName + '"]');
+    var userName = $("#UsernameLogin").get(0);
+    var password = $("#PasswordLogin").get(0);
+
+    VerifyUsernameLogin(userName);
+    if (!userName.validity.valid)
+        return false;
+
+    VerifyPasswordLogin(password, GetUsers(userName.value)[0]);
+    if (!password.validity.valid)
+        return false;
+
+    UpdateCurrentUser(userName.value);
+    StartGame();
+}
+
+function UpdateCurrentUser(userName)
+{
+    document.getElementById("username").innerHTML = userName;
+}
+
+function GetUsers(userName)
+{
+    return user = $.grep(Users, function (u)
+    {
+        return u.UserName === userName;
+    });
+}
+
+function StartGame()
+{
+    OpenDiv('GameDiv');
 }
 
 //region Verification Functions
@@ -149,6 +178,33 @@ function VerifyEmail(textbox)
         textbox.setCustomValidity('Email is required');
     else if (!/^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{1,4}\b$/i.test(email))
         textbox.setCustomValidity('Please enter valid Email address');
+    else
+        textbox.setCustomValidity('');
+}
+
+function VerifyUsernameLogin(textbox)
+{
+    var userName = textbox.value;
+    if (!userName || userName == '')
+        textbox.setCustomValidity('User Name is required');
+    else
+    {
+        var user = GetUsers(userName);
+        if (user.length != 1)
+            textbox.setCustomValidity("User name not exists!");
+        else
+            textbox.setCustomValidity("");
+    }
+}
+
+function VerifyPasswordLogin(textbox, user)
+{
+    var password = textbox.value;
+    var userPassword = user.Password;
+    if (!password || password == '')
+        textbox.setCustomValidity('Password is required');
+    else if (password != userPassword)
+        textbox.setCustomValidity('Incorrect password');
     else
         textbox.setCustomValidity('');
 }

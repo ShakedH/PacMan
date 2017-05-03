@@ -9,68 +9,84 @@
 </head>
 
 <body>
-
+    <span id="header">
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+        Hello
+        <textblock id="username"></textblock>
+    </span>
     <div id="sideNavBar" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="#" onclick="OpenDiv('SignUpDiv')">Sign Up</a>
         <a href="#" onclick="OpenDiv('LoginDiv')">Login</a>
-        <a href="#" onclick="OpenDiv('GameDiv')">Game</a>
-
         <a href="#">About</a>
     </div>
-    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    <div id="ContentDiv">
+        <div id="WelcomeDiv" class="MainWinInformationDiv">
+            Welcome!
+            <button onclick="OpenDiv('LoginDiv')">Login</button>
+            <button onclick="OpenDiv('SignUpDiv')">Sign Up</button>
+        </div>
 
-    <div id="SignUpDiv" class="MainWinDiv" style="visibility: hidden">
-        <form id="SignUpForm" onsubmit="return false;">
-            <label class="SignUpLabel">User Name:</label>
-            <input id="UserNameSignUp" type="text" placeholder="Username" name="username"
-                   oninput="ResetValidation(this)">
-            <br/>
-            <label class="SignUpLabel">Password</label>
-            <input id="PasswordSignUp" type="password" placeholder="Password" name="password"
-                   oninput="ResetValidation(this)">
-            <br/>
-            <label class="SignUpLabel">First Name:</label>
-            <input id="FirstNameSignUp" type="text" placeholder="First Name" name="firstName"
-                   oninput="ResetValidation(this)">
-            <br/>
-            <label class="SignUpLabel">Surname:</label>
-            <input id="SurnameSignUp" type="text" placeholder="Surname" name="surname" oninput="ResetValidation(this)">
-            <br/>
-            <label class="SignUpLabel">Email:</label>
-            <input id="EmailSignUp" type="text" placeholder="Email" name="email" oninput="ResetValidation(this)">
-            <br/>
-            <label class="SignUpLabel">Birth Date:</label>
-            <input id="BirthDateSignUp" type="date" placeholder="Birth Date" name="birthDate"
-                   oninput="ResetValidation(this)" required>
-            <br/>
-            <input type="submit" onclick="AddUser()">
-        </form>
-    </div>
+        <div id="SignUpDiv" class="MainWinInformationDiv" style="visibility: hidden">
+            <form id="SignUpForm" onsubmit="return false;">
+                <label class="SignUpLabel">User Name:</label>
+                <input id="UserNameSignUp" type="text" placeholder="Username" name="username"
+                       oninput="ResetValidation(this)">
+                <br/>
+                <label class="SignUpLabel">Password</label>
+                <input id="PasswordSignUp" type="password" placeholder="Password" name="password"
+                       oninput="ResetValidation(this)">
+                <br/>
+                <label class="SignUpLabel">First Name:</label>
+                <input id="FirstNameSignUp" type="text" placeholder="First Name" name="firstName"
+                       oninput="ResetValidation(this)">
+                <br/>
+                <label class="SignUpLabel">Surname:</label>
+                <input id="SurnameSignUp" type="text" placeholder="Surname" name="surname"
+                       oninput="ResetValidation(this)">
+                <br/>
+                <label class="SignUpLabel">Email:</label>
+                <input id="EmailSignUp" type="text" placeholder="Email" name="email" oninput="ResetValidation(this)">
+                <br/>
+                <label class="SignUpLabel">Birth Date:</label>
+                <input id="BirthDateSignUp" type="date" placeholder="Birth Date" name="birthDate"
+                       oninput="ResetValidation(this)" required>
+                <br/>
+                <input type="submit" onclick="AddUser()">
+            </form>
+        </div>
 
-    <div id="LoginDiv" class="MainWinDiv" style="visibility: hidden">
-        <form id="LoginForm" onsubmit="return false;">
-            <label class="LoginLabel">User Name:</label>
-            <br/>
-            <input id="UsernameLogin" class="LoginInput" type="text" placeholder="User Name" name="Username">
-            <br/>
-            <label class="LoginLabel">Password:</label>
-            <br/>
-            <input id="PasswordLogin" class="LoginInput" type="text" placeholder="Password" name="Password">
-            <br/>
-            <button onclick="Login()">Login</button>
-        </form>
-    </div>
+        <div id="LoginDiv" class="MainWinInformationDiv" style="visibility: hidden">
+            <form id="LoginForm" onsubmit="return false;">
+                <label class="LoginLabel">User Name:</label>
+                <br/>
+                <input id="UsernameLogin" type="text" placeholder="Username" name="username"
+                       oninput="ResetValidation(this)">
+                <br/>
+                <label class="LoginLabel">Password:</label>
+                <br/>
+                <input id="PasswordLogin" type="password" placeholder="Password" name="password"
+                       oninput="ResetValidation(this)">
+                <br/>
+                <button type="submit" onclick="Login()">Login</button>
+            </form>
+        </div>
 
-    <div id="GameDiv" class="MainWinDiv" style="visibility: hidden">
-        SCORE:
-        <input id="lblScore" type="text"/>
-        <br/>
-        TIME:
-        <input id="lblTime" type="text"/>
-        <br/>
-        <button id="StartButton" onclick="Start()">Start</button>
-        <canvas id="canvas" height="600" width="600"></canvas>
+        <section id="GameDiv" class="MainWinInformationDiv" style="visibility: hidden">
+            <div id="ScoreBoard">
+                SCORE:
+                <input id="lblScore" type="text"/>
+                <br/>
+                TIME:
+                <input id="lblTime" type="text"/>
+                <br/>
+                <button id="StartButton" onclick="Start()">Start</button>
+            </div>
+            <div id="CanvasDiv">
+                <canvas id="canvas"></canvas>
+            </div>
+        </section>
     </div>
+    <span id="footer">Hello</span>
 </body>
 </html>
