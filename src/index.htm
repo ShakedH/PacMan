@@ -76,15 +76,17 @@
             <div id="InnerGameDiv">
                 <div id="ScoreBoard">
                     SCORE:
-                    <input id="lblScore" type="text"/>
+                    <input id="lblScore" type="text" class="ScoreBoardText"/>
                     <br/>
                     TIME:
-                    <input id="lblTime" type="text"/>
+                    <input id="lblTime" type="text" class="ScoreBoardText"/>
                     <br/>
                     <button id="StartButton" onclick="Start()">Start</button>
                 </div>
                 <div id="CanvasDiv">
-                    <canvas id="canvas"></canvas>
+                    <div id="InnerCanvasDiv" >
+                        <canvas id="canvas"></canvas>
+                    </div>
                 </div>
             </div>
 
