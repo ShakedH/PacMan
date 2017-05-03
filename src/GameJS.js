@@ -113,7 +113,12 @@ function InitializeMembers()
 
     addEventListener("keydown", function (e)
     {
-        e.preventDefault();
+        e.preventDefault();     // Prevent window from moving on arrows key press
+        if (interval == null)
+        {
+            StartInterval();
+            return;
+        }
         switch (e.keyCode)
         {
             case Keys.Up:
@@ -260,14 +265,12 @@ function UpdatePositionAndDraw()
     var currentTime = new Date();
     timeElapsed = Math.floor((currentTime - startTime) / 1000);
 
-    TryToMovePacman();
-    var previousEntity = board[pacShape.i][pacShape.j];
-    board[pacShape.i][pacShape.j] = BoardEntity.PacMan;
     MoveGhosts();
-    if (bonus != null)
-        MoveBonus();
-    Draw();
-    switch (previousEntity)
+    MoveBonus();
+    MovePacman();
+    var pacmanNextMove = board[pacShape.i][pacShape.j];
+
+    switch (pacmanNextMove)
     {
         case BoardEntity.Food_5:
             score += 5;
@@ -296,9 +299,11 @@ function UpdatePositionAndDraw()
         window.clearInterval(interval);
         window.alert("Game completed");
     }
+    board[pacShape.i][pacShape.j] = BoardEntity.PacMan;
+    Draw();
 }
 
-function TryToMovePacman()
+function MovePacman()
 {
     var originalI = pacShape.i;
     var originalJ = pacShape.j;
@@ -432,6 +437,7 @@ function Die()
     board[pacShape.i][pacShape.j] = BoardEntity.Path; // BoardEntity.Ghost?
     lives--;
     window.clearInterval(interval);
+    interval = undefined;
     if (lives == 0)
         MessageToUser("You lost!");
     else
@@ -445,6 +451,9 @@ function Die()
 
 function MoveBonus()
 {
+    if (bonus == null)
+        return;
+
     var options = new Array();
 
     for (var i = bonus.i - 1; i <= bonus.i + 1; i++)
@@ -484,7 +493,7 @@ function MoveGhosts()
         var originalJ = ghost.j;
         var nextStep = BFS(ghost.i, ghost.j);
         if (nextStep == null)    // Ghost caught Pacman
-            continue;
+            break;
         ghost.i = nextStep.i;
         ghost.j = nextStep.j;
         ghostsPrevEntityQueue.push(board[nextStep.i][nextStep.j]);
