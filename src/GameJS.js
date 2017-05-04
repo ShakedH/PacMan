@@ -299,41 +299,6 @@ function UpdatePositionAndDraw()
     Draw();
 }
 
-function MovePacman()
-{
-    var originalI = pacShape.i;
-    var originalJ = pacShape.j;
-
-    switch (GetKeyPressed())
-    {
-        case Keys.Up:
-            if (pacShape.j == 0 && board[pacShape.i][ROWS - 1] != BoardEntity.Obstacle)     // Interstellar transition
-                pacShape.j = ROWS - 1;
-            else if (pacShape.j > 0 && board[pacShape.i][pacShape.j - 1] != BoardEntity.Obstacle)
-                pacShape.j--;
-            break;
-        case  Keys.Down:
-            if (pacShape.j == ROWS - 1 && board[pacShape.i][0] != BoardEntity.Obstacle)
-                pacShape.j = 0;
-            else if (pacShape.j < ROWS - 1 && board[pacShape.i][pacShape.j + 1] != BoardEntity.Obstacle)
-                pacShape.j++;
-            break;
-        case Keys.Left:
-            if (pacShape.i == 0 && board[COLS - 1][pacShape.j] != BoardEntity.Obstacle)
-                pacShape.i = COLS - 1;
-            else if (pacShape.i > 0 && board[pacShape.i - 1][pacShape.j] != BoardEntity.Obstacle)
-                pacShape.i--;
-            break;
-        case Keys.Right:
-            if (pacShape.i == COLS - 1 && board[0][pacShape.j] != BoardEntity.Obstacle)
-                pacShape.i = 0;
-            else if (pacShape.i < COLS - 1 && board[pacShape.i + 1][pacShape.j] != BoardEntity.Obstacle)
-                pacShape.i++;
-            break;
-    }
-
-}
-
 function GetKeyPressed()
 {
     if (keysDown[Keys.Up])
@@ -354,6 +319,7 @@ function GetKeyPressed()
     }
 }
 
+//region Draw Functions
 function Draw()
 {
     canvas.width = canvas.width; //clean board
@@ -362,75 +328,85 @@ function Draw()
     for (var col = 0; col < COLS; col++)
         for (var row = 0; row < ROWS; row++)
         {
-            var boardEntityCenter = new Object();
-            boardEntityCenter.x = col * TILE_SIZE + HALF_TILE_SIZE;
-            boardEntityCenter.y = row * TILE_SIZE + HALF_TILE_SIZE;
+            var entityCenter = new Object();
+            entityCenter.x = col * TILE_SIZE + HALF_TILE_SIZE;
+            entityCenter.y = row * TILE_SIZE + HALF_TILE_SIZE;
+
+            var entity = new Object();
+            entity.x = col * TILE_SIZE;
+            entity.y = row * TILE_SIZE;
 
             if (HasPacman(col, row))
-            {
-                canvasContext.beginPath();
-                canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, HALF_TILE_SIZE, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
-                canvasContext.lineTo(boardEntityCenter.x, boardEntityCenter.y);
-                canvasContext.fillStyle = pacColor; //color
-                canvasContext.fill();
-
-                canvasContext.beginPath();
-                canvasContext.arc(boardEntityCenter.x + 2, boardEntityCenter.y - TILE_SIZE / 4, 2, 0, 2 * Math.PI); // pacman eye
-                canvasContext.fillStyle = "black"; //color
-                canvasContext.fill();
-            }
+                DrawPacman(entity);
             else if (HasGhost(col, row))
-            {
-                canvasContext.beginPath();
-                canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TILE_SIZE / 2, 0, 2 * Math.PI); // circle
-                canvasContext.fillStyle = "red"; //color
-                canvasContext.fill();
-            }
+                DrawGhost(entityCenter);
             else if (HasBonus(col, row))
-            {
-                canvasContext.beginPath();
-                canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TILE_SIZE / 2, 0, 2 * Math.PI); // circle
-                canvasContext.fillStyle = "pink"; //color
-                canvasContext.fill();
-            }
-            else
-                switch (board[col][row])
-                {
-                    case BoardEntity.Food_5:
-                        canvasContext.beginPath();
-                        canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TILE_SIZE / 4, 0, 2 * Math.PI); // circle
-                        canvasContext.fillStyle = "black"; //color
-                        canvasContext.fill();
-                        break;
+                DrawBonus(entityCenter);
+            else if (board[col][row] == BoardEntity.Obstacle)
+                DrawObstacle(entityCenter);
+            else if (board[col][row] == BoardEntity.Food_5 || board[col][row] == BoardEntity.Food_15 ||
+                board[col][row] == BoardEntity.Food_25)
+                DrawFood(entityCenter, board[col][row]);
 
-                    case BoardEntity.Food_15:
-                        canvasContext.beginPath();
-                        canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TILE_SIZE / 4, 0, 2 * Math.PI); // circle
-                        canvasContext.fillStyle = "blue"; //color
-                        canvasContext.fill();
-                        break;
-
-                    case BoardEntity.Food_25:
-                        canvasContext.beginPath();
-                        canvasContext.arc(boardEntityCenter.x, boardEntityCenter.y, TILE_SIZE / 4, 0, 2 * Math.PI); // circle
-                        canvasContext.fillStyle = "gold"; //color
-                        canvasContext.fill();
-                        break;
-
-                    case BoardEntity.Obstacle:
-                        canvasContext.beginPath();
-                        canvasContext.rect(boardEntityCenter.x - HALF_TILE_SIZE, boardEntityCenter.y - HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                        canvasContext.fillStyle = "grey"; //color
-                        canvasContext.fill();
-                        break;
-                }
         }
 }
+
+function DrawPacman(pacman)
+{
+    var image = new Image();
+    image.src = '../Images/pacman.jpg';
+    canvasContext.drawImage(image, pacman.x, pacman.y, TILE_SIZE, TILE_SIZE);
+}
+
+function DrawBonus(bonusCenter)
+{
+    canvasContext.beginPath();
+    canvasContext.arc(bonusCenter.x, bonusCenter.y, TILE_SIZE / 2, 0, 2 * Math.PI); // circle
+    canvasContext.fillStyle = "pink"; //color
+    canvasContext.fill();
+}
+
+function DrawGhost(ghostCenter)
+{
+    canvasContext.beginPath();
+    canvasContext.arc(ghostCenter.x, ghostCenter.y, TILE_SIZE / 2, 0, 2 * Math.PI); // circle
+    canvasContext.fillStyle = "red"; //color
+    canvasContext.fill();
+}
+
+function DrawObstacle(obstacleCenter)
+{
+    canvasContext.beginPath();
+    canvasContext.rect(obstacleCenter.x - HALF_TILE_SIZE, obstacleCenter.y - HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    canvasContext.fillStyle = "grey"; //color
+    canvasContext.fill();
+}
+
+function DrawFood(foodCenter, entity)
+{
+    var color;
+    switch (entity)
+    {
+        case BoardEntity.Food_5:
+            color = "black";
+            break;
+        case BoardEntity.Food_15:
+            color = "blue";
+            break;
+        case BoardEntity.Food_25:
+            color = "gold";
+            break;
+    }
+    canvasContext.beginPath();
+    canvasContext.arc(foodCenter.x, foodCenter.y, TILE_SIZE / 4, 0, 2 * Math.PI); // circle
+    canvasContext.fillStyle = color; //color
+    canvasContext.fill();
+}
+//endregion
 
 function Die()
 {
     // board[pacShape.i][pacShape.j] = BoardEntity.Path; // BoardEntity.Ghost?
-    ErrorToUser("you've died");
     lives--;
     window.clearInterval(interval);
     interval = undefined;
@@ -467,12 +443,48 @@ function MoveBonus()
     bonus.j = nextStep.j;
 }
 
+function MovePacman()
+{
+    var originalI = pacShape.i;
+    var originalJ = pacShape.j;
+
+    switch (GetKeyPressed())
+    {
+        case Keys.Up:
+            if (pacShape.j == 0 && board[pacShape.i][ROWS - 1] != BoardEntity.Obstacle)     // Interstellar transition
+                pacShape.j = ROWS - 1;
+            else if (pacShape.j > 0 && board[pacShape.i][pacShape.j - 1] != BoardEntity.Obstacle)
+                pacShape.j--;
+            break;
+        case  Keys.Down:
+            if (pacShape.j == ROWS - 1 && board[pacShape.i][0] != BoardEntity.Obstacle)
+                pacShape.j = 0;
+            else if (pacShape.j < ROWS - 1 && board[pacShape.i][pacShape.j + 1] != BoardEntity.Obstacle)
+                pacShape.j++;
+            break;
+        case Keys.Left:
+            if (pacShape.i == 0 && board[COLS - 1][pacShape.j] != BoardEntity.Obstacle)
+                pacShape.i = COLS - 1;
+            else if (pacShape.i > 0 && board[pacShape.i - 1][pacShape.j] != BoardEntity.Obstacle)
+                pacShape.i--;
+            break;
+        case Keys.Right:
+            if (pacShape.i == COLS - 1 && board[0][pacShape.j] != BoardEntity.Obstacle)
+                pacShape.i = 0;
+            else if (pacShape.i < COLS - 1 && board[pacShape.i + 1][pacShape.j] != BoardEntity.Obstacle)
+                pacShape.i++;
+            break;
+    }
+
+}
+
 // Relevant only to ghosts and bonus
 function CanMove(col, row)
 {
     return col >= 0 && col < COLS &&
         row >= 0 && row < ROWS &&
-        board[col][row] != BoardEntity.Obstacle;
+        board[col][row] != BoardEntity.Obstacle &&
+        !(HasGhost(col, row));
 }
 
 function HasGhost(col, row)

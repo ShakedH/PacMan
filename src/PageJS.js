@@ -26,7 +26,6 @@ $(document).ready(function ()
     // document.getElementById("InnerCanvasDiv").style.width = chosen + 'px';
     // document.getElementById("canvas").style.width = chosen;
     // document.getElementById("canvas").style.height = chosen;
-
 });
 
 function openNav()
