@@ -9,29 +9,25 @@
 <body>
     <header>
         <div id="logo"></div>
-        <!--<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>-->
-        <!--<body>-->
-        <nav class="clearfix">
-            <ul class="clearfix">
-                <li><a href="#">Welcome</a></li>
-                <li><a href="#">Register</a></li>
-                <li><a href="#">Login</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-            <!--<a href="#" id="pull">Menu</a>-->
-        </nav>
-        <!--<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>-->
-        <!--Hello-->
-        <!--<textblock id="username"></textblock>-->
+        <menu>
+            <nav class="clearfix">
+                <ul class="clearfix">
+                    <li><a href="#">Welcome</a></li>
+                    <li><a href="#" onclick="OpenDiv('SignUpDiv')">Register</a></li>
+                    <li><a href="#"onclick="OpenDiv('LoginDiv')">Login</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+        </menu>
     </header>
-    <menu>
-        <div id="sideNavBar" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href="#" onclick="OpenDiv('SignUpDiv')">Sign Up</a>
-            <a href="#" onclick="OpenDiv('LoginDiv')">Login</a>
-            <a href="#">About</a>
-        </div>
-    </menu>
+    <!--<menu>-->
+        <!--<div id="sideNavBar" class="sidenav">-->
+            <!--<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>-->
+            <!--<a href="#" onclick="OpenDiv('SignUpDiv')">Sign Up</a>-->
+            <!--<a href="#" onclick="OpenDiv('LoginDiv')">Login</a>-->
+            <!--<a href="#">About</a>-->
+        <!--</div>-->
+    <!--</menu>-->
     <div id="ContentDiv">
         <div id="WelcomeDiv" class="MainWinInformationDiv">
             Welcome!
