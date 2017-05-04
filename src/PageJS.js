@@ -1,32 +1,27 @@
-var DivsNames = ['SignUpDiv', 'LoginDiv'];
 var Users;
 
 // Initialize
 $(document).ready(function ()
 {
-    Users = [{
-        UserName: 'a',
-        Password: 'a',
-        FirstName: 'Test',
-        Surname: 'Man',
-        Email: 'a@a.com',
-        BirthDate: '1990-01-01'
-    }, {
-        UserName: 'test2017',
-        Password: 'test2017',
-        FirstName: 'Tests',
-        Surname: 'Guy',
-        Email: 'Test@2017.com',
-        BirthDate: '2017-05-10'
-    }];
-    // var width = document.getElementById("CanvasDiv").clientWidth;
-    // var height = document.getElementById("CanvasDiv").clientHeight;
-    // var chosen = height;
-    // document.getElementById("InnerCanvasDiv").style.height = chosen + 'px';
-    // document.getElementById("InnerCanvasDiv").style.width = chosen + 'px';
-    // document.getElementById("canvas").style.width = chosen;
-    // document.getElementById("canvas").style.height = chosen;
-
+    Users =
+        [
+            {
+                UserName: 'a',
+                Password: 'a',
+                FirstName: 'Test',
+                Surname: 'Man',
+                Email: 'a@a.com',
+                BirthDate: '1990-01-01'
+            },
+            {
+                UserName: 'test2017',
+                Password: 'test2017',
+                FirstName: 'Tests',
+                Surname: 'Guy',
+                Email: 'Test@2017.com',
+                BirthDate: '2017-05-10'
+            }
+        ];
 });
 
 function openNav()
@@ -235,3 +230,23 @@ function ErrorToUser(error)
 {
     window.alert(error);
 }
+
+$(function ()
+{
+    var pull = $('#pull');
+    menu = $('nav ul');
+    menuHeight = menu.height();
+    $(pull).on('click', function (e)
+    {
+        e.preventDefault();
+        menu.slideToggle();
+    });
+    $(window).resize(function ()
+    {
+        var w = $(window).width();
+        if (w > 320 && menu.is(':hidden'))
+        {
+            menu.removeAttr('style');
+        }
+    });
+});
