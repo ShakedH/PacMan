@@ -128,10 +128,10 @@ function StartGame()
     var canvas = document.getElementById("canvas");
     var div = document.getElementById("CanvasDiv");
     var ctx = canvas.getContext("2d");
-    var size = Math.min(div.clientHeight, div.clientWidth);
-    ctx.canvas.width = size;
-    ctx.canvas.height = size;
-    canvas.style.left = size;
+    var canvasSize = Math.min(div.clientHeight, div.clientWidth);
+    var canvasRightMargin = (Math.max(div.offsetHeight, div.offsetWidth) - canvasSize) / 2;
+    ctx.canvas.width = ctx.canvas.height = canvasSize;
+    canvas.style.right = canvasRightMargin + 'px';
     canvas.style.position = "absolute";
 }
 
