@@ -210,8 +210,6 @@ function PositionEntities()
                 row = ROWS - 2;
                 break;
         }
-        // ghostsPrevEntityQueue.push(board[col][row]);
-        // board[col][row] = BoardEntity.Ghost;
         var ghost = new Object();
         ghost.i = col;
         ghost.j = row;
@@ -226,8 +224,6 @@ function PositionEntities()
         col = pathsList[i].col;
         if (board[col][row] == BoardEntity.Path)
         {
-            // bonusPrevEntityQueue.push(board[col][row]);
-            // board[col][row] = BoardEntity.Bonus;
             bonus.i = col;
             bonus.j = row;
             break;
@@ -246,7 +242,6 @@ function PositionPacman()
         var col = pathsList[i].col;
         if (board[col][row] == BoardEntity.Path)
         {
-            // board[col][row] = BoardEntity.PacMan;
             pacShape.i = col;
             pacShape.j = row;
             break;
@@ -264,19 +259,18 @@ function UpdatePositionAndDraw()
     // Update time elapsed
     var currentTime = new Date();
     timeElapsed = Math.floor((currentTime - startTime) / 1000);
+
     if (HasGhost(pacShape.i, pacShape.j))
         Die();
     else if (HasBonus(pacShape.i, pacShape.j))
     {
-        // board[bonus.i][bonus.j] = bonusPrevEntityQueue[0];
-        // bonusPrevEntityQueue.splice(0, 1);
         bonus = undefined;
         score += 50;
         board[pacShape.i][pacShape.j] = BoardEntity.Path
     }
+
     MovePacman();
     var pacmanNextMove = board[pacShape.i][pacShape.j];
-
     switch (pacmanNextMove)
     {
         case BoardEntity.Food_5:
@@ -291,15 +285,6 @@ function UpdatePositionAndDraw()
             score += 25;
             foodsOnBoard--;
             break;
-        // case BoardEntity.Bonus:
-        //     board[bonus.i][bonus.j] = bonusPrevEntityQueue[0];
-        //     bonusPrevEntityQueue.splice(0, 1);
-        //     bonus = undefined;
-        //     score += 50;
-        //     break;
-        // case BoardEntity.Ghost:
-        //     Die();
-        //     break;
     }
 
     if (foodsOnBoard == 0)
@@ -307,11 +292,10 @@ function UpdatePositionAndDraw()
         window.clearInterval(interval);
         window.alert("Game completed");
     }
+
     board[pacShape.i][pacShape.j] = BoardEntity.Path
     MoveGhosts();
     MoveBonus();
-
-    // board[pacShape.i][pacShape.j] = BoardEntity.PacMan;
     Draw();
 }
 
@@ -348,8 +332,6 @@ function MovePacman()
             break;
     }
 
-    // if (originalI != pacShape.i || originalJ != pacShape.j) // Pacman moved
-    //     board[originalI][originalJ] = BoardEntity.Path;
 }
 
 function GetKeyPressed()
@@ -483,10 +465,6 @@ function MoveBonus()
     var originalJ = bonus.j;
     bonus.i = nextStep.i;
     bonus.j = nextStep.j;
-    // bonusPrevEntityQueue.push(board[nextStep.i][nextStep.j]);
-    // board[nextStep.i][nextStep.j] = BoardEntity.Bonus;
-    // board[originalI][originalJ] = bonusPrevEntityQueue[0];
-    // bonusPrevEntityQueue.splice(0, 1);
 }
 
 // Relevant only to ghosts and bonus
@@ -495,8 +473,6 @@ function CanMove(col, row)
     return col >= 0 && col < COLS &&
         row >= 0 && row < ROWS &&
         board[col][row] != BoardEntity.Obstacle;
-    // board[col][row] != BoardEntity.Ghost &&
-    // board[col][row] != BoardEntity.Bonus;
 }
 
 function HasGhost(col, row)
@@ -535,10 +511,6 @@ function MoveGhosts()
             break;
         ghost.i = nextStep.i;
         ghost.j = nextStep.j;
-        // ghostsPrevEntityQueue.push(board[nextStep.i][nextStep.j]);
-        // board[nextStep.i][nextStep.j] = BoardEntity.Ghost;
-        // board[originalI][originalJ] = ghostsPrevEntityQueue[0] == BoardEntity.PacMan ? BoardEntity.Path : ghostsPrevEntityQueue[0];
-        // ghostsPrevEntityQueue.splice(0, 1);
     }
 }
 
