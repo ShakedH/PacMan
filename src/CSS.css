@@ -71,6 +71,12 @@ footer {
     bottom: 0;
 }
 
+#logo
+{
+    content: url("http://www.logoeps.net/wp-content/uploads/2016/12/pac-man-logo1.png");
+    width: 25%;
+}
+
 /*</editor-fold>*/
 
 .MainWinInformationDiv {
