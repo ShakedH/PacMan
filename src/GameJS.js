@@ -108,7 +108,7 @@ function InitializeMembers()
     numOfGhosts = 3;
     pacColor = "yellow";
     foodsOnBoard = MAX_FOOD;
-    TILE_SIZE = (Math.min(canvas.width, canvas.height) / ROWS);
+    TILE_SIZE = Math.min(canvas.width, canvas.height) / ROWS;
     HALF_TILE_SIZE = TILE_SIZE / 2;
 
     addEventListener("keydown", function (e)

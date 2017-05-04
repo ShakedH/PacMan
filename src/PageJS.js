@@ -19,13 +19,13 @@ $(document).ready(function ()
         Email: 'Test@2017.com',
         BirthDate: '2017-05-10'
     }];
-    var width = document.getElementById("CanvasDiv").clientWidth;
-    var height = document.getElementById("CanvasDiv").clientHeight;
-    var chosen = height;
-    document.getElementById("InnerCanvasDiv").style.height = chosen + 'px';
-    document.getElementById("InnerCanvasDiv").style.width = chosen + 'px';
-    document.getElementById("canvas").style.width = chosen;
-    document.getElementById("canvas").style.height = chosen;
+    // var width = document.getElementById("CanvasDiv").clientWidth;
+    // var height = document.getElementById("CanvasDiv").clientHeight;
+    // var chosen = height;
+    // document.getElementById("InnerCanvasDiv").style.height = chosen + 'px';
+    // document.getElementById("InnerCanvasDiv").style.width = chosen + 'px';
+    // document.getElementById("canvas").style.width = chosen;
+    // document.getElementById("canvas").style.height = chosen;
 
 });
 
