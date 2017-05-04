@@ -264,7 +264,16 @@ function UpdatePositionAndDraw()
     // Update time elapsed
     var currentTime = new Date();
     timeElapsed = Math.floor((currentTime - startTime) / 1000);
-
+    if (HasGhost(pacShape.i, pacShape.j))
+        Die();
+    else if (HasBonus(pacShape.i, pacShape.j))
+    {
+        // board[bonus.i][bonus.j] = bonusPrevEntityQueue[0];
+        // bonusPrevEntityQueue.splice(0, 1);
+        bonus = undefined;
+        score += 50;
+        board[pacShape.i][pacShape.j] = BoardEntity.Path
+    }
     MovePacman();
     var pacmanNextMove = board[pacShape.i][pacShape.j];
 
@@ -292,15 +301,7 @@ function UpdatePositionAndDraw()
         //     Die();
         //     break;
     }
-    if (HasGhost(pacShape.i, pacShape.j))
-        Die();
-    else if (HasBonus(pacShape.i, pacShape.j))
-    {
-        // board[bonus.i][bonus.j] = bonusPrevEntityQueue[0];
-        // bonusPrevEntityQueue.splice(0, 1);
-        bonus = undefined;
-        score += 50;
-    }
+
     if (foodsOnBoard == 0)
     {
         window.clearInterval(interval);
