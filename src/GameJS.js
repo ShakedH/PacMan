@@ -353,6 +353,31 @@ function DrawPacman(pacman)
     var image = new Image();
     image.src = '../Images/pacman.jpg';
     canvasContext.drawImage(image, pacman.x, pacman.y, TILE_SIZE, TILE_SIZE);
+    // drawRotatedImage(image, pacman.x, pacman.y, 90);
+
+    var TO_RADIANS = Math.PI / 180;
+
+    function drawRotatedImage(image, x, y, angle)
+    {
+
+        // save the current co-ordinate system
+        // before we screw with it
+        canvasContext.save();
+
+        // move to the middle of where we want to draw our image
+        canvasContext.translate(x, y);
+
+        // rotate around that point, converting our
+        // angle from degrees to radians
+        canvasContext.rotate(angle * TO_RADIANS);
+
+        // draw it up and to the left by half the width
+        // and height of the image
+        canvasContext.drawImage(image, (-TILE_SIZE / 2), (-TILE_SIZE / 2));
+
+        // and restore the co-ords to how they were when we began
+        canvasContext.restore();
+    }
 }
 
 function DrawBonus(bonusCenter)
