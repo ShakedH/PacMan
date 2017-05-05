@@ -115,10 +115,7 @@ function InitializeMembers()
     {
         e.preventDefault();     // Prevent window from moving on arrows key press
         if (interval == null)
-        {
             StartInterval();
-            return;
-        }
         switch (e.keyCode)
         {
             case Keys.Up:
@@ -431,19 +428,13 @@ function DrawFood(foodCenter, entity)
 
 function Die()
 {
-    // board[pacShape.i][pacShape.j] = BoardEntity.Path; // BoardEntity.Ghost?
     lives--;
     window.clearInterval(interval);
     interval = undefined;
     if (lives == 0)
         MessageToUser("You lost!");
     else
-    {
         PositionPacman();
-        // TODO
-        // 1. Die animation
-        // 2. Restart game
-    }
 }
 
 function MoveBonus()

@@ -1,80 +1,200 @@
 :root {
-    --headerHeight: 35px;
+    --headerHeight: 15%;
+    --footerHeight: 5%;
+}
+
+html {
+    height: 100%;
 }
 
 body {
-    background-color: orange;
+    height: 100%;
+    background-color: black;
     margin: 0;
 }
 
-/*<editor-fold desc="Side Bar Design">*/
-.sidenav {
+/*<editor-fold desc="Top NavBar">*/
+.fancyNav {
+    /* Affects the UL element */
+    margin: 0 auto;
+    overflow: hidden;
+    display: inline-flex;
+}
+
+.fancyNav li {
+    /* Specifying a fallback color and we define CSS3 gradients for the major browsers: */
+
+    background-color: #f0f0f0;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), color-stop(0.5, #f0f0f0), color-stop(0.51, #e6e6e6));
+    background-image: -moz-linear-gradient(#fefefe 0%, #f0f0f0 50%, #e6e6e6 51%);
+    background-image: -o-linear-gradient(#fefefe 0%, #f0f0f0 50%, #e6e6e6 51%);
+    background-image: -ms-linear-gradient(#fefefe 0%, #f0f0f0 50%, #e6e6e6 51%);
+    background-image: linear-gradient(#fefefe 0%, #f0f0f0 50%, #e6e6e6 51%);
+
+    border-right: 1px solid rgba(9, 9, 9, 0.125);
+
+    /* Adding a 1px inset highlight for a more polished efect: */
+
+    box-shadow: 1px -1px 0 rgba(255, 255, 255, 0.6) inset;
+    -moz-box-shadow: 1px -1px 0 rgba(255, 255, 255, 0.6) inset;
+    -webkit-box-shadow: 1px -1px 0 rgba(255, 255, 255, 0.6) inset;
+
+    position: relative;
+
+    float: left;
+    list-style: none;
+}
+
+.fancyNav li:after {
+
+    /* This creates a pseudo element inslide each LI */
+
+    content: '.';
+    text-indent: -9999px;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
     height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
+    z-index: 1;
+    opacity: 0;
+
+    /* Gradients! */
+
+    background-image: -webkit-gradient(linear, left top, right top, from(rgba(168, 168, 168, 0.5)), color-stop(0.5, rgba(168, 168, 168, 0)), to(rgba(168, 168, 168, 0.5)));
+    background-image: -moz-linear-gradient(left, rgba(168, 168, 168, 0.5), rgba(168, 168, 168, 0) 50%, rgba(168, 168, 168, 0.5));
+    background-image: -o-linear-gradient(left, rgba(168, 168, 168, 0.5), rgba(168, 168, 168, 0) 50%, rgba(168, 168, 168, 0.5));
+    background-image: -ms-linear-gradient(left, rgba(168, 168, 168, 0.5), rgba(168, 168, 168, 0) 50%, rgba(168, 168, 168, 0.5));
+    background-image: linear-gradient(left, rgba(168, 168, 168, 0.5), rgba(168, 168, 168, 0) 50%, rgba(168, 168, 168, 0.5));
+
+    /* Creating borders with box-shadow. Useful, as they don't affect the size of the element. */
+
+    box-shadow: -1px 0 0 #a3a3a3, -2px 0 0 #fff, 1px 0 0 #a3a3a3, 2px 0 0 #fff;
+    -moz-box-shadow: -1px 0 0 #a3a3a3, -2px 0 0 #fff, 1px 0 0 #a3a3a3, 2px 0 0 #fff;
+    -webkit-box-shadow: -1px 0 0 #a3a3a3, -2px 0 0 #fff, 1px 0 0 #a3a3a3, 2px 0 0 #fff;
+
+    /* This will create a smooth transition for the opacity property */
+
+    -moz-transition: 0.25s all;
+    -webkit-transition: 0.25s all;
+    -o-transition: 0.25s all;
+    transition: 0.25s all;
 }
 
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
+/* Treating the first LI and li:after elements separately */
+
+.fancyNav li:first-child {
+    border-radius: 4px 0 0 4px;
 }
 
-.sidenav a:hover, .offcanvas a:focus {
-    color: #f1f1f1;
+.fancyNav li:first-child:after,
+.fancyNav li.selected:first-child:after {
+    box-shadow: 1px 0 0 #a3a3a3, 2px 0 0 #fff;
+    -moz-box-shadow: 1px 0 0 #a3a3a3, 2px 0 0 #fff;
+    -webkit-box-shadow: 1px 0 0 #a3a3a3, 2px 0 0 #fff;
+
+    border-radius: 4px 0 0 4px;
 }
 
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+.fancyNav li:last-child {
+    border-radius: 0 4px 4px 0;
 }
 
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-    }
+/* Treating the last LI and li:after elements separately */
 
-    .sidenav a {
-        font-size: 18px;
-    }
+.fancyNav li:last-child:after,
+.fancyNav li.selected:last-child:after {
+    box-shadow: -1px 0 0 #a3a3a3, -2px 0 0 #fff;
+    -moz-box-shadow: -1px 0 0 #a3a3a3, -2px 0 0 #fff;
+    -webkit-box-shadow: -1px 0 0 #a3a3a3, -2px 0 0 #fff;
+
+    border-radius: 0 4px 4px 0;
 }
 
-/*</editor-fold>*/
+.fancyNav li:hover:after,
+.fancyNav li.selected:after,
+.fancyNav li:target:after {
+    /* This property triggers the CSS3 transition */
+    opacity: 1;
+}
+
+.fancyNav:hover li.selected:after,
+.fancyNav:hover li:target:after {
+    /* Hides the targeted li when we are hovering on the UL */
+    opacity: 0;
+}
+
+.fancyNav li.selected:hover:after,
+.fancyNav li:target:hover:after {
+    opacity: 1 !important;
+}
+
+/* Styling the anchor elements */
+
+.fancyNav li a {
+    color: #5d5d5d;
+    display: inline-block;
+    font: 20px/1 Lobster, Arial, sans-serif;
+    padding: 12px 35px 14px;
+    position: relative;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+    z-index: 2;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+
+/*</editor-fold desc="Top NavBar">*/
 
 /*<editor-fold desc="Header & Footer">*/
-header, footer {
-    height: var(--headerHeight);
+header:after, footer:after {
     position: fixed;
-    background-color: white;
     width: 100%;
     display: inline-block;
+    content: "";
+    clear: both;
+    vertical-align: middle;
+}
+
+header:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
 }
 
 header {
+    height: var(--headerHeight);
+    display: inline-flex;
+    vertical-align: middle;
+    width: 100%;
     top: 0;
+    background: linear-gradient(90deg, midnightblue, dodgerblue);
 }
 
 footer {
     bottom: 0;
+    height: var(--footerHeight);
 }
 
-#logo
-{
-    content: url("http://www.logoeps.net/wp-content/uploads/2016/12/pac-man-logo1.png");
-    width: 25%;
+#logo {
+    float: left;
+    content: url("../Images/Logo.png");
+    height: 100%;
+}
+
+#navBar {
+    /*text-align: center;*/
+    /*align-content: center;*/
+    vertical-align: middle;
+    align-items: center;
+    alignment: center;
+    /*float: inherit;*/
+    /*width: auto;*/
+    /*left:100%;*/
+}
+
+#namesDiv {
+    float: right;
 }
 
 /*</editor-fold>*/
@@ -94,9 +214,71 @@ footer {
 #ContentDiv {
     position: absolute;
     top: var(--headerHeight);
-    bottom: var(--headerHeight);
+    bottom: var(--footerHeight);
     left: 0;
     right: 0;
+}
+
+#WelcomeDiv {
+    height: 100%;
+    background: url("../Images/bg3.jpg") top;
+    background-size: cover;
+}
+
+@font-face {
+    font-family: PacFont;
+    src: url("../Fonts/PacFont.ttf");
+}
+
+#innerWelcomeDiv {
+    margin-top: 10%;
+    height: 78%;
+    text-align: center;
+    font-family: PacFont, serif;
+    color: yellow;
+    font-size: 50px;
+}
+
+.welcomeButton {
+    -moz-box-shadow: 0 0 0 2px #9fb4f2;
+    -webkit-box-shadow: 0 0 0 2px #9fb4f2;
+    box-shadow: 0 0 0 2px #9fb4f2;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7892c2), color-stop(1, #476e9e));
+    background: -moz-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+    background: -webkit-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+    background: -o-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+    background: -ms-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+    background: linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e', GradientType=0);
+    background-color: #7892c2;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid #4e6096;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: PacFont, serif;
+    font-size: 19px;
+    padding: 12px 37px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #283966;
+}
+
+.welcomeButton:hover {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
+    background: -moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+    background: -webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+    background: -o-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+    background: -ms-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+    background: linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2', GradientType=0);
+    background-color: #476e9e;
+}
+
+.welcomeButton:active {
+    position: relative;
+    top: 1px;
 }
 
 /*<editor-fold desc="Game">*/
