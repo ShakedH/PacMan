@@ -25,9 +25,11 @@
     </header>
     <div id="ContentDiv">
         <div id="WelcomeDiv" class="MainWinInformationDiv">
-            Welcome!
-            <button onclick="OpenDiv('LoginDiv')">Login</button>
-            <button onclick="OpenDiv('SignUpDiv')">Sign Up</button>
+            <div id="innerWelcomeDiv">
+                <div id="welcomeText"> Welcome!</div>
+                <button onclick="OpenDiv('LoginDiv')" class="welcomeButton">Login</button>
+                <button onclick="OpenDiv('SignUpDiv')" class="welcomeButton">Sign Up</button>
+            </div>
         </div>
 
         <div id="SignUpDiv" class="MainWinInformationDiv" style="visibility: hidden">

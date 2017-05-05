@@ -221,8 +221,64 @@ footer {
 
 #WelcomeDiv {
     height: 100%;
-    background: url("../Images/bg3.jpg") center;
+    background: url("../Images/bg3.jpg") top;
     background-size: cover;
+}
+
+@font-face {
+    font-family: PacFont;
+    src: url("../Fonts/PacFont.ttf");
+}
+
+#innerWelcomeDiv {
+    margin-top: 10%;
+    height: 78%;
+    text-align: center;
+    font-family: PacFont, serif;
+    color: yellow;
+    font-size: 50px;
+}
+
+.welcomeButton {
+    -moz-box-shadow: 0 0 0 2px #9fb4f2;
+    -webkit-box-shadow: 0 0 0 2px #9fb4f2;
+    box-shadow: 0 0 0 2px #9fb4f2;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7892c2), color-stop(1, #476e9e));
+    background: -moz-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+    background: -webkit-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+    background: -o-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+    background: -ms-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+    background: linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e', GradientType=0);
+    background-color: #7892c2;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid #4e6096;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: PacFont, serif;
+    font-size: 19px;
+    padding: 12px 37px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #283966;
+}
+
+.welcomeButton:hover {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
+    background: -moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+    background: -webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+    background: -o-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+    background: -ms-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+    background: linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2', GradientType=0);
+    background-color: #476e9e;
+}
+
+.welcomeButton:active {
+    position: relative;
+    top: 1px;
 }
 
 /*<editor-fold desc="Game">*/
