@@ -334,7 +334,7 @@ function Draw()
             entity.y = row * TILE_SIZE;
 
             if (HasPacman(col, row))
-                DrawPacman(entityCenter);
+                DrawPacman(entity);
             else if (HasGhost(col, row))
                 DrawGhost(entityCenter);
             else if (HasBonus(col, row))
