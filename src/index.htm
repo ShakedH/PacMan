@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <script src="jquery-3.2.1.min.js"></script>
     <script src="PageJS.js" type="text/javascript"></script>
     <script src="GameJS.js" type="text/javascript"></script>
     <link rel="stylesheet" href="CSS.css">
+
 </head>
+
 <body>
     <header>
         <div id="logo"></div>
-        <menu>
-            <nav class="clearfix">
-                <ul class="clearfix">
-                    <li><a href="#">Welcome</a></li>
-                    <li><a href="#" onclick="OpenDiv('SignUpDiv')">Register</a></li>
-                    <li><a href="#"onclick="OpenDiv('LoginDiv')">Login</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-            </nav>
-        </menu>
+        <div id="username" style="float: left"></div>
+        <div id="navBar">
+            <ul class="fancyNav">
+                <li><a href="#" onclick="OpenDiv('WelcomeDiv')">Welcome</a></li>
+                <li><a href="#" onclick="OpenDiv('SignUpDiv')">Register</a></li>
+                <li><a href="#" onclick="OpenDiv('LoginDiv')">Login</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </div>
+        <div id="namesDiv"></div>
     </header>
-    <!--<menu>-->
-        <!--<div id="sideNavBar" class="sidenav">-->
-            <!--<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>-->
-            <!--<a href="#" onclick="OpenDiv('SignUpDiv')">Sign Up</a>-->
-            <!--<a href="#" onclick="OpenDiv('LoginDiv')">Login</a>-->
-            <!--<a href="#">About</a>-->
-        <!--</div>-->
-    <!--</menu>-->
     <div id="ContentDiv">
         <div id="WelcomeDiv" class="MainWinInformationDiv">
             Welcome!
@@ -100,4 +95,5 @@
 
     </footer>
 </body>
+
 </html>
