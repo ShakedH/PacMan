@@ -248,7 +248,7 @@ function PositionPacman()
 
 function StartInterval()
 {
-    interval = setInterval(UpdatePositionAndDraw, 500);
+    interval = setInterval(UpdatePositionAndDraw, 300);
 }
 
 function UpdatePositionAndDraw()

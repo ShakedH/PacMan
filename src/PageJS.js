@@ -74,6 +74,9 @@ function AddUser()
 
     document.getElementById("SignUpForm").reset();
     Users.push(user);
+    MessageToUser("Signed up successfully");
+    UpdateCurrentUser(userName.value);
+    StartGame();
     return true;
 }
 

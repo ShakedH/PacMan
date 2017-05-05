@@ -208,19 +208,39 @@ footer {
     background-size: cover;
 }
 
-#SignUpDiv {
-    color: yellow;
-}
-
 #WelcomeDiv {
     top: var(--headerHeight);
-    font-family: PacFont, serif;
     color: yellow;
     font-size: 50px;
 }
 
 #welcomeText {
     margin-bottom: 4%;
+}
+
+#SignUpDiv {
+    top: calc(0.25 * var(--headerHeight));
+    color: yellow;
+    display: inline-block;
+}
+
+.SignUpBr {
+    line-height: 40px;
+}
+
+#LoginDiv {
+    top: calc(1.5 * var(--headerHeight));
+    text-align: center;
+}
+
+.FormLabel {
+    white-space: pre-wrap;
+    font-size: 18px;
+    color: yellow;
+}
+
+input {
+    padding: 0.3%;
 }
 
 /*<editor-fold desc="Buttons">*/
@@ -290,6 +310,7 @@ footer {
     margin-left: calc(var(--scoreBoardWidth) * 2);
     width: calc(100% - (var(--scoreBoardWidth)));
     height: 100%;
+    text-align: left;
 }
 
 /*</editor-fold>*/
