@@ -18,6 +18,7 @@ body {
     font-family: PacFont;
     src: url("../Fonts/PacFont.ttf");
 }
+
 /*</editor-fold>*/
 
 /*<editor-fold desc="Top NavBar">*/
@@ -196,32 +197,30 @@ footer {
     font-family: PacFont, serif;
 }
 
-#SignUpFormDiv {
-    float: left;
-}
-
 #ContentDiv {
+    text-align: center;
     position: absolute;
     top: var(--headerHeight);
     bottom: var(--footerHeight);
     left: 0;
     right: 0;
-    background: url("../Images/bg3.jpg") top;
+    background: url("../Images/bg.jpg") top;
     background-size: cover;
 }
 
-#innerWelcomeDiv {
+#SignUpDiv {
+    color: yellow;
+}
+
+#WelcomeDiv {
     top: var(--headerHeight);
-    bottom: var(--footerHeight);
-    margin-top: 7%;
     font-family: PacFont, serif;
     color: yellow;
     font-size: 50px;
-    text-align: center;
 }
 
 #welcomeText {
-    margin-bottom: 3%;
+    margin-bottom: 4%;
 }
 
 /*<editor-fold desc="Buttons">*/
