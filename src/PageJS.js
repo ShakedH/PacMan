@@ -24,16 +24,6 @@ $(document).ready(function ()
         ];
 });
 
-function openNav()
-{
-    document.getElementById("sideNavBar").style.width = "250px";
-}
-
-function closeNav()
-{
-    document.getElementById("sideNavBar").style.width = "0";
-}
-
 function OpenDiv(divID)
 {
     // Close Other Divs
@@ -124,10 +114,7 @@ function StartGame()
     var div = document.getElementById("CanvasDiv");
     var ctx = canvas.getContext("2d");
     var canvasSize = Math.min(div.clientHeight, div.clientWidth);
-    var canvasRightMargin = (Math.max(div.offsetHeight, div.offsetWidth) - canvasSize) / 2;
     ctx.canvas.width = ctx.canvas.height = canvasSize;
-    canvas.style.right = canvasRightMargin + 'px';
-    canvas.style.position = "absolute";
 }
 
 //region Verification Functions

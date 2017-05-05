@@ -27,8 +27,8 @@
         <div id="WelcomeDiv" class="MainWinInformationDiv">
             <div id="innerWelcomeDiv">
                 <div id="welcomeText"> Welcome!</div>
-                <button onclick="OpenDiv('LoginDiv')" class="welcomeButton">Login</button>
-                <button onclick="OpenDiv('SignUpDiv')" class="welcomeButton">Sign Up</button>
+                <button onclick="OpenDiv('LoginDiv')" class="customButton">Login</button>
+                <button onclick="OpenDiv('SignUpDiv')" class="customButton">Sign Up</button>
             </div>
         </div>
 
@@ -57,7 +57,7 @@
                 <input id="BirthDateSignUp" type="date" placeholder="Birth Date" name="birthDate"
                        oninput="ResetValidation(this)" required>
                 <br/>
-                <input type="submit" onclick="AddUser()">
+                <input type="submit" onclick="AddUser()" class="customButton">
             </form>
             <img src="" id="test"/>
         </div>
@@ -74,7 +74,7 @@
                 <input id="PasswordLogin" type="password" placeholder="Password" name="password"
                        oninput="ResetValidation(this)">
                 <br/>
-                <button type="submit" onclick="Login()">Login</button>
+                <button type="submit" onclick="Login()" class="customButton">Login</button>
             </form>
         </div>
 
@@ -86,15 +86,20 @@
                 TIME:
                 <input id="lblTime" type="text" class="ScoreBoardText"/>
                 <br/>
-                <button id="StartButton" onclick="Start()">Start</button>
+                <button id="StartButton" onclick="Start()" class="customButton">Start</button>
             </div>
             <div id="CanvasDiv">
                 <canvas id="canvas"></canvas>
             </div>
         </div>
-    </div>
-    <footer id="footer">
 
+        <div id="AboutDiv" class="MainWinInformationDiv" style="visibility: hidden">
+
+        </div>
+    </div>
+    <footer>
+        The game was developed by Shaked Hazon &amp; Ron Michaeli, Ben-Gurion University.<br/>
+        Contact us: hazons@post.bgu.ac.il, ronmicha@post.bgu.ac.il
     </footer>
 </body>
 
