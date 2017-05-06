@@ -8,7 +8,8 @@ var BoardEntity =
         Obstacle: 4,
         Bonus: 5,
         Food_15: 6,
-        Food_25: 7
+        Food_25: 7,
+        Ice: 8
     };
 var Keys =
     {
@@ -61,7 +62,6 @@ var canvas;
 var lblScore;
 var lblTime;
 var canvasContext;
-var pacShape;
 var board;
 var score;
 var pacColor;
@@ -72,10 +72,15 @@ var lives;
 var foodsOnBoard;
 var pathsList;
 var numOfGhosts;
-var ghostsArray;
 var ghostsPrevEntityQueue;
-var bonus;
 var bonusPrevEntityQueue;
+var iceActive;
+
+// entities:
+var pacShape;
+var ghostsArray;
+var bonus;
+var ice;
 //endregion
 
 function Start()
@@ -104,10 +109,12 @@ function InitializeMembers()
     bonusPrevEntityQueue = new Array();
     pacShape = new Object();
     bonus = new Object();
+    ice = new Object();
     keysDown = new Object();
     score = 0;
     lives = 3;
     numOfGhosts = 3;
+    iceActive = false;
     pacColor = "yellow";
     foodsOnBoard = MAX_FOOD;
     TILE_SIZE = Math.min(canvas.width, canvas.height) / ROWS;
@@ -228,6 +235,21 @@ function PositionEntities()
         }
         pathsList.splice(i, 1);
     }
+
+    // Position Ice
+    while (true)
+    {
+        i = Math.floor(Math.random() * pathsList.length);
+        row = pathsList[i].row;
+        col = pathsList[i].col;
+        if (board[col][row] == BoardEntity.Path)
+        {
+            ice.i = col;
+            ice.j = row;
+            break;
+        }
+        pathsList.splice(i, 1);
+    }
 }
 //endregion
 
@@ -264,7 +286,16 @@ function UpdatePositionAndDraw()
     {
         bonus = undefined;
         score += 50;
-        board[pacShape.i][pacShape.j] = BoardEntity.Path
+    }
+    else if (HasIce(pacShape.i, pacShape.j))
+    {
+        ice = undefined;
+        iceActive = true;
+        // Wait 3 seconds and change back to false:
+        setTimeout(function ()
+        {
+            iceActive = false;
+        }, 3000); // Start new thread with ActivateIce
     }
 
     MovePacman();
@@ -291,9 +322,12 @@ function UpdatePositionAndDraw()
         window.alert("Game completed");
     }
 
-    board[pacShape.i][pacShape.j] = BoardEntity.Path
-    MoveGhosts();
-    MoveBonus();
+    board[pacShape.i][pacShape.j] = BoardEntity.Path;
+    if (!iceActive)
+    {
+        MoveGhosts();
+        MoveBonus();
+    }
     Draw();
 }
 
@@ -330,16 +364,14 @@ function Draw()
             entityCenter.x = col * TILE_SIZE + HALF_TILE_SIZE;
             entityCenter.y = row * TILE_SIZE + HALF_TILE_SIZE;
 
-            var entity = new Object();
-            entity.x = col * TILE_SIZE;
-            entity.y = row * TILE_SIZE;
-
             if (HasPacman(col, row))
                 DrawPacman(entityCenter);
             else if (HasGhost(col, row))
                 DrawGhost(entityCenter);
             else if (HasBonus(col, row))
                 DrawBonus(entityCenter);
+            else if (HasIce(col, row))
+                DrawIce(entityCenter);
             else if (board[col][row] == BoardEntity.Obstacle)
                 DrawObstacle(entityCenter);
             else if (board[col][row] == BoardEntity.Food_5 || board[col][row] == BoardEntity.Food_15 ||
@@ -400,7 +432,7 @@ function DrawPacman(pacman)
         canvasContext.save();
         canvasContext.translate(x, y);
         canvasContext.scale(-1, 1);
-        canvasContext.drawImage(image,  -(TILE_SIZE / 2), -(TILE_SIZE / 2), TILE_SIZE, TILE_SIZE);
+        canvasContext.drawImage(image, -(TILE_SIZE / 2), -(TILE_SIZE / 2), TILE_SIZE, TILE_SIZE);
         canvasContext.restore();
     }
 }
@@ -448,6 +480,13 @@ function DrawFood(foodCenter, entity)
     canvasContext.arc(foodCenter.x, foodCenter.y, TILE_SIZE / 4, 0, 2 * Math.PI); // circle
     canvasContext.fillStyle = color; //color
     canvasContext.fill();
+}
+
+function DrawIce(iceCenter)
+{
+    var image = new Image();
+    image.src = '../Images/ice.png';
+    canvasContext.drawImage(image, iceCenter.x - TILE_SIZE / 2, iceCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 }
 //endregion
 
@@ -525,7 +564,8 @@ function CanMove(col, row)
     return col >= 0 && col < COLS &&
         row >= 0 && row < ROWS &&
         board[col][row] != BoardEntity.Obstacle &&
-        !(HasGhost(col, row));
+        !(HasGhost(col, row)) &&
+        !(HasIce(col, row));
 }
 
 function HasGhost(col, row)
@@ -549,6 +589,13 @@ function HasBonus(col, row)
     if (bonus == null)
         return false;
     return bonus.j == row && bonus.i == col;
+}
+
+function HasIce(col, row)
+{
+    if (ice == null)
+        return false;
+    return ice.j == row && ice.i == col;
 }
 
 // region Ghosts movement functions
