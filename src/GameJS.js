@@ -334,7 +334,7 @@ function Draw()
             entity.y = row * TILE_SIZE;
 
             if (HasPacman(col, row))
-                DrawPacman(entity);
+                DrawPacman(entityCenter);
             else if (HasGhost(col, row))
                 DrawGhost(entityCenter);
             else if (HasBonus(col, row))
@@ -352,14 +352,27 @@ function DrawPacman(pacman)
 {
     var image = new Image();
     image.src = '../Images/pacman.jpg';
-    canvasContext.drawImage(image, pacman.x, pacman.y, TILE_SIZE, TILE_SIZE);
-    // drawRotatedImage(image, pacman.x, pacman.y, 90);
-
-    var TO_RADIANS = Math.PI / 180;
+    var direction;
+    switch (GetKeyPressed())
+    {
+        case Keys.Up:
+            drawRotatedImage(image, pacman.x, pacman.y, 270);
+            break;
+        case Keys.Down:
+            drawRotatedImage(image, pacman.x, pacman.y, 90);
+            break;
+        case Keys.Right:
+            drawRotatedImage(image, pacman.x, pacman.y, 0);
+            break;
+        case Keys.Left:
+            drawRotatedImage(image, pacman.x, pacman.y, 180);
+            // drawFlippedImage(image, pacman.x, pacman.y);
+            break;
+    }
 
     function drawRotatedImage(image, x, y, angle)
     {
-
+        var TO_RADIANS = Math.PI / 180;
         // save the current co-ordinate system
         // before we screw with it
         canvasContext.save();
@@ -373,9 +386,18 @@ function DrawPacman(pacman)
 
         // draw it up and to the left by half the width
         // and height of the image
-        canvasContext.drawImage(image, (-TILE_SIZE / 2), (-TILE_SIZE / 2));
+        canvasContext.drawImage(image, -(TILE_SIZE / 2), -(TILE_SIZE / 2), TILE_SIZE, TILE_SIZE);
 
         // and restore the co-ords to how they were when we began
+        canvasContext.restore();
+    }
+
+    function drawFlippedImage(image, x, y)
+    {
+        canvasContext.save();
+        canvasContext.translate(x,y);
+        canvasContext.scale(-1, 1);
+        canvasContext.drawImage(image, x, y, -TILE_SIZE, -TILE_SIZE);
         canvasContext.restore();
     }
 }
