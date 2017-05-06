@@ -101,6 +101,9 @@ function InitializeMembers()
     lblTime = document.getElementById("lblTime");
     canvasContext = canvas.getContext("2d");
 
+    // Show all lives:
+    $(".LifeImg").css('visibility','visible');
+
     startTime = new Date();
     board = new Array();
     pathsList = new Array();
@@ -506,7 +509,9 @@ function DrawIce(iceCenter)
 
 function Die()
 {
+    var LifeId = "Life"+lives;
     lives--;
+    document.getElementById(LifeId).style.visibility = "hidden";
     window.clearInterval(interval);
     interval = undefined;
     if (lives == 0)
