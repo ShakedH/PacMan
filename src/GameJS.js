@@ -84,6 +84,8 @@ function Start()
     FillBoardWithPathsAndWalls();
     PositionEntities();
     StartInterval();
+    document.getElementById("HiddenAtFirst").style.visibility = 'visible';
+    document.getElementById("StartButton").innerHTML = "New Game";
 }
 
 //region Init & board creation functions

@@ -195,7 +195,6 @@ footer {
 .MainWinInformationDiv {
     width: 100%;
     height: inherit;
-    position: absolute;
     top: 0;
     left: 0;
     font-family: PacFont, serif;
@@ -213,6 +212,7 @@ footer {
 }
 
 #WelcomeDiv {
+    position: absolute;
     top: var(--headerHeight);
     color: yellow;
     font-size: 50px;
@@ -223,6 +223,7 @@ footer {
 }
 
 #SignUpDiv {
+    position: absolute;
     top: calc(0.25 * var(--headerHeight));
     color: yellow;
     display: inline-block;
@@ -233,6 +234,7 @@ footer {
 }
 
 #LoginDiv {
+    position: absolute;
     top: calc(1.5 * var(--headerHeight));
     text-align: center;
 }
@@ -299,6 +301,7 @@ footer {
 .close:hover {
     background: #00d9ff;
 }
+
 /*</editor-fold>*/
 
 /*<editor-fold desc="Buttons">*/
@@ -350,7 +353,7 @@ footer {
 #GameDiv {
     overflow: hidden;
     height: 100%;
-    position: relative;
+    /*position: relative;*/
     background-color: black;
 }
 
@@ -359,14 +362,57 @@ footer {
     float: left;
     height: 100%;
     color: yellow;
-    background-color: #00d9ff;
+    background-color: dimgray;
+    display: table;
+    text-align: center;
+}
+
+#5ptsColor{
+    float: left;
+}
+
+select option[value="1"] {
+    background-color: blue;
+}
+
+select option[value="2"] {
+    background-color: red;
+}
+
+select option[value="3"] {
+    background-color: yellow;
+}
+
+select option[value="4"] {
+    background-color: green;
+}
+
+select option[value="5"] {
+    background-color: white;
+}
+
+select option[value="6"] {
+    background-color: purple;
+}
+
+select option[value="7"] {
+    background-color: pink;
+}
+
+select option[value="8"] {
+    background-color: gray;
 }
 
 #CanvasDiv {
-    margin-left: calc(var(--scoreBoardWidth) * 2);
+    margin-left: calc(var(--scoreBoardWidth) * 1.5);
     width: calc(100% - (var(--scoreBoardWidth)));
     height: 100%;
     text-align: left;
+}
+
+#StartButton {
+    display: table-cell;
+    bottom: 0;
 }
 
 /*</editor-fold>*/

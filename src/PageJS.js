@@ -118,6 +118,8 @@ function StartGame()
     var ctx = canvas.getContext("2d");
     var canvasSize = Math.min(div.clientHeight, div.clientWidth);
     ctx.canvas.width = ctx.canvas.height = canvasSize;
+    document.getElementById("lblScore").innerHTML = "0";
+    document.getElementById("lblTime").innerHTML = "0";
 }
 
 //region Verification Functions

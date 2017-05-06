@@ -101,13 +101,42 @@
 
         <div id="GameDiv" class="MainWinInformationDiv" style="visibility: hidden">
             <div id="ScoreBoard">
-                <div id="HiddenAtFirst">
-                    <p>SCORE:</p>
+                <div id="HiddenAtFirst" style="visibility: hidden">
+                    <p>Score:</p>
                     <div id="lblScore" class="ScoreBoardText"></div>
-                    <br/>
-                    <p>TIME:</p>
+                    <p>Time Remaining:</p>
                     <div id="lblTime" class="ScoreBoardText"></div>
-                    <br/>
+                </div>
+                <div id="AlwaysVisible">
+                    <div id="FoodSelectionDiv">
+                        <p>Food Color</p>
+                        <div id="5ptsColor">
+                            <p>5 pts</p>
+                            <select id="5ptsSelect" style="width: 90px;">
+                                <option value="1" selected="selected"></option>
+                                <option value="2"></option>
+                                <option value="3"></option>
+                                <option value="4"></option>
+                                <option value="5"></option>
+                                <option value="6"></option>
+                                <option value="7"></option>
+                                <option value="8"></option>
+                            </select>
+                        </div>
+                        <div id="15ptsColor">
+                            <p>15 pts</p>
+                            <select id="15ptsSelect" style="width: 90px;">
+                                <option value="1" selected="selected"></option>
+                                <option value="2"></option>
+                                <option value="3"></option>
+                                <option value="4"></option>
+                                <option value="5"></option>
+                                <option value="6"></option>
+                                <option value="7"></option>
+                                <option value="8"></option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <button id="StartButton" onclick="Start()" class="customButton">Start</button>
             </div>
