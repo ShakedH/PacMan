@@ -463,23 +463,37 @@ function DrawObstacle(obstacleCenter)
 
 function DrawFood(foodCenter, entity)
 {
-    var color;
+    var color, score;
+    var radius = TILE_SIZE / 3;
     switch (entity)
     {
         case BoardEntity.Food_5:
-            color = "black";
+            color = "wheat";
+            score = 5;
             break;
         case BoardEntity.Food_15:
             color = "blue";
+            score = 15;
             break;
         case BoardEntity.Food_25:
             color = "gold";
+            score = 25;
             break;
     }
     canvasContext.beginPath();
-    canvasContext.arc(foodCenter.x, foodCenter.y, TILE_SIZE / 4, 0, 2 * Math.PI); // circle
+    canvasContext.arc(foodCenter.x, foodCenter.y, radius, 0, 2 * Math.PI); // circle
+    canvasContext.closePath();
     canvasContext.fillStyle = color; //color
     canvasContext.fill();
+
+    // Text on food will be black, unless the food is black:
+    canvasContext.fillStyle = color == "black" ? "white" : "black";
+    var font = "bold " + radius + "px serif";
+    canvasContext.font = font;
+    // Move it down by half the text height and left by half the text width
+    var width = canvasContext.measureText(score).width;
+    var height = canvasContext.measureText("w").width; // this is a GUESS of height
+    canvasContext.fillText(score, foodCenter.x - (width / 2), foodCenter.y + (height / 2));
 }
 
 function DrawIce(iceCenter)
