@@ -24,6 +24,11 @@ $(document).ready(function ()
         ];
 });
 
+function ChangeColor(id, color)
+{
+    document.getElementById(id).style.backgroundColor = color;
+}
+
 function OpenDiv(divID)
 {
     // Close Other Divs

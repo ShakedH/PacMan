@@ -363,45 +363,52 @@ footer {
     height: 100%;
     color: yellow;
     background-color: dimgray;
-    display: table;
-    text-align: center;
 }
 
-#5ptsColor{
-    float: left;
+#FoodSelectionDiv {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
 }
 
-select option[value="1"] {
+/*<editor-fold desc="FoodColor">*/
+#5ptsColor, #15ptsColor, #25ptsColor {
+    display: inline-block;
+}
+
+select option[value="blue"] {
     background-color: blue;
 }
 
-select option[value="2"] {
+select option[value="red"] {
     background-color: red;
 }
 
-select option[value="3"] {
+select option[value="yellow"] {
     background-color: yellow;
 }
 
-select option[value="4"] {
+select option[value="green"] {
     background-color: green;
 }
 
-select option[value="5"] {
+select option[value="white"] {
     background-color: white;
 }
 
-select option[value="6"] {
+select option[value="purple"] {
     background-color: purple;
 }
 
-select option[value="7"] {
+select option[value="pink"] {
     background-color: pink;
 }
 
-select option[value="8"] {
+select option[value="gray"] {
     background-color: gray;
 }
+
+/*</editor-fold>*/
 
 #CanvasDiv {
     margin-left: calc(var(--scoreBoardWidth) * 1.5);
