@@ -351,7 +351,6 @@ function DrawPacman(pacman)
 {
     var image = new Image();
     image.src = '../Images/pacman.jpg';
-    var direction;
     switch (GetKeyPressed())
     {
         case Keys.Up:
@@ -360,14 +359,17 @@ function DrawPacman(pacman)
         case Keys.Down:
             drawRotatedImage(image, pacman.x, pacman.y, 90);
             break;
+        case Keys.Left:
+            // drawRotatedImage(image, pacman.x, pacman.y, 180);
+            drawFlippedImage(image, pacman.x, pacman.y);
+            break;
+        default:
         case Keys.Right:
             drawRotatedImage(image, pacman.x, pacman.y, 0);
             break;
-        case Keys.Left:
-            drawRotatedImage(image, pacman.x, pacman.y, 180);
-            // drawFlippedImage(image, pacman.x, pacman.y);
-            break;
     }
+
+    var direction;
 
     function drawRotatedImage(image, x, y, angle)
     {
@@ -396,7 +398,7 @@ function DrawPacman(pacman)
         canvasContext.save();
         canvasContext.translate(x, y);
         canvasContext.scale(-1, 1);
-        canvasContext.drawImage(image, x, y, -TILE_SIZE, -TILE_SIZE);
+        canvasContext.drawImage(image,  -(TILE_SIZE / 2), -(TILE_SIZE / 2), TILE_SIZE, TILE_SIZE);
         canvasContext.restore();
     }
 }
