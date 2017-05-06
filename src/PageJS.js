@@ -121,6 +121,12 @@ function StartGame()
     document.getElementById("lblTime").innerHTML = "0";
 }
 
+function ChangeColorSelected(select)
+{
+    var color = select.options[select.selectedIndex].value;
+    select.style.backgroundColor = color;
+}
+
 //region Verification Functions
 function ResetValidation(input)
 {

@@ -76,6 +76,10 @@ var ghostsPrevEntityQueue;
 var bonusPrevEntityQueue;
 var iceActive;
 
+var fivePtsColor;
+var fifteenPtsColor;
+var twentyFivePtsColor;
+
 // entities:
 var pacShape;
 var ghostsArray;
@@ -100,6 +104,13 @@ function InitializeMembers()
     lblScore = document.getElementById("lblScore");
     lblTime = document.getElementById("lblTime");
     canvasContext = canvas.getContext("2d");
+
+    var fiveColorInput = document.getElementById("5ptsSelect");
+    var fifteenColorInput = document.getElementById("15ptsSelect");
+    var twentyFiveColorInput = document.getElementById("25ptsSelect");
+    fivePtsColor = fiveColorInput.options[fiveColorInput.selectedIndex].value;
+    fifteenPtsColor = fifteenColorInput.options[fifteenColorInput.selectedIndex].value;
+    twentyFivePtsColor = twentyFiveColorInput.options[twentyFiveColorInput.selectedIndex].value;
 
     // Show all lives:
     $(".LifeImg").css('visibility', 'visible');
@@ -469,15 +480,15 @@ function DrawFood(foodCenter, entity)
     switch (entity)
     {
         case BoardEntity.Food_5:
-            color = "wheat";
+            color = fivePtsColor;
             score = 5;
             break;
         case BoardEntity.Food_15:
-            color = "blue";
+            color = fifteenPtsColor;
             score = 15;
             break;
         case BoardEntity.Food_25:
-            color = "gold";
+            color = twentyFivePtsColor;
             score = 25;
             break;
     }

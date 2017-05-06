@@ -120,37 +120,12 @@
                     </div>
                 </div>
                 <div id="AlwaysVisible">
-                    <div id="FoodSelectionDiv">
-                        <p>Food Color</p>
-                        <div id="5ptsColor">
-                            <p>5 pts</p>
-                            <select id="5ptsSelect" style="width: 90px;">
-                                <option value="1" selected="selected"></option>
-                                <option value="2"></option>
-                                <option value="3"></option>
-                                <option value="4"></option>
-                                <option value="5"></option>
-                                <option value="6"></option>
-                                <option value="7"></option>
-                                <option value="8"></option>
-                            </select>
-                        </div>
-                        <div id="15ptsColor">
-                            <p>15 pts</p>
-                            <select id="15ptsSelect" style="width: 90px;">
-                                <option value="1" selected="selected"></option>
-                                <option value="2"></option>
-                                <option value="3"></option>
-                                <option value="4"></option>
-                                <option value="5"></option>
-                                <option value="6"></option>
-                                <option value="7"></option>
-                                <option value="8"></option>
-                            </select>
-                        </div>
-                    </div>
+                    <!--ToDo-->
                 </div>
+                <span style="display: inline-block; vertical-align: top">
+                <a href="#SettingsModal" style="margin: 5px;">settings</a>
                 <button id="StartButton" onclick="Start()" class="customButton">Start</button>
+                    </span>
             </div>
             <div id="CanvasDiv">
                 <canvas id="canvas"></canvas>
@@ -180,6 +155,58 @@
                 <h3>Have fun! </h3>
             </div>
         </div>
+
+        <div id="SettingsModal" class="modalDialog">
+            <div>
+                <a href="#close" title="Close" class="close">X</a>
+                <div id="FoodSelectionDiv">
+                    <p>Food Color</p>
+                    <div id="5ptsColor">
+                        <p>5 pts</p>
+                        <select id="5ptsSelect" style="width: 90px;background: blue;"
+                                onchange="ChangeColorSelected(this)">
+                            <option value="blue" selected="selected"></option>
+                            <option value="red"></option>
+                            <option value="yellow"></option>
+                            <option value="green"></option>
+                            <option value="white"></option>
+                            <option value="purple"></option>
+                            <option value="pink"></option>
+                            <option value="gray"></option>
+                        </select>
+                    </div>
+                    <div id="15ptsColor">
+                        <p>15 pts</p>
+                        <select id="15ptsSelect" style="width: 90px;background: red"
+                                onchange="ChangeColorSelected(this)">
+                            <option value="blue"></option>
+                            <option value="red" selected="selected"></option>
+                            <option value="yellow"></option>
+                            <option value="green"></option>
+                            <option value="white"></option>
+                            <option value="purple"></option>
+                            <option value="pink"></option>
+                            <option value="gray"></option>
+                        </select>
+                    </div>
+                    <div id="25ptsColor">
+                        <p>25 pts</p>
+                        <select id="25ptsSelect" style="width: 90px; background: green;"
+                                onchange="ChangeColorSelected(this)">
+                            <option value="blue"></option>
+                            <option value="red"></option>
+                            <option value="yellow"></option>
+                            <option value="green" selected="selected"></option>
+                            <option value="white"></option>
+                            <option value="purple"></option>
+                            <option value="pink"></option>
+                            <option value="gray"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     <footer>
         The game was developed by Shaked Hazon &amp; Ron Michaeli, Ben-Gurion University.<br/>
