@@ -104,7 +104,6 @@ function Login()
 
 function UpdateCurrentUser(userName)
 {
-    document.getElementById("username").innerHTML = userName;
 }
 
 function GetUsers(userName)
@@ -125,6 +124,12 @@ function StartGame()
     ctx.canvas.width = ctx.canvas.height = canvasSize;
     document.getElementById("lblScore").innerHTML = "0";
     document.getElementById("lblTime").innerHTML = "0";
+}
+
+function ChangeColorSelected(select)
+{
+    var color = select.options[select.selectedIndex].value;
+    select.style.backgroundColor = color;
 }
 
 //region Verification Functions

@@ -8,7 +8,8 @@ var BoardEntity =
         Obstacle: 4,
         Bonus: 5,
         Food_15: 6,
-        Food_25: 7
+        Food_25: 7,
+        Ice: 8
     };
 var Keys =
     {
@@ -61,7 +62,6 @@ var canvas;
 var lblScore;
 var lblTime;
 var canvasContext;
-var pacShape;
 var board;
 var score;
 var pacColor;
@@ -72,10 +72,19 @@ var lives;
 var foodsOnBoard;
 var pathsList;
 var numOfGhosts;
-var ghostsArray;
 var ghostsPrevEntityQueue;
-var bonus;
 var bonusPrevEntityQueue;
+var iceActive;
+
+var fivePtsColor;
+var fifteenPtsColor;
+var twentyFivePtsColor;
+
+// entities:
+var pacShape;
+var ghostsArray;
+var bonus;
+var ice;
 //endregion
 
 function Start()
@@ -96,6 +105,16 @@ function InitializeMembers()
     lblTime = document.getElementById("lblTime");
     canvasContext = canvas.getContext("2d");
 
+    var fiveColorInput = document.getElementById("5ptsSelect");
+    var fifteenColorInput = document.getElementById("15ptsSelect");
+    var twentyFiveColorInput = document.getElementById("25ptsSelect");
+    fivePtsColor = fiveColorInput.options[fiveColorInput.selectedIndex].value;
+    fifteenPtsColor = fifteenColorInput.options[fifteenColorInput.selectedIndex].value;
+    twentyFivePtsColor = twentyFiveColorInput.options[twentyFiveColorInput.selectedIndex].value;
+
+    // Show all lives:
+    $(".LifeImg").css('visibility', 'visible');
+
     startTime = new Date();
     board = new Array();
     pathsList = new Array();
@@ -104,11 +123,12 @@ function InitializeMembers()
     bonusPrevEntityQueue = new Array();
     pacShape = new Object();
     bonus = new Object();
+    ice = new Object();
     keysDown = new Object();
     score = 0;
     lives = 3;
     numOfGhosts = 3;
-    pacColor = "yellow";
+    iceActive = false;
     foodsOnBoard = MAX_FOOD;
     TILE_SIZE = Math.min(canvas.width, canvas.height) / ROWS;
     HALF_TILE_SIZE = TILE_SIZE / 2;
@@ -228,6 +248,21 @@ function PositionEntities()
         }
         pathsList.splice(i, 1);
     }
+
+    // Position Ice
+    while (true)
+    {
+        i = Math.floor(Math.random() * pathsList.length);
+        row = pathsList[i].row;
+        col = pathsList[i].col;
+        if (board[col][row] == BoardEntity.Path)
+        {
+            ice.i = col;
+            ice.j = row;
+            break;
+        }
+        pathsList.splice(i, 1);
+    }
 }
 //endregion
 
@@ -264,7 +299,16 @@ function UpdatePositionAndDraw()
     {
         bonus = undefined;
         score += 50;
-        board[pacShape.i][pacShape.j] = BoardEntity.Path
+    }
+    else if (HasIce(pacShape.i, pacShape.j))
+    {
+        ice = undefined;
+        iceActive = true;
+        // Wait 3 seconds and change back to false:
+        setTimeout(function ()
+        {
+            iceActive = false;
+        }, 3000); // Start new thread with ActivateIce
     }
 
     MovePacman();
@@ -291,9 +335,12 @@ function UpdatePositionAndDraw()
         window.alert("Game completed");
     }
 
-    board[pacShape.i][pacShape.j] = BoardEntity.Path
-    MoveGhosts();
-    MoveBonus();
+    board[pacShape.i][pacShape.j] = BoardEntity.Path;
+    if (!iceActive)
+    {
+        MoveGhosts();
+        MoveBonus();
+    }
     Draw();
 }
 
@@ -330,16 +377,14 @@ function Draw()
             entityCenter.x = col * TILE_SIZE + HALF_TILE_SIZE;
             entityCenter.y = row * TILE_SIZE + HALF_TILE_SIZE;
 
-            var entity = new Object();
-            entity.x = col * TILE_SIZE;
-            entity.y = row * TILE_SIZE;
-
             if (HasPacman(col, row))
                 DrawPacman(entityCenter);
             else if (HasGhost(col, row))
                 DrawGhost(entityCenter);
             else if (HasBonus(col, row))
                 DrawBonus(entityCenter);
+            else if (HasIce(col, row))
+                DrawIce(entityCenter);
             else if (board[col][row] == BoardEntity.Obstacle)
                 DrawObstacle(entityCenter);
             else if (board[col][row] == BoardEntity.Food_5 || board[col][row] == BoardEntity.Food_15 ||
@@ -353,7 +398,6 @@ function DrawPacman(pacman)
 {
     var image = new Image();
     image.src = '../Images/pacman.jpg';
-    var direction;
     switch (GetKeyPressed())
     {
         case Keys.Up:
@@ -362,14 +406,17 @@ function DrawPacman(pacman)
         case Keys.Down:
             drawRotatedImage(image, pacman.x, pacman.y, 90);
             break;
+        case Keys.Left:
+            // drawRotatedImage(image, pacman.x, pacman.y, 180);
+            drawFlippedImage(image, pacman.x, pacman.y);
+            break;
+        default:
         case Keys.Right:
             drawRotatedImage(image, pacman.x, pacman.y, 0);
             break;
-        case Keys.Left:
-            drawRotatedImage(image, pacman.x, pacman.y, 180);
-            // drawFlippedImage(image, pacman.x, pacman.y);
-            break;
     }
+
+    var direction;
 
     function drawRotatedImage(image, x, y, angle)
     {
@@ -398,17 +445,16 @@ function DrawPacman(pacman)
         canvasContext.save();
         canvasContext.translate(x, y);
         canvasContext.scale(-1, 1);
-        canvasContext.drawImage(image, x, y, -TILE_SIZE, -TILE_SIZE);
+        canvasContext.drawImage(image, -(TILE_SIZE / 2), -(TILE_SIZE / 2), TILE_SIZE, TILE_SIZE);
         canvasContext.restore();
     }
 }
 
 function DrawBonus(bonusCenter)
 {
-    canvasContext.beginPath();
-    canvasContext.arc(bonusCenter.x, bonusCenter.y, TILE_SIZE / 2, 0, 2 * Math.PI); // circle
-    canvasContext.fillStyle = "pink"; //color
-    canvasContext.fill();
+    var image = new Image();
+    image.src = '../Images/bonus.png';
+    canvasContext.drawImage(image, bonusCenter.x - TILE_SIZE / 2, bonusCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 }
 
 function DrawGhost(ghostCenter)
@@ -429,29 +475,52 @@ function DrawObstacle(obstacleCenter)
 
 function DrawFood(foodCenter, entity)
 {
-    var color;
+    var color, score;
+    var radius = TILE_SIZE / 3;
     switch (entity)
     {
         case BoardEntity.Food_5:
-            color = "black";
+            color = fivePtsColor;
+            score = 5;
             break;
         case BoardEntity.Food_15:
-            color = "blue";
+            color = fifteenPtsColor;
+            score = 15;
             break;
         case BoardEntity.Food_25:
-            color = "gold";
+            color = twentyFivePtsColor;
+            score = 25;
             break;
     }
     canvasContext.beginPath();
-    canvasContext.arc(foodCenter.x, foodCenter.y, TILE_SIZE / 4, 0, 2 * Math.PI); // circle
+    canvasContext.arc(foodCenter.x, foodCenter.y, radius, 0, 2 * Math.PI); // circle
+    canvasContext.closePath();
     canvasContext.fillStyle = color; //color
     canvasContext.fill();
+
+    // Text on food will be black, unless the food is black:
+    canvasContext.fillStyle = color == "black" ? "white" : "black";
+    var font = "bold " + radius + "px serif";
+    canvasContext.font = font;
+    // Move it down by half the text height and left by half the text width
+    var width = canvasContext.measureText(score).width;
+    var height = canvasContext.measureText("w").width; // this is a GUESS of height
+    canvasContext.fillText(score, foodCenter.x - (width / 2), foodCenter.y + (height / 2));
+}
+
+function DrawIce(iceCenter)
+{
+    var image = new Image();
+    image.src = '../Images/ice.png';
+    canvasContext.drawImage(image, iceCenter.x - TILE_SIZE / 2, iceCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 }
 //endregion
 
 function Die()
 {
+    var LifeId = "Life" + lives;
     lives--;
+    document.getElementById(LifeId).style.visibility = "hidden";
     window.clearInterval(interval);
     interval = undefined;
     if (lives == 0)
@@ -547,6 +616,13 @@ function HasBonus(col, row)
     if (bonus == null)
         return false;
     return bonus.j == row && bonus.i == col;
+}
+
+function HasIce(col, row)
+{
+    if (ice == null)
+        return false;
+    return ice.j == row && ice.i == col;
 }
 
 // region Ghosts movement functions
