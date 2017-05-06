@@ -1,17 +1,25 @@
 :root {
-    --headerHeight: 15%;
-    --footerHeight: 5%;
+    --headerHeight: 12%;
+    --footerHeight: 6%;
+    --scoreBoardWidth: 15%;
 }
 
+/*<editor-fold desc="General">*/
 html {
     height: 100%;
 }
 
 body {
     height: 100%;
-    background-color: black;
     margin: 0;
 }
+
+@font-face {
+    font-family: PacFont;
+    src: url("../Fonts/PacFont.ttf");
+}
+
+/*</editor-fold>*/
 
 /*<editor-fold desc="Top NavBar">*/
 .fancyNav {
@@ -83,7 +91,6 @@ body {
 }
 
 /* Treating the first LI and li:after elements separately */
-
 .fancyNav li:first-child {
     border-radius: 4px 0 0 4px;
 }
@@ -102,7 +109,6 @@ body {
 }
 
 /* Treating the last LI and li:after elements separately */
-
 .fancyNav li:last-child:after,
 .fancyNav li.selected:last-child:after {
     box-shadow: -1px 0 0 #a3a3a3, -2px 0 0 #fff;
@@ -131,7 +137,6 @@ body {
 }
 
 /* Styling the anchor elements */
-
 .fancyNav li a {
     color: #5d5d5d;
     display: inline-block;
@@ -147,50 +152,34 @@ body {
 /*</editor-fold desc="Top NavBar">*/
 
 /*<editor-fold desc="Header & Footer">*/
-header:after, footer:after {
-    position: fixed;
+header, footer {
     width: 100%;
-    display: inline-block;
-    content: "";
-    clear: both;
-    vertical-align: middle;
-}
-
-header:before {
-    content: "";
-    display: inline-block;
-    vertical-align: middle;
+    background: linear-gradient(90deg, mediumblue, #07a0ff);
 }
 
 header {
+    position: fixed;
+    top: 0;
     height: var(--headerHeight);
     display: inline-flex;
     vertical-align: middle;
-    width: 100%;
-    top: 0;
-    background: linear-gradient(90deg, midnightblue, dodgerblue);
 }
 
 footer {
+    position: fixed;
+    right: 0;
     bottom: 0;
+    left: 0;
     height: var(--footerHeight);
+    text-align: center;
+    font-family: "Arial Black", serif;
+    font-size: small;
 }
 
 #logo {
     float: left;
     content: url("../Images/Logo.png");
     height: 100%;
-}
-
-#navBar {
-    /*text-align: center;*/
-    /*align-content: center;*/
-    vertical-align: middle;
-    align-items: center;
-    alignment: center;
-    /*float: inherit;*/
-    /*width: auto;*/
-    /*left:100%;*/
 }
 
 #namesDiv {
@@ -205,41 +194,57 @@ footer {
     position: absolute;
     top: 0;
     left: 0;
-}
-
-#SignUpFormDiv {
-    float: left;
+    font-family: PacFont, serif;
 }
 
 #ContentDiv {
+    text-align: center;
     position: absolute;
     top: var(--headerHeight);
     bottom: var(--footerHeight);
     left: 0;
     right: 0;
-}
-
-#WelcomeDiv {
-    height: 100%;
-    background: url("../Images/bg3.jpg") top;
+    background: url("../Images/bg.jpg") top;
     background-size: cover;
 }
 
-@font-face {
-    font-family: PacFont;
-    src: url("../Fonts/PacFont.ttf");
-}
-
-#innerWelcomeDiv {
-    margin-top: 10%;
-    height: 78%;
-    text-align: center;
-    font-family: PacFont, serif;
+#WelcomeDiv {
+    top: var(--headerHeight);
     color: yellow;
     font-size: 50px;
 }
 
-.welcomeButton {
+#welcomeText {
+    margin-bottom: 4%;
+}
+
+#SignUpDiv {
+    top: calc(0.25 * var(--headerHeight));
+    color: yellow;
+    display: inline-block;
+}
+
+.SignUpBr {
+    line-height: 40px;
+}
+
+#LoginDiv {
+    top: calc(1.5 * var(--headerHeight));
+    text-align: center;
+}
+
+.FormLabel {
+    white-space: pre-wrap;
+    font-size: 18px;
+    color: yellow;
+}
+
+input {
+    padding: 0.3%;
+}
+
+/*<editor-fold desc="Buttons">*/
+.customButton {
     -moz-box-shadow: 0 0 0 2px #9fb4f2;
     -webkit-box-shadow: 0 0 0 2px #9fb4f2;
     box-shadow: 0 0 0 2px #9fb4f2;
@@ -265,7 +270,7 @@ footer {
     text-shadow: 0 1px 0 #283966;
 }
 
-.welcomeButton:hover {
+.customButton:hover {
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
     background: -moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
     background: -webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
@@ -276,20 +281,23 @@ footer {
     background-color: #476e9e;
 }
 
-.welcomeButton:active {
+.customButton:active {
     position: relative;
     top: 1px;
 }
+
+/*</editor-fold>*/
 
 /*<editor-fold desc="Game">*/
 #GameDiv {
     overflow: hidden;
     height: 100%;
     position: relative;
+    background-color: black;
 }
 
 #ScoreBoard {
-    width: 15%;
+    width: var(--scoreBoardWidth);
     float: left;
     height: 100%;
 }
@@ -299,22 +307,10 @@ footer {
 }
 
 #CanvasDiv {
-    margin-left: 15%;
-    width: 85%;
+    margin-left: calc(var(--scoreBoardWidth) * 2);
+    width: calc(100% - (var(--scoreBoardWidth)));
     height: 100%;
-}
-
-#canvas {
-    /*padding: 0;*/
-    /*margin: 0 auto;*/
-    /*display: block;*/
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*bottom: 0;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*max-width: 100%;*/
-    /*max-height: 100%;*/
+    text-align: left;
 }
 
 /*</editor-fold>*/

@@ -12,69 +12,72 @@
 <body>
     <header>
         <div id="logo"></div>
-        <div id="username" style="float: left"></div>
+        <div id="username"></div>
         <div id="navBar">
             <ul class="fancyNav">
                 <li><a href="#" onclick="OpenDiv('WelcomeDiv')">Welcome</a></li>
                 <li><a href="#" onclick="OpenDiv('SignUpDiv')">Register</a></li>
                 <li><a href="#" onclick="OpenDiv('LoginDiv')">Login</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="#" onclick="OpenDiv('AboutDiv')">About</a></li>
             </ul>
         </div>
-        <div id="namesDiv"></div>
+        <div id="namesDiv">
+
+        </div>
     </header>
     <div id="ContentDiv">
         <div id="WelcomeDiv" class="MainWinInformationDiv">
-            <div id="innerWelcomeDiv">
-                <div id="welcomeText"> Welcome!</div>
-                <button onclick="OpenDiv('LoginDiv')" class="welcomeButton">Login</button>
-                <button onclick="OpenDiv('SignUpDiv')" class="welcomeButton">Sign Up</button>
-            </div>
+            <div id="welcomeText"> Welcome!</div>
+            <button onclick="OpenDiv('LoginDiv')" class="customButton">Login</button>
+            <button onclick="OpenDiv('SignUpDiv')" class="customButton">Sign Up</button>
         </div>
 
         <div id="SignUpDiv" class="MainWinInformationDiv" style="visibility: hidden">
             <form id="SignUpForm" onsubmit="return false;">
-                <label class="SignUpLabel">User Name:</label>
+
+                <label class="FormLabel">  User Name:</label>
                 <input id="UserNameSignUp" type="text" placeholder="Username" name="username"
                        oninput="ResetValidation(this)">
-                <br/>
-                <label class="SignUpLabel">Password</label>
+                <p class="SignUpBr"></p>
+                <label class="FormLabel">   Password:</label>
                 <input id="PasswordSignUp" type="password" placeholder="Password" name="password"
                        oninput="ResetValidation(this)">
-                <br/>
-                <label class="SignUpLabel">First Name:</label>
+                <p class="SignUpBr"></p>
+                <label class="FormLabel"> First Name:</label>
                 <input id="FirstNameSignUp" type="text" placeholder="First Name" name="firstName"
                        oninput="ResetValidation(this)">
-                <br/>
-                <label class="SignUpLabel">Surname:</label>
+                <p class="SignUpBr"></p>
+                <label class="FormLabel">    Surname:</label>
                 <input id="SurnameSignUp" type="text" placeholder="Surname" name="surname"
                        oninput="ResetValidation(this)">
-                <br/>
-                <label class="SignUpLabel">Email:</label>
-                <input id="EmailSignUp" type="text" placeholder="Email" name="email" oninput="ResetValidation(this)">
-                <br/>
-                <label class="SignUpLabel">Birth Date:</label>
+                <p class="SignUpBr"></p>
+                <label class="FormLabel">      Email:</label>
+                <input id="EmailSignUp" type="text" placeholder="Email" name="email"
+                       oninput="ResetValidation(this)">
+                <p class="SignUpBr"></p>
+                <label class="FormLabel">Birth Date:</label>
                 <input id="BirthDateSignUp" type="date" placeholder="Birth Date" name="birthDate"
                        oninput="ResetValidation(this)" required>
-                <br/>
-                <input type="submit" onclick="AddUser()">
+                <p class="SignUpBr"></p>
+                <input type="submit" onclick="AddUser()" class="customButton" value="Sign Up">
             </form>
-            <img src="" id="test"/>
         </div>
 
         <div id="LoginDiv" class="MainWinInformationDiv" style="visibility: hidden">
             <form id="LoginForm" onsubmit="return false;">
-                <label class="LoginLabel">User Name:</label>
-                <br/>
+                <label class="FormLabel">User Name:</label>
                 <input id="UsernameLogin" type="text" placeholder="Username" name="username"
                        oninput="ResetValidation(this)">
-                <br/>
-                <label class="LoginLabel">Password:</label>
-                <br/>
+                <br>
+                <br>
+                <br>
+                <label class="FormLabel"> Password:</label>
                 <input id="PasswordLogin" type="password" placeholder="Password" name="password"
                        oninput="ResetValidation(this)">
-                <br/>
-                <button type="submit" onclick="Login()">Login</button>
+                <br>
+                <br>
+                <br>
+                <button type="submit" onclick="Login()" class="customButton">Login</button>
             </form>
         </div>
 
@@ -86,15 +89,20 @@
                 TIME:
                 <input id="lblTime" type="text" class="ScoreBoardText"/>
                 <br/>
-                <button id="StartButton" onclick="Start()">Start</button>
+                <button id="StartButton" onclick="Start()" class="customButton">Start</button>
             </div>
             <div id="CanvasDiv">
                 <canvas id="canvas"></canvas>
             </div>
         </div>
-    </div>
-    <footer id="footer">
 
+        <div id="AboutDiv" class="MainWinInformationDiv" style="visibility: hidden">
+
+        </div>
+    </div>
+    <footer>
+        The game was developed by Shaked Hazon &amp; Ron Michaeli, Ben-Gurion University.<br/>
+        Contact us: hazons@post.bgu.ac.il, ronmicha@post.bgu.ac.il
     </footer>
 </body>
 
