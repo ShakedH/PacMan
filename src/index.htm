@@ -18,7 +18,7 @@
                 <li><a href="#" onclick="OpenDiv('WelcomeDiv')">Welcome</a></li>
                 <li><a href="#" onclick="OpenDiv('SignUpDiv')">Register</a></li>
                 <li><a href="#" onclick="OpenDiv('LoginDiv')">Login</a></li>
-                <li><a href="#" onclick="OpenDiv('AboutDiv')">About</a></li>
+                <li><a href="#AboutModal">About</a></li>
             </ul>
         </div>
         <div id="namesDiv">
@@ -33,45 +33,63 @@
         </div>
 
         <div id="SignUpDiv" class="MainWinInformationDiv" style="visibility: hidden">
-            <form id="SignUpForm" onsubmit="return false;">
+            <form id="SignUpForm" onsubmit="return false;" action="mailto:hazons@post.bgu.ac.il">
 
-                <label class="FormLabel">  User Name:</label>
+                <label>&nbsp&nbsp</label>
+                <label class="FormLabel">User Name:</label>
                 <input id="UserNameSignUp" type="text" placeholder="Username" name="username"
                        oninput="ResetValidation(this)">
+
                 <p class="SignUpBr"></p>
-                <label class="FormLabel">   Password:</label>
+
+                <label>&nbsp&nbsp&nbsp</label>
+                <label class="FormLabel">Password:</label>
                 <input id="PasswordSignUp" type="password" placeholder="Password" name="password"
                        oninput="ResetValidation(this)">
+
                 <p class="SignUpBr"></p>
-                <label class="FormLabel"> First Name:</label>
+
+                <label>&nbsp</label>
+                <label class="FormLabel">First Name:</label>
                 <input id="FirstNameSignUp" type="text" placeholder="First Name" name="firstName"
                        oninput="ResetValidation(this)">
+
                 <p class="SignUpBr"></p>
-                <label class="FormLabel">    Surname:</label>
+
+                <label>&nbsp&nbsp&nbsp&nbsp</label>
+                <label class="FormLabel">Surname:</label>
                 <input id="SurnameSignUp" type="text" placeholder="Surname" name="surname"
                        oninput="ResetValidation(this)">
+
                 <p class="SignUpBr"></p>
-                <label class="FormLabel">      Email:</label>
+
+                <label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                <label class="FormLabel">Email:</label>
                 <input id="EmailSignUp" type="text" placeholder="Email" name="email"
                        oninput="ResetValidation(this)">
+
                 <p class="SignUpBr"></p>
+
                 <label class="FormLabel">Birth Date:</label>
                 <input id="BirthDateSignUp" type="date" placeholder="Birth Date" name="birthDate"
                        oninput="ResetValidation(this)" required>
+
                 <p class="SignUpBr"></p>
+
                 <input type="submit" onclick="AddUser()" class="customButton" value="Sign Up">
             </form>
         </div>
 
         <div id="LoginDiv" class="MainWinInformationDiv" style="visibility: hidden">
             <form id="LoginForm" onsubmit="return false;">
+
                 <label class="FormLabel">User Name:</label>
                 <input id="UsernameLogin" type="text" placeholder="Username" name="username"
                        oninput="ResetValidation(this)">
                 <br>
                 <br>
                 <br>
-                <label class="FormLabel"> Password:</label>
+                <label class="FormLabel" style="padding-left: 1rem">Password:</label>
                 <input id="PasswordLogin" type="password" placeholder="Password" name="password"
                        oninput="ResetValidation(this)">
                 <br>
@@ -96,8 +114,28 @@
             </div>
         </div>
 
-        <div id="AboutDiv" class="MainWinInformationDiv" style="visibility: hidden">
-
+        <div id="AboutModal" class="modalDialog">
+            <div>
+                <a href="#close" title="Close" class="close">X</a>
+                <h2>About Us</h2>
+                <p>We are Shaked Hazon and Ron Michaeli, students at Ben-Gurion University. </p>
+                <p>Hoping you are enjoying our coolest PacMan game (tough ghosts, ah?)</p>
+                <p>
+                    In this nice little game we used several libraries, such as jQuery.
+                    <br>
+                    We used jQuery mainly to validate user input on the SignUp and Login forms.
+                </p>
+                <p>We also used a template for our awesome top navigation bar. Thanks Internet!</p>
+                <p>
+                    The major difficulty we encountered while doing this task was understanding how to create simple
+                    layouts using HTML and design them with CSS3.
+                    <br>
+                    For example - how to center a div inside another div. Turns out it's one of the hardest things to do
+                    in this world.
+                </p>
+                <p>Well, that's it from us...</p>
+                <h3>Have fun! </h3>
+            </div>
         </div>
     </div>
     <footer>
