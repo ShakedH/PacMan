@@ -101,12 +101,14 @@
 
         <div id="GameDiv" class="MainWinInformationDiv" style="visibility: hidden">
             <div id="ScoreBoard">
-                SCORE:
-                <input id="lblScore" type="text" class="ScoreBoardText"/>
-                <br/>
-                TIME:
-                <input id="lblTime" type="text" class="ScoreBoardText"/>
-                <br/>
+                <div id="HiddenAtFirst">
+                    <p>SCORE:</p>
+                    <div id="lblScore" class="ScoreBoardText"></div>
+                    <br/>
+                    <p>TIME:</p>
+                    <div id="lblTime" class="ScoreBoardText"></div>
+                    <br/>
+                </div>
                 <button id="StartButton" onclick="Start()" class="customButton">Start</button>
             </div>
             <div id="CanvasDiv">

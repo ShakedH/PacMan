@@ -164,7 +164,6 @@ function FillBoardWithPathsAndWalls()
 
 function PositionEntities()
 {
-    var remainingBoardCells = ROWS * COLS;
     var food_remain = MAX_FOOD;
 
     PositionPacman();
@@ -320,8 +319,8 @@ function GetKeyPressed()
 function Draw()
 {
     canvas.width = canvas.width; //clean board
-    lblScore.value = score;
-    lblTime.value = timeElapsed;
+    lblScore.innerHTML = score;
+    lblTime.innerHTML = timeElapsed;
     for (var col = 0; col < COLS; col++)
         for (var row = 0; row < ROWS; row++)
         {
@@ -395,7 +394,7 @@ function DrawPacman(pacman)
     function drawFlippedImage(image, x, y)
     {
         canvasContext.save();
-        canvasContext.translate(x,y);
+        canvasContext.translate(x, y);
         canvasContext.scale(-1, 1);
         canvasContext.drawImage(image, x, y, -TILE_SIZE, -TILE_SIZE);
         canvasContext.restore();

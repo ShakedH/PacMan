@@ -1,7 +1,7 @@
 :root {
     --headerHeight: 12%;
     --footerHeight: 6%;
-    --scoreBoardWidth: 15%;
+    --scoreBoardWidth: 25%;
 }
 
 /*<editor-fold desc="General">*/
@@ -243,6 +243,7 @@ footer {
     color: yellow;
 }
 
+/*<editor-fold desc="Modal Dialog">*/
 .modalDialog {
     position: fixed;
     font-family: Arial, Helvetica, sans-serif;
@@ -298,6 +299,7 @@ footer {
 .close:hover {
     background: #00d9ff;
 }
+/*</editor-fold>*/
 
 /*<editor-fold desc="Buttons">*/
 .customButton {
@@ -356,10 +358,8 @@ footer {
     width: var(--scoreBoardWidth);
     float: left;
     height: 100%;
-}
-
-.ScoreBoardText {
-    width: 100%;
+    color: yellow;
+    background-color: #00d9ff;
 }
 
 #CanvasDiv {
