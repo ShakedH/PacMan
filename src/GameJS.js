@@ -112,6 +112,12 @@ function InitializeMembers()
     fifteenPtsColor = fifteenColorInput.options[fifteenColorInput.selectedIndex].value;
     twentyFivePtsColor = twentyFiveColorInput.options[twentyFiveColorInput.selectedIndex].value;
 
+    var numOfGhostsInput = document.getElementById("GhostsSelect");
+    numOfGhosts = numOfGhostsInput.options[numOfGhostsInput.selectedIndex].value;
+
+    var numOfFoodInput = document.getElementById("FoodsInput");
+    MAX_FOOD = numOfFoodInput.value;
+
     // Show all lives:
     $(".LifeImg").css('visibility', 'visible');
 
@@ -127,7 +133,6 @@ function InitializeMembers()
     keysDown = new Object();
     score = 0;
     lives = 3;
-    numOfGhosts = 3;
     iceActive = false;
     foodsOnBoard = MAX_FOOD;
     TILE_SIZE = Math.min(canvas.width, canvas.height) / ROWS;

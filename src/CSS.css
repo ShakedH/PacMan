@@ -240,9 +240,9 @@ footer {
 }
 
 .LivesDiv {
-    position:relative;
+    position: relative;
     display: inline-block;
-    padding:10px;
+    padding: 10px;
 }
 
 .FormLabel {
@@ -371,14 +371,14 @@ footer {
     background-color: dimgray;
 }
 
-#FoodSelectionDiv {
+#FoodSelectionDiv, #AmountsSettingsDiv {
     display: flex;
     justify-content: space-around;
     width: 100%;
 }
 
 /*<editor-fold desc="FoodColor">*/
-#5ptsColor, #15ptsColor, #25ptsColor {
+#5ptsColor, #15ptsColor, #25ptsColor, #NumOfGhostsDiv, #NumOfFoodDiv{
     display: inline-block;
 }
 
