@@ -102,7 +102,7 @@ function InitializeMembers()
     canvasContext = canvas.getContext("2d");
 
     // Show all lives:
-    $(".LifeImg").css('visibility','visible');
+    $(".LifeImg").css('visibility', 'visible');
 
     startTime = new Date();
     board = new Array();
@@ -118,7 +118,6 @@ function InitializeMembers()
     lives = 3;
     numOfGhosts = 3;
     iceActive = false;
-    pacColor = "yellow";
     foodsOnBoard = MAX_FOOD;
     TILE_SIZE = Math.min(canvas.width, canvas.height) / ROWS;
     HALF_TILE_SIZE = TILE_SIZE / 2;
@@ -442,10 +441,9 @@ function DrawPacman(pacman)
 
 function DrawBonus(bonusCenter)
 {
-    canvasContext.beginPath();
-    canvasContext.arc(bonusCenter.x, bonusCenter.y, TILE_SIZE / 2, 0, 2 * Math.PI); // circle
-    canvasContext.fillStyle = "pink"; //color
-    canvasContext.fill();
+    var image = new Image();
+    image.src = '../Images/bonus.png';
+    canvasContext.drawImage(image, bonusCenter.x - TILE_SIZE / 2, bonusCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 }
 
 function DrawGhost(ghostCenter)
@@ -509,7 +507,7 @@ function DrawIce(iceCenter)
 
 function Die()
 {
-    var LifeId = "Life"+lives;
+    var LifeId = "Life" + lives;
     lives--;
     document.getElementById(LifeId).style.visibility = "hidden";
     window.clearInterval(interval);
@@ -583,8 +581,7 @@ function CanMove(col, row)
     return col >= 0 && col < COLS &&
         row >= 0 && row < ROWS &&
         board[col][row] != BoardEntity.Obstacle &&
-        !(HasGhost(col, row)) &&
-        !(HasIce(col, row));
+        !(HasGhost(col, row));
 }
 
 function HasGhost(col, row)

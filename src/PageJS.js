@@ -99,7 +99,6 @@ function Login()
 
 function UpdateCurrentUser(userName)
 {
-    document.getElementById("username").innerHTML = userName;
 }
 
 function GetUsers(userName)
