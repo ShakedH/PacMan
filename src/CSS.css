@@ -359,7 +359,6 @@ footer {
 #GameDiv {
     overflow: hidden;
     height: 100%;
-    /*position: relative;*/
     background-color: black;
 }
 

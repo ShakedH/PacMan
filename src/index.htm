@@ -134,7 +134,7 @@
 
         <div id="AboutModal" class="modalDialog">
             <div>
-                <a href="#close" title="Close" class="close">X</a>
+                <a href="#" title="Close" class="close">X</a>
                 <h2>About Us</h2>
                 <p>We are Shaked Hazon and Ron Michaeli, students at Ben-Gurion University. </p>
                 <p>Hoping you are enjoying our coolest PacMan game (tough ghosts, ah?)</p>
@@ -158,9 +158,9 @@
 
         <div id="SettingsModal" class="modalDialog">
             <div>
-                <a href="#close" title="Close" class="close">X</a>
+                <a href="#" title="Close" class="close">X</a>
                 <div id="FoodSelectionDiv">
-                    <p>Food Color</p>
+                    <p><b>Food Color</b></p>
                     <div id="5ptsColor">
                         <p>5 pts</p>
                         <select id="5ptsSelect" style="width: 90px;background: blue;"
@@ -205,23 +205,26 @@
                     </div>
                 </div>
                 <div id="AmountsSettingsDiv">
-                    <p>Difficulty</p>
+                    <!--<p>Difficulty</p>-->
                     <div id="NumOfGhostsDiv">
-                        <p># of ghosts</p>
+                        <p><b># Ghosts</b></p>
                         <select id="GhostsSelect" style="width: 90px">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3" selected="selected">3</option>
                         </select>
-                        <p># of foods</p>
-                        <div id="NumOfFoodDiv">
-                            <input id="FoodsInput" type="number" name="Foods" min="50" max="90" value="50" required>
-                        </div>
+                    </div>
+                    <div id="NumOfFoodDiv">
+                        <p><b># Food Balls</b></p>
+                        <select id="FoodsSelect" style="width: 90px"></select>
+                    </div>
+                    <div id="GameTimeDiv">
+                        <p><b>Game Time (seconds)</b></p>
+                        <input id="FoodsInput" type="number" name="Foods" min="50" max="90" value="50" required>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <footer>
         The game was developed by Shaked Hazon &amp; Ron Michaeli, Ben-Gurion University.<br/>

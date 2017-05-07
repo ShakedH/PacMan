@@ -22,12 +22,12 @@ $(document).ready(function ()
                 BirthDate: '2017-05-10'
             }
         ];
-});
 
-function ChangeColor(id, color)
-{
-    document.getElementById(id).style.backgroundColor = color;
-}
+    var select = document.getElementById("FoodsSelect");
+    for (var i = 50; i <= 90; i++)
+        select.options[select.options.length] = new Option(i);
+    select.selectedIndex = 0;
+});
 
 function OpenDiv(divID)
 {
@@ -130,6 +130,11 @@ function ChangeColorSelected(select)
 {
     var color = select.options[select.selectedIndex].value;
     select.style.backgroundColor = color;
+}
+
+function FillFoodAmount(select)
+{
+
 }
 
 //region Verification Functions
