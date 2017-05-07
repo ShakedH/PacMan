@@ -558,7 +558,7 @@ function MoveBonus()
 
     var chance = Math.floor(Math.random() * options.length);  // Chance can be 0 to 3 (4 possible moves)
     var nextStep = options[chance];
-    if (nextStep == null)    // Pacman caught the bonus
+    if (nextStep == null || HasPacman(originalI, originalJ))    // Pacman caught the bonus
         return;
     var originalI = bonus.i;
     var originalJ = bonus.j;
