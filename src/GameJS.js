@@ -38,10 +38,10 @@ var LevelBoard = [
     [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
-    [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
-    [1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1],
-    [0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0],
-    [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1],
+    [0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0],
+    [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -385,7 +385,7 @@ function Draw()
             if (HasPacman(col, row))
                 DrawPacman(entityCenter);
             else if (HasGhost(col, row))
-                DrawGhost(entityCenter);
+                DrawGhost(entityCenter, col, row);
             else if (HasBonus(col, row))
                 DrawBonus(entityCenter);
             else if (HasIce(col, row))
@@ -462,12 +462,12 @@ function DrawBonus(bonusCenter)
     canvasContext.drawImage(image, bonusCenter.x - TILE_SIZE / 2, bonusCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 }
 
-function DrawGhost(ghostCenter)
+function DrawGhost(ghostCenter, col, row)
 {
-    canvasContext.beginPath();
-    canvasContext.arc(ghostCenter.x, ghostCenter.y, TILE_SIZE / 2, 0, 2 * Math.PI); // circle
-    canvasContext.fillStyle = "red"; //color
-    canvasContext.fill();
+    var image = new Image();
+    var num = HasGhost(col, row);
+    image.src = '../Images/Ghost' + num + '.png';
+    canvasContext.drawImage(image, ghostCenter.x - TILE_SIZE / 2, ghostCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 }
 
 function DrawObstacle(obstacleCenter)
@@ -602,13 +602,10 @@ function CanMove(col, row)
 
 function HasGhost(col, row)
 {
-    var found = false;
-    ghostsArray.forEach(function (ghost)
-    {
-        if (ghost.j == row && ghost.i == col)
-            found = true;
-    });
-    return found;
+    for (var i = 0; i < ghostsArray.length; i++)
+        if (ghostsArray[i].j == row && ghostsArray[i].i == col)
+            return i + 1;
+    return 0;
 }
 
 function HasPacman(col, row)
