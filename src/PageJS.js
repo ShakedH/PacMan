@@ -129,11 +129,11 @@ function StartGame()
 
 function ApplySettings()
 {
-    var timeInserted = document.getElementById("TimeInput").value;
-    if (timeInserted < 60)
-    {
-        // TODO Notify error to user
-    }
+    var timeInserted = document.getElementById("TimeInput");
+    VerifyTime(timeInserted);
+    if (!timeInserted.validity.valid)
+        return false;
+    window.location.href = '#';
 }
 
 function ChangeColorSelected(select)
@@ -233,6 +233,17 @@ function VerifyPasswordLogin(textbox, user)
         textbox.setCustomValidity('Password is required');
     else if (password != userPassword)
         textbox.setCustomValidity('Incorrect password');
+    else
+        textbox.setCustomValidity('');
+}
+
+function VerifyTime(textbox)
+{
+    var seconds = textbox.value;
+    if (!seconds || seconds == '')
+        textbox.setCustomValidity('Please enter game time (min 60)');
+    else if (seconds < 60)
+        textbox.setCustomValidity('Minumum 60 seconds')
     else
         textbox.setCustomValidity('');
 }
