@@ -121,13 +121,10 @@
                         </div>
                     </div>
                 </div>
-                <div id="AlwaysVisible">
-                    <!--ToDo-->
-                </div>
-                <span style="display: inline-block; vertical-align: top">
-                <a href="#SettingsModal" style="margin: 5px;">settings</a>
+                <br><br><br>
+                <a href="#SettingsModal" class="customButton">Settings</a>
+                <br><br><br>
                 <button id="StartButton" onclick="Start()" class="customButton">Start</button>
-                    </span>
             </div>
             <div id="CanvasDiv">
                 <canvas id="canvas"></canvas>
@@ -205,6 +202,7 @@
                         </select>
                     </div>
                 </div>
+                <br>
                 <div style="display: flex; justify-content: space-around">
                     <div id="NumOfGhostsDiv">
                         <p><b># Ghosts</b></p>
@@ -227,6 +225,7 @@
                         </form>
                     </div>
                 </div>
+                <br><br>
                 <input form="TimeSettingForm" type="submit" onclick="ApplySettings()" value="Apply"
                        class="customButton">
             </div>

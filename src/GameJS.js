@@ -306,6 +306,8 @@ function PositionPacman()
 
 function StartInterval()
 {
+    window.clearInterval(interval);
+    interval = undefined;
     interval = setInterval(UpdatePositionAndDraw, TIME_INTERVAL);
 }
 
