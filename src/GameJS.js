@@ -78,9 +78,14 @@ var ghostsPrevEntityQueue;
 var bonusPrevEntityQueue;
 var iceActive;
 
+
 var fivePtsColor;
 var fifteenPtsColor;
 var twentyFivePtsColor;
+
+// audios:
+var mainAudio;
+var iceAudio;
 
 // entities:
 var pacShape;
@@ -124,6 +129,14 @@ function InitializeMembers()
 
     // Show all lives:
     $(".LifeImg").css('visibility', 'visible');
+
+
+    // Create all audios:
+    mainAudio = document.createElement("AUDIO");
+    mainAudio.setAttribute("src", "../Sounds/mainAudio.mp3");
+    mainAudio.play();
+    iceAudio = document.createElement("AUDIO");
+    iceAudio.setAttribute("src", "../Sounds/ice.mp3");
 
     startTime = new Date();
     board = new Array();
@@ -308,6 +321,9 @@ function UpdatePositionAndDraw()
         Die();
     }
 
+    if (mainAudio.paused)
+        mainAudio.play();
+
     if (HasGhost(pacShape.i, pacShape.j))
         Die();
     else if (HasBonus(pacShape.i, pacShape.j))
@@ -317,13 +333,14 @@ function UpdatePositionAndDraw()
     }
     else if (HasIce(pacShape.i, pacShape.j))
     {
+        iceAudio.play();
         ice = undefined;
         iceActive = true;
         // Wait 3 seconds and change back to false:
         setTimeout(function ()
         {
             iceActive = false;
-        }, 3000); // Start new thread with ActivateIce
+        }, 5000); // Start new thread with ActivateIce
     }
 
     MovePacman();
@@ -535,6 +552,7 @@ function Die()
 {
     var LifeId = "Life" + lives;
     lives--;
+    mainAudio.pause();
     document.getElementById(LifeId).style.visibility = "hidden";
     window.clearInterval(interval);
     interval = undefined;
