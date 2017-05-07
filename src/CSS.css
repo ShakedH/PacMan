@@ -394,7 +394,7 @@ footer {
     float: left;
     height: 100%;
     color: yellow;
-    background-color: dimgray;
+    background: linear-gradient(180deg, #9a9997, #d9d8d6);
 }
 
 #FoodSelectionDiv, #TimeSettingForm {
@@ -450,8 +450,7 @@ select option[value="gray"] {
 }
 
 #StartButton {
-    display: table-cell;
-    bottom: 0;
+    margin-right: 10px;
 }
 
 /*</editor-fold>*/
