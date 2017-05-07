@@ -302,6 +302,12 @@ function UpdatePositionAndDraw()
     var currentTime = new Date();
     timeRemaining -= TIME_INTERVAL / 1000;
 
+    if (timeRemaining <= 0)
+    {
+        lives = 1;
+        Die();
+    }
+
     if (HasGhost(pacShape.i, pacShape.j))
         Die();
     else if (HasBonus(pacShape.i, pacShape.j))
