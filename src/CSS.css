@@ -397,7 +397,7 @@ footer {
     background-color: dimgray;
 }
 
-#FoodSelectionDiv, #AmountsSettingsDiv {
+#FoodSelectionDiv, #TimeSettingForm {
     display: flex;
     justify-content: space-around;
     width: 100%;
