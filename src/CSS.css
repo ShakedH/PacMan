@@ -1,5 +1,5 @@
 :root {
-    --headerHeight: 15%;
+    --headerHeight: 12%;
     --footerHeight: 6%;
     --scoreBoardWidth: 25%;
 }
@@ -160,13 +160,13 @@ input {
 
 #username {
     margin: 0 auto;
-    height: 50px;
+    height: 40%;
     font-family: PacFont, serif;
     background-image: linear-gradient(to bottom right, #FFA200 0%, #F7FF08 100%); /* Standard syntax; must be last */
     color: transparent;
     -webkit-background-clip: text;
     text-align: center;
-    line-height: 50px;
+    line-height: 150%;
     font-weight: bold;
     font-size: 16px;
     /*text-shadow: 3px 3px 2px rgba(0, 0, 0, 1);*/
