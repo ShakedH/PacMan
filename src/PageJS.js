@@ -104,6 +104,7 @@ function Login()
 
 function UpdateCurrentUser(userName)
 {
+    document.getElementById("username").innerHTML = "Welcome, " + userName + "!";
 }
 
 function GetUsers(userName)

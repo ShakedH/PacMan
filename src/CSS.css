@@ -153,6 +153,23 @@ input {
     white-space: nowrap;
 }
 
+#navBar {
+    display: block;
+    overflow: auto;
+}
+
+#username {
+    margin: 0 auto;
+    padding-left: 40px;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: Georgia, serif;
+    color: white;
+    vertical-align: middle;
+}
+
 /*</editor-fold desc="Top NavBar">*/
 
 /*<editor-fold desc="Header & Footer">*/
@@ -377,7 +394,7 @@ footer {
 }
 
 /*<editor-fold desc="FoodColor">*/
-#5ptsColor, #15ptsColor, #25ptsColor, #NumOfGhostsDiv, #NumOfFoodDiv{
+#5ptsColor, #15ptsColor, #25ptsColor, #NumOfGhostsDiv, #NumOfFoodDiv {
     display: inline-block;
 }
 
