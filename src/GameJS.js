@@ -26,6 +26,7 @@ var ROWS = 28;
 var MAX_FOOD = 50;
 var TILE_SIZE;
 var HALF_TILE_SIZE;
+var TIME_INTERVAL = 300;
 var LevelBoard = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -66,7 +67,8 @@ var board;
 var score;
 var pacColor;
 var startTime;
-var timeElapsed;
+var timeRemaining;
+var totalTime;
 var interval;
 var lives;
 var foodsOnBoard;
@@ -117,6 +119,8 @@ function InitializeMembers()
 
     var numOfFoodInput = document.getElementById("FoodsSelect");
     MAX_FOOD = numOfFoodInput.options[numOfFoodInput.selectedIndex].value;
+
+    timeRemaining = document.getElementById("TimeInput").value;
 
     // Show all lives:
     $(".LifeImg").css('visibility', 'visible');
@@ -278,7 +282,7 @@ function PositionPacman()
         var i = Math.floor(Math.random() * pathsList.length);
         var row = pathsList[i].row;
         var col = pathsList[i].col;
-        if (board[col][row] == BoardEntity.Path)
+        if (board[col][row] == BoardEntity.Path && !HasGhost(col, row))
         {
             pacShape.i = col;
             pacShape.j = row;
@@ -289,14 +293,14 @@ function PositionPacman()
 
 function StartInterval()
 {
-    interval = setInterval(UpdatePositionAndDraw, 300);
+    interval = setInterval(UpdatePositionAndDraw, TIME_INTERVAL);
 }
 
 function UpdatePositionAndDraw()
 {
     // Update time elapsed
     var currentTime = new Date();
-    timeElapsed = Math.floor((currentTime - startTime) / 1000);
+    timeRemaining -= TIME_INTERVAL / 1000;
 
     if (HasGhost(pacShape.i, pacShape.j))
         Die();
@@ -374,7 +378,7 @@ function Draw()
 {
     canvas.width = canvas.width; //clean board
     lblScore.innerHTML = score;
-    lblTime.innerHTML = timeElapsed;
+    lblTime.innerHTML = Math.floor(timeRemaining);
     for (var col = 0; col < COLS; col++)
         for (var row = 0; row < ROWS; row++)
         {
