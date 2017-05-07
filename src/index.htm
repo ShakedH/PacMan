@@ -158,7 +158,6 @@
 
         <div id="SettingsModal" class="modalDialog">
             <div>
-                <a href="#" title="Close" class="close">X</a>
                 <div id="FoodSelectionDiv">
                     <p><b>Food Color</b></p>
                     <div id="5ptsColor">
@@ -204,8 +203,7 @@
                         </select>
                     </div>
                 </div>
-                <div id="AmountsSettingsDiv">
-                    <!--<p>Difficulty</p>-->
+                <form id="AmountsSettingsDiv">
                     <div id="NumOfGhostsDiv">
                         <p><b># Ghosts</b></p>
                         <select id="GhostsSelect" style="width: 90px">
@@ -214,15 +212,17 @@
                             <option value="3" selected="selected">3</option>
                         </select>
                     </div>
+                    <span></span>
                     <div id="NumOfFoodDiv">
                         <p><b># Food Balls</b></p>
                         <select id="FoodsSelect" style="width: 90px"></select>
                     </div>
                     <div id="GameTimeDiv">
                         <p><b>Game Time (seconds)</b></p>
-                        <input id="FoodsInput" type="number" name="Foods" min="50" max="90" value="50" required>
+                        <input id="TimeInput">
                     </div>
-                </div>
+                </form>
+                <button type="submit" onclick="ApplySettings()" class="customButton">Apply</button>
             </div>
         </div>
     </div>

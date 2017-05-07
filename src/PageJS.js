@@ -126,6 +126,15 @@ function StartGame()
     document.getElementById("lblTime").innerHTML = "0";
 }
 
+function ApplySettings()
+{
+    var timeInserted = document.getElementById("TimeInput").value;
+    if (timeInserted < 60)
+    {
+        // TODO Notify error to user
+    }
+}
+
 function ChangeColorSelected(select)
 {
     var color = select.options[select.selectedIndex].value;
