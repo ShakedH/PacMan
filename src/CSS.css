@@ -444,9 +444,4 @@ select option[value="gray"] {
     width: calc(100% - (var(--scoreBoardWidth)));
     height: 100%;
 }
-
-#StartButton {
-    margin-right: 10px;
-}
-
 /*</editor-fold>*/

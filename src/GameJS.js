@@ -125,7 +125,6 @@ function InitializeMembers()
     lblTime = document.getElementById("lblTime");
     canvasContext = canvas.getContext("2d");
     document.getElementById("HiddenAtFirst").style.visibility = 'visible';
-    document.getElementById("StartButton").innerHTML = "New Game";
     lblScore.innerHTML = "0";
     lblTime.innerHTML = "0";
 
@@ -203,7 +202,7 @@ function InitializeMembers()
             keysDown[e.keyCode] = true;
         }
     }
-    AddKeyPressListening();
+    addEventListener("keydown", keyPressHandler, false);
 }
 
 function FillBoardWithPathsAndWalls()
@@ -759,9 +758,4 @@ function ClearInterval()
 function StopKeyPressListening()
 {
     removeEventListener("keydown", keyPressHandler);
-}
-
-function AddKeyPressListening()
-{
-    addEventListener("keydown", keyPressHandler, false);
 }

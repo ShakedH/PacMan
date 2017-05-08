@@ -222,7 +222,7 @@ function AddUser()
     MessageToUser("Signed up successfully");
     UpdateCurrentUser(userName.value);
     StartGame();
-    return true;
+    // return true;
 }
 
 function Login()
@@ -255,6 +255,13 @@ function GetUsers(userName)
     });
 }
 
+function NewGamePressed()
+{
+    ClearInterval();
+    StopKeyPressListening();
+    window.location.href = "#SettingsModal";
+}
+
 function StartGame()
 {
     OpenDiv('GameDiv');
@@ -265,13 +272,6 @@ function StartGame()
     ctx.canvas.width = Math.max(div.clientHeight, div.clientWidth);
 }
 
-function SettingsPressed()
-{
-    ClearInterval();
-    StopKeyPressListening();
-    window.location.href = "#SettingsModal";
-}
-
 function ApplySettings()
 {
     var timeInserted = document.getElementById("TimeInput");
@@ -279,8 +279,7 @@ function ApplySettings()
     if (!timeInserted.validity.valid)
         return false;
     window.location.href = '#';
-    StartInterval();
-    AddKeyPressListening();
+    Start();
 }
 
 function ChangeColorSelected(select)
