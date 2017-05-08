@@ -121,10 +121,8 @@ function StartGame()
     var canvas = document.getElementById("canvas");
     var div = document.getElementById("CanvasDiv");
     var ctx = canvas.getContext("2d");
-    var canvasSize = Math.min(div.clientHeight, div.clientWidth);
-    ctx.canvas.width = ctx.canvas.height = canvasSize;
-    document.getElementById("lblScore").innerHTML = "0";
-    document.getElementById("lblTime").innerHTML = "0";
+    ctx.canvas.height = Math.min(div.clientHeight, div.clientWidth);
+    ctx.canvas.width = Math.max(div.clientHeight, div.clientWidth);
 }
 
 function ApplySettings()
@@ -140,11 +138,6 @@ function ChangeColorSelected(select)
 {
     var color = select.options[select.selectedIndex].value;
     select.style.backgroundColor = color;
-}
-
-function FillFoodAmount(select)
-{
-
 }
 
 //region Verification Functions
@@ -252,9 +245,4 @@ function VerifyTime(textbox)
 function MessageToUser(message)
 {
     window.alert(message)
-}
-
-function ErrorToUser(error)
-{
-    window.alert(error);
 }
