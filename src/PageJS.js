@@ -27,7 +27,158 @@ $(document).ready(function ()
     for (var i = 50; i <= 90; i++)
         select.options[select.options.length] = new Option(i);
     select.selectedIndex = 0;
+
+    SetValidation();
 });
+
+//<editor-fold desc="Validations">
+function SetValidation()
+{
+    SetCustomValidationFunctions();
+    SetValidationErrorDesign();
+    SetSignUpValidator();
+
+    SetSignUpValidator();
+}
+
+function SetCustomValidationFunctions()
+{
+    $.validator.addMethod("UserExists", function (userName)
+    {
+        var exists = Users.some(function (other)
+        {
+            return other.UserName === userName;
+        });
+        return !exists;
+    }, "User name already exists!")
+
+    $.validator.addMethod("AlphaNumeric", function (username)
+    {
+        return /^[a-z0-9\-\s]+$/i.test(username);
+    })
+
+    $.validator.addMethod("NumsAndChars", function (password)
+    {
+        if (!(/\d/.test(password)))
+            return false;
+        else if (!(/[a-zA-Z]/.test(password)))
+            return false;
+        return true;
+    }, "Password must contain letters and numbers")
+
+    $.validator.addMethod("OnlyLetters", function (name)
+    {
+        return /^[a-z]+$/i.test(name);
+    }, "Name must contain only letters")
+}
+
+function SetValidationErrorDesign()
+{
+    $('input[type="text"]').tooltipster({ //find more options on the tooltipster page
+        trigger: 'custom', // default is 'hover' which is no good here
+        position: 'right',
+        animation: 'grow'
+    });
+    $('input[type="password"]').tooltipster({ //find more options on the tooltipster page
+        trigger: 'custom', // default is 'hover' which is no good here
+        position: 'right',
+        animation: 'grow'
+    });
+    $('input[type="email"]').tooltipster({ //find more options on the tooltipster page
+        trigger: 'custom', // default is 'hover' which is no good here
+        position: 'right',
+        animation: 'grow'
+    });
+    $('input[type="date"]').tooltipster({ //find more options on the tooltipster page
+        trigger: 'custom', // default is 'hover' which is no good here
+        position: 'right',
+        animation: 'grow'
+    });
+}
+
+function SetSignUpValidator()
+{
+
+    $("form[name='SignUp']").validate(
+        {
+            rules: {
+                username: {
+                    required: true,
+                    AlphaNumeric: true,
+                    UserExists: true
+                },
+                password: {
+                    required: true,
+                    minlength: 8,
+                    NumsAndChars: true
+                },
+                firstName: {
+                    required: true,
+                    OnlyLetters: true
+                },
+                surname: {
+                    required: true,
+                    OnlyLetters: true
+                },
+                birthDate: {
+                    required: true,
+                    date: true
+                },
+                email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                username: {
+                    required: "User Name is required",
+                    AlphaNumeric: 'User name must contain letters or numbers only',
+                    UserExists: "User name already exists!"
+                },
+                password: {
+                    required: 'Password is required',
+                    minlength: 'Password must be at least 8 characters long',
+                    NumsAndChars: "Password must contain letters and numbers"
+                },
+                firstName: {
+                    required: 'First name is required',
+                    OnlyLetters: 'Name must contain only letters'
+                },
+                surname: {
+                    required: 'Surname is required',
+                    OnlyLetters: 'Name must contain only letters'
+                },
+                email: {
+                    required: 'Email is required',
+                    email: 'Please enter valid Email address'
+                },
+                birthDate: {
+                    required: 'Birth date is required'
+                }
+
+            },
+            // any other options & rules,
+            errorPlacement: function (error, element)
+            {
+                var lastError = $(element).data('lastError'),
+                    newError = $(error).text();
+
+                $(element).data('lastError', newError);
+
+                if (newError !== '' && newError !== lastError)
+                {
+                    $(element).tooltipster('content', newError);
+                    $(element).tooltipster('show');
+                }
+            },
+            success: function (label, element)
+            {
+                $(element).tooltipster('hide');
+            }
+        }
+    )
+}
+//</editor-fold>
 
 function OpenDiv(divID)
 {
@@ -46,36 +197,17 @@ function OpenDiv(divID)
 
 function AddUser()
 {
+    var form = $("#SignUpForm");
+    var validator = form.validate();
+    if (!form.valid())
+        return;
+
     var userName = $("#UserNameSignUp").get(0);
-    VerifyUserName(userName);
-    if (!userName.validity.valid)
-        return false;
-
     var password = $("#PasswordSignUp").get(0);
-    VerifyPassword(password);
-    if (!password.validity.valid)
-        return false;
-
     var firstName = $("#FirstNameSignUp").get(0);
-    VerifyName(firstName);
-    if (!firstName.validity.valid)
-        return false;
-
     var surname = $("#SurnameSignUp").get(0);
-    VerifyName(surname);
-    if (!surname.validity.valid)
-        return false;
-
     var Email = $("#EmailSignUp").get(0);
-    VerifyEmail(Email);
-    if (!Email.validity.valid)
-        return false;
-
     var birthDate = $("#BirthDateSignUp").get(0);
-    if (!birthDate.validity.valid)
-        return false;
-
-
     var user = {
         UserName: userName.value,
         Password: password.value,
@@ -161,63 +293,6 @@ function ChangeColorSelected(select)
 function ResetValidation(input)
 {
     input.setCustomValidity("");
-}
-
-function VerifyUserName(textbox)
-{
-    var userName = textbox.value;
-    if (!userName || userName == '')
-        textbox.setCustomValidity('User Name is required');
-    else if (!/^[a-z0-9]+$/i.test(userName)) // User name is not alpha numeric
-        textbox.setCustomValidity('User name must contain letters or numbers only');
-    else
-    {
-        var exists = Users.some(function (other)
-        {
-            return other.UserName === userName;
-        });
-        if (exists)
-            textbox.setCustomValidity("User name already exists!");
-        else
-            textbox.setCustomValidity("");
-    }
-}
-
-function VerifyPassword(textbox)
-{
-    var password = textbox.value;
-    if (!password || password == '')
-        textbox.setCustomValidity('Password is required');
-    else if (!(/\d/.test(password)))
-        textbox.setCustomValidity('Password must contain digits');
-    else if (!(/[a-zA-Z]/.test(password)))
-        textbox.setCustomValidity('Password must conatin english characters');
-    else if (password.length < 8)
-        textbox.setCustomValidity('Password must be at least 8 characters long');
-    else
-        textbox.setCustomValidity('');
-}
-
-function VerifyName(textbox)
-{
-    name = textbox.value;
-    if (!name || name == '')
-        textbox.setCustomValidity('First and surname are required');
-    else if (!/^[a-zA-Z()]+$/.test(name))
-        textbox.setCustomValidity('Name can must contain letters only');
-    else
-        textbox.setCustomValidity('');
-}
-
-function VerifyEmail(textbox)
-{
-    var email = textbox.value;
-    if (!email || email == '')
-        textbox.setCustomValidity('Email is required');
-    else if (!/^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{1,4}\b$/i.test(email))
-        textbox.setCustomValidity('Please enter valid Email address');
-    else
-        textbox.setCustomValidity('');
 }
 
 function VerifyUsernameLogin(textbox)
