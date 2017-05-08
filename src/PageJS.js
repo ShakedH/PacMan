@@ -245,9 +245,17 @@ function SetLoginValidator()
 
 function OpenDiv(divID)
 {
-    // Close Other Divs
+    // Hide all divs
     $(".MainWinInformationDiv").css('visibility', 'hidden');
-    document.getElementById(divID).style.visibility = 'visible';
+    $('#' + divID).css('visibility', 'visible');
+    if (divID != "GameDiv")
+    {
+        EndGame();
+        $("#HiddenAtFirst").css('visibility', 'hidden');
+        $("#Life1").css('visibility', 'hidden');
+        $("#Life2").css('visibility', 'hidden');
+        $("#Life3").css('visibility', 'hidden');
+    }
 }
 
 function AddUser()
@@ -277,7 +285,7 @@ function AddUser()
     MessageToUser("Signed up successfully");
     UpdateCurrentUser(user.UserName);
     StartGame();
-    return true;
+    // return true;
 }
 
 function LoginFunc()
@@ -306,6 +314,13 @@ function GetUsers(userName)
     });
 }
 
+function NewGamePressed()
+{
+    ClearInterval();
+    StopKeyPressListening();
+    window.location.href = "#SettingsModal";
+}
+
 function StartGame()
 {
     OpenDiv('GameDiv');
@@ -323,6 +338,7 @@ function ApplySettings()
     if (!timeInserted.validity.valid)
         return false;
     window.location.href = '#';
+    Start();
 }
 
 function ChangeColorSelected(select)

@@ -26,7 +26,7 @@ var ROWS;
 var MAX_FOOD;
 var TILE_SIZE;
 var HALF_TILE_SIZE;
-var TIME_INTERVAL = 300;
+var TIME_INTERVAL = 1000;
 var LevelBoard = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
@@ -89,7 +89,7 @@ var numOfGhosts;
 var ghostsPrevEntityQueue;
 var bonusPrevEntityQueue;
 var iceActive;
-
+var keyPressHandler;
 
 var fivePtsColor;
 var fifteenPtsColor;
@@ -125,7 +125,6 @@ function InitializeMembers()
     lblTime = document.getElementById("lblTime");
     canvasContext = canvas.getContext("2d");
     document.getElementById("HiddenAtFirst").style.visibility = 'visible';
-    document.getElementById("StartButton").innerHTML = "New Game";
     lblScore.innerHTML = "0";
     lblTime.innerHTML = "0";
 
@@ -146,7 +145,6 @@ function InitializeMembers()
 
     // Show all lives:
     $(".LifeImg").css('visibility', 'visible');
-
 
     // Create all audios:
     mainAudio = document.createElement("AUDIO");
@@ -171,8 +169,7 @@ function InitializeMembers()
     foodsOnBoard = MAX_FOOD;
     TILE_SIZE = Math.min(canvas.width, canvas.height) / ROWS;
     HALF_TILE_SIZE = TILE_SIZE / 2;
-
-    addEventListener("keydown", function (e)
+    keyPressHandler = function (e)
     {
         e.preventDefault();     // Prevent window from moving on arrows key press
         if (interval == null)
@@ -204,7 +201,8 @@ function InitializeMembers()
             keysDown[Keys.Right] = false;
             keysDown[e.keyCode] = true;
         }
-    }, false);
+    }
+    addEventListener("keydown", keyPressHandler, false);
 }
 
 function FillBoardWithPathsAndWalls()
@@ -226,8 +224,6 @@ function FillBoardWithPathsAndWalls()
 function PositionEntities()
 {
     var food_remain = MAX_FOOD;
-
-    PositionPacman();
 
     // Position food
     while (food_remain > 0)
@@ -274,19 +270,8 @@ function PositionEntities()
     }
 
     // Position bonus
-    while (true)
-    {
-        i = Math.floor(Math.random() * pathsList.length);
-        row = pathsList[i].row;
-        col = pathsList[i].col;
-        if (board[col][row] == BoardEntity.Path)
-        {
-            bonus.i = col;
-            bonus.j = row;
-            break;
-        }
-        pathsList.splice(i, 1);
-    }
+    bonus.i = 1;
+    bonus.j = 1;
 
     // Position Ice
     while (true)
@@ -302,6 +287,8 @@ function PositionEntities()
         }
         pathsList.splice(i, 1);
     }
+
+    PositionPacman();
 }
 //endregion
 
@@ -323,8 +310,7 @@ function PositionPacman()
 
 function StartInterval()
 {
-    window.clearInterval(interval);
-    interval = undefined;
+    ClearInterval();
     interval = setInterval(UpdatePositionAndDraw, TIME_INTERVAL);
 }
 
@@ -344,7 +330,10 @@ function UpdatePositionAndDraw()
         mainAudio.play();
 
     if (HasGhost(pacShape.i, pacShape.j))
+    {
         Die();
+        return;
+    }
     else if (HasBonus(pacShape.i, pacShape.j))
     {
         bonus = undefined;
@@ -382,7 +371,7 @@ function UpdatePositionAndDraw()
 
     if (foodsOnBoard == 0)
     {
-        window.clearInterval(interval);
+        ClearInterval();
         window.alert("Game completed");
     }
 
@@ -573,12 +562,18 @@ function Die()
     lives--;
     mainAudio.pause();
     document.getElementById(LifeId).style.visibility = "hidden";
-    window.clearInterval(interval);
+    ClearInterval();
     interval = undefined;
     if (lives == 0)
+    {
+        StopKeyPressListening();
         MessageToUser("You lost!");
+    }
     else
+    {
         PositionPacman();
+        MessageToUser("Ohh, a ghost just ate you.\nPress the arrow keys to play again");
+    }
 }
 
 function MoveBonus()
@@ -746,3 +741,21 @@ function IsVisited(neighbor, visited)
     return false;
 }
 //endregion
+
+function EndGame()
+{
+    StopKeyPressListening();
+    ClearInterval()
+    interval = undefined;
+    mainAudio.pause();
+}
+
+function ClearInterval()
+{
+    window.clearInterval(interval);
+}
+
+function StopKeyPressListening()
+{
+    removeEventListener("keydown", keyPressHandler);
+}

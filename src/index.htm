@@ -38,7 +38,7 @@
         </div>
 
         <div id="SignUpDiv" class="MainWinInformationDiv" style="visibility: hidden">
-            <form id="SignUpForm" name="SignUp" action="">
+            <form id="SignUpForm" name="SignUp" action="mailto:hazons@post.bgu.ac.il">
 
                 <label>&nbsp&nbsp</label>
                 <label class="FormLabel">User Name:</label>
@@ -117,9 +117,7 @@
                     </div>
                 </div>
                 <br><br><br>
-                <a href="#SettingsModal" class="customButton">Settings</a>
-                <br><br><br>
-                <button id="StartButton" onclick="Start()" class="customButton">Start</button>
+                <button id="StartButton" onclick="NewGamePressed()" class="customButton">New Game</button>
             </div>
             <div id="CanvasDiv">
                 <canvas id="canvas"></canvas>
@@ -221,7 +219,7 @@
                     </div>
                 </div>
                 <br><br>
-                <input form="TimeSettingForm" name="TimeSettings" type="submit" onclick="ApplySettings()" value="Apply"
+                <input form="TimeSettingForm" name="TimeSettings" type="submit" onclick="ApplySettings()" value="Play"
                        class="customButton">
             </div>
         </div>
