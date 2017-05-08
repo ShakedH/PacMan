@@ -76,22 +76,22 @@ function SetValidationErrorDesign()
 {
     $('input[type="text"]').tooltipster({ //find more options on the tooltipster page
         trigger: 'custom', // default is 'hover' which is no good here
-        position: 'top',
+        position: 'right',
         animation: 'grow'
     });
     $('input[type="password"]').tooltipster({ //find more options on the tooltipster page
         trigger: 'custom', // default is 'hover' which is no good here
-        position: 'top',
+        position: 'right',
         animation: 'grow'
     });
     $('input[type="email"]').tooltipster({ //find more options on the tooltipster page
         trigger: 'custom', // default is 'hover' which is no good here
-        position: 'top',
+        position: 'right',
         animation: 'grow'
     });
     $('input[type="date"]').tooltipster({ //find more options on the tooltipster page
         trigger: 'custom', // default is 'hover' which is no good here
-        position: 'top',
+        position: 'right',
         animation: 'grow'
     });
 }
