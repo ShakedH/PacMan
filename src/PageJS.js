@@ -27,7 +27,101 @@ $(document).ready(function ()
     for (var i = 50; i <= 90; i++)
         select.options[select.options.length] = new Option(i);
     select.selectedIndex = 0;
+
+    SetValidation();
 });
+
+function SetValidation()
+{
+    $.validator.addMethod("UserExists", function (userName)
+    {
+        var exists = Users.some(function (other)
+        {
+            return other.UserName === userName;
+        });
+        return !exists;
+    }, "User name already exists!")
+
+    $.validator.addMethod("AlphaNumeric", function (username)
+    {
+        return /^[a-z0-9\-\s]+$/i.test(username);
+    })
+
+    $.validator.addMethod("NumsAndChars", function (password)
+    {
+        if (!(/\d/.test(password)))
+            return false;
+        else if (!(/[a-zA-Z]/.test(password)))
+            return false;
+        return true;
+    }, "Password must contain letters and numbers")
+
+    $.validator.addMethod("OnlyLetters", function (name)
+    {
+        return /^[a-z]+$/i.test(name);
+    }, "Name must contain only letters")
+
+    $("form[name='SignUp']").validate(
+        {
+            rules: {
+                username: {
+                    required: true,
+                    AlphaNumeric: true,
+                    UserExists: true
+                },
+                password: {
+                    required: true,
+                    minlength: 8,
+                    NumsAndChars: true
+                },
+                firstName: {
+                    required: true,
+                    OnlyLetters: true
+                },
+                surname: {
+                    required: true,
+                    OnlyLetters: true
+                },
+                birthDate: {
+                    required: true,
+                    date: true
+                },
+                email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                username: {
+                    required: "User Name is required",
+                    AlphaNumeric: 'User name must contain letters or numbers only',
+                    UserExists: "User name already exists!"
+                },
+                password: {
+                    required: 'Password is required',
+                    minlength: 'Password must be at least 8 characters long',
+                    NumsAndChars: "Password must contain letters and numbers"
+                },
+                firstName: {
+                    required: 'First name is required',
+                    OnlyLetters: 'Name must contain only letters'
+                },
+                surname: {
+                    required: 'Surname is required',
+                    OnlyLetters: 'Name must contain only letters'
+                },
+                email: {
+                    required: 'Email is required',
+                    email: 'Please enter valid Email address'
+                },
+                birthDate: {
+                    required: 'Birth date is required'
+                }
+
+            }
+        }
+    )
+}
 
 function OpenDiv(divID)
 {
@@ -38,34 +132,42 @@ function OpenDiv(divID)
 
 function AddUser()
 {
+    var form = $("#SignUpForm");
+    var validator = form.validate();
+    if (!form.valid())
+    {
+        validator.reset();
+        return;
+    }
+
     var userName = $("#UserNameSignUp").get(0);
-    VerifyUserName(userName);
-    if (!userName.validity.valid)
-        return false;
+    // VerifyUserName(userName);
+    // if (!userName.validity.valid)
+    //     return false;
 
     var password = $("#PasswordSignUp").get(0);
-    VerifyPassword(password);
-    if (!password.validity.valid)
-        return false;
+    // VerifyPassword(password);
+    // if (!password.validity.valid)
+    //     return false;
 
     var firstName = $("#FirstNameSignUp").get(0);
-    VerifyName(firstName);
-    if (!firstName.validity.valid)
-        return false;
+    // VerifyName(firstName);
+    // if (!firstName.validity.valid)
+    //     return false;
 
     var surname = $("#SurnameSignUp").get(0);
-    VerifyName(surname);
-    if (!surname.validity.valid)
-        return false;
+    // VerifyName(surname);
+    // if (!surname.validity.valid)
+    //     return false;
 
     var Email = $("#EmailSignUp").get(0);
-    VerifyEmail(Email);
-    if (!Email.validity.valid)
-        return false;
+    // VerifyEmail(Email);
+    // if (!Email.validity.valid)
+    //     return false;
 
     var birthDate = $("#BirthDateSignUp").get(0);
-    if (!birthDate.validity.valid)
-        return false;
+    // if (!birthDate.validity.valid)
+    //     return false;
 
 
     var user = {
