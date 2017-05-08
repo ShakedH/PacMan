@@ -31,9 +31,17 @@ $(document).ready(function ()
 
 function OpenDiv(divID)
 {
-    // Close Other Divs
+    // Hide all divs
     $(".MainWinInformationDiv").css('visibility', 'hidden');
-    document.getElementById(divID).style.visibility = 'visible';
+    $('#' + divID).css('visibility', 'visible');
+    if (divID != "GameDiv")
+    {
+        EndGame();
+        $("#HiddenAtFirst").css('visibility', 'hidden');
+        $("#Life1").css('visibility', 'hidden');
+        $("#Life2").css('visibility', 'hidden');
+        $("#Life3").css('visibility', 'hidden');
+    }
 }
 
 function AddUser()
@@ -125,6 +133,13 @@ function StartGame()
     ctx.canvas.width = Math.max(div.clientHeight, div.clientWidth);
 }
 
+function SettingsPressed()
+{
+    ClearInterval();
+    StopKeyPressListening();
+    window.location.href = "#SettingsModal";
+}
+
 function ApplySettings()
 {
     var timeInserted = document.getElementById("TimeInput");
@@ -132,6 +147,8 @@ function ApplySettings()
     if (!timeInserted.validity.valid)
         return false;
     window.location.href = '#';
+    StartInterval();
+    AddKeyPressListening();
 }
 
 function ChangeColorSelected(select)
