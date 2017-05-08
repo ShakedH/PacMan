@@ -101,24 +101,6 @@ function SetSignUpValidator()
 
     $("form[name='SignUp']").validate(
         {
-            // any other options & rules,
-            errorPlacement: function (error, element)
-            {
-                var lastError = $(element).data('lastError'),
-                    newError = $(error).text();
-
-                $(element).data('lastError', newError);
-
-                if (newError !== '' && newError !== lastError)
-                {
-                    $(element).tooltipster('content', newError);
-                    $(element).tooltipster('show');
-                }
-            },
-            success: function (label, element)
-            {
-                $(element).tooltipster('hide');
-            },
             rules: {
                 username: {
                     required: true,
@@ -172,8 +154,25 @@ function SetSignUpValidator()
                 },
                 birthDate: {
                     required: 'Birth date is required'
-                }
+                },
+                // Error Design:
+                errorPlacement: function (error, element)
+                {
+                    var lastError = $(element).data('lastError'),
+                        newError = $(error).text();
 
+                    $(element).data('lastError', newError);
+
+                    if (newError !== '' && newError !== lastError)
+                    {
+                        $(element).tooltipster('content', newError);
+                        $(element).tooltipster('show');
+                    }
+                },
+                success: function (label, element)
+                {
+                    $(element).tooltipster('hide');
+                }
             }
         }
     )
