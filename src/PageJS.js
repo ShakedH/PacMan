@@ -39,11 +39,21 @@ function SetValidation()
     SetSignUpValidator();
 
     SetSignUpValidator();
+    SetLoginValidator();
 }
 
 function SetCustomValidationFunctions()
 {
     $.validator.addMethod("UserExists", function (userName)
+    {
+        var exists = Users.some(function (other)
+        {
+            return other.UserName === userName;
+        });
+        return exists;
+    }, "User name already exists!")
+
+    $.validator.addMethod("UserNotExists", function (userName)
     {
         var exists = Users.some(function (other)
         {
@@ -70,6 +80,12 @@ function SetCustomValidationFunctions()
     {
         return /^[a-z]+$/i.test(name);
     }, "Name must contain only letters")
+
+    $.validator.addMethod("PasswordCorrect", function (password)
+    {
+        var storedPassword = GetUsers($("#UsernameLogin").val())[0].Password;
+        return storedPassword == password;
+    })
 }
 
 function SetValidationErrorDesign()
@@ -105,7 +121,7 @@ function SetSignUpValidator()
                 username: {
                     required: true,
                     AlphaNumeric: true,
-                    UserExists: true
+                    UserNotExists: true
                 },
                 password: {
                     required: true,
@@ -133,7 +149,7 @@ function SetSignUpValidator()
                 username: {
                     required: "User Name is required",
                     AlphaNumeric: 'User name must contain letters or numbers only',
-                    UserExists: "User name already exists!"
+                    UserNotExists: "User name already exists!"
                 },
                 password: {
                     required: 'Password is required',
@@ -154,6 +170,53 @@ function SetSignUpValidator()
                 },
                 birthDate: {
                     required: 'Birth date is required'
+                }
+
+            },
+            // any other options & rules,
+            errorPlacement: function (error, element)
+            {
+                var lastError = $(element).data('lastError'),
+                    newError = $(error).text();
+
+                $(element).data('lastError', newError);
+
+                if (newError !== '' && newError !== lastError)
+                {
+                    $(element).tooltipster('content', newError);
+                    $(element).tooltipster('show');
+                }
+            },
+            success: function (label, element)
+            {
+                $(element).tooltipster('hide');
+            }
+        }
+    )
+}
+
+function SetLoginValidator()
+{
+    $("form[name='Login']").validate(
+        {
+            rules: {
+                username: {
+                    required: true,
+                    UserExists: true
+                },
+                password: {
+                    required: true,
+                    PasswordCorrect: true
+                }
+            },
+            messages: {
+                username: {
+                    required: "User Name is required",
+                    UserExists: "User name not found!"
+                },
+                password: {
+                    required: 'Password is required',
+                    PasswordCorrect: 'Wrong Password!'
                 }
 
             },
@@ -212,23 +275,19 @@ function AddUser()
     document.getElementById("SignUpForm").reset();
     Users.push(user);
     MessageToUser("Signed up successfully");
-    UpdateCurrentUser(userName.value);
+    UpdateCurrentUser(user.UserName);
     StartGame();
     return true;
 }
 
-function Login()
+function LoginFunc()
 {
+    var form = $("#LoginForm");
+    var validator = form.validate();
+    if (!form.valid())
+        return;
+
     var userName = $("#UsernameLogin").get(0);
-    var password = $("#PasswordLogin").get(0);
-
-    VerifyUsernameLogin(userName);
-    if (!userName.validity.valid)
-        return false;
-
-    VerifyPasswordLogin(password, GetUsers(userName.value)[0]);
-    if (!password.validity.valid)
-        return false;
 
     UpdateCurrentUser(userName.value);
     StartGame();
