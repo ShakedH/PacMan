@@ -99,6 +99,7 @@ var twentyFivePtsColor;
 var mainAudio;
 var iceAudio;
 var bonusAudio;
+var winAudio;
 
 // entities:
 var pacShape;
@@ -155,6 +156,8 @@ function InitializeMembers()
     iceAudio.setAttribute("src", "../Sounds/ice.mp3");
     bonusAudio = document.createElement("AUDIO");
     bonusAudio.setAttribute("src", "../Sounds/bonusSound.mp3");
+    winAudio = document.createElement("AUDIO");
+    winAudio.setAttribute("src", "../Sounds/win.mp3");
 
     startTime = new Date();
     board = new Array();
@@ -376,6 +379,7 @@ function UpdatePositionAndDraw()
     if (foodsOnBoard == 0)
     {
         ClearInterval();
+        winAudio.play();
         window.alert("Game completed");
     }
 
