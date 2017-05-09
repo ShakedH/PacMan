@@ -687,7 +687,7 @@ function MoveGhosts()
         var originalJ = ghost.j;
         var nextStep = BFS(ghost.i, ghost.j);
         if (nextStep == null)    // Ghost caught Pacman
-            break;
+            continue;
         ghost.i = nextStep.i;
         ghost.j = nextStep.j;
     }
