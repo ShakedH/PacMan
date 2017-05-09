@@ -356,7 +356,8 @@ function UpdatePositionAndDraw()
         Die();
     }
 
-    if (mainAudio.paused)
+    if (mainAudio.paused && (iceAudio.ended || iceAudio.played.length == 0) &&
+        (bonusAudio.ended || bonusAudio.played.length == 0))
         mainAudio.play();
 
     if (HasGhost(pacShape.i, pacShape.j))
@@ -366,12 +367,14 @@ function UpdatePositionAndDraw()
     }
     else if (HasBonus(pacShape.i, pacShape.j))
     {
+        mainAudio.pause();
         bonusAudio.play();
         bonus = undefined;
         score += 50;
     }
     else if (HasIce(pacShape.i, pacShape.j))
     {
+        mainAudio.pause();
         iceAudio.play();
         ice = undefined;
         iceActive = true;
@@ -402,6 +405,7 @@ function UpdatePositionAndDraw()
 
     if (foodsOnBoard == 0)
     {
+        mainAudio.pause();
         ClearInterval();
         MessageToUser("Game completed");
         winAudio.play();
