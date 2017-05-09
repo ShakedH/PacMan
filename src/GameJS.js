@@ -26,7 +26,7 @@ var ROWS;
 var MAX_FOOD;
 var TILE_SIZE;
 var HALF_TILE_SIZE;
-var TIME_INTERVAL = 1000;
+var TIME_INTERVAL = 400;
 var LevelBoard = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
@@ -98,6 +98,7 @@ var twentyFivePtsColor;
 // audios:
 var mainAudio;
 var iceAudio;
+var bonusAudio;
 
 // entities:
 var pacShape;
@@ -152,6 +153,8 @@ function InitializeMembers()
     mainAudio.play();
     iceAudio = document.createElement("AUDIO");
     iceAudio.setAttribute("src", "../Sounds/ice.mp3");
+    bonusAudio = document.createElement("AUDIO");
+    bonusAudio.setAttribute("src", "../Sounds/bonusSound.mp3");
 
     startTime = new Date();
     board = new Array();
@@ -336,6 +339,7 @@ function UpdatePositionAndDraw()
     }
     else if (HasBonus(pacShape.i, pacShape.j))
     {
+        bonusAudio.play();
         bonus = undefined;
         score += 50;
     }
