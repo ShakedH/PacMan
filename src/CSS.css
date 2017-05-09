@@ -466,7 +466,7 @@ select option[value="gray"] {
     background: linear-gradient(to bottom, #fff, #ddd);
     margin: 0 auto;
     width: 350px;
-    padding: 10px 10px 70px 10px;
+    padding: 10px 10px 30px 10px;
     text-align: center;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

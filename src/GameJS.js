@@ -597,8 +597,9 @@ function Die()
     interval = undefined;
     if (lives == 0)
     {
-        DisableKeyPressListening();
-        MessageToUser("You lost!");
+        // DisableKeyPressListening();
+        EndGame();
+        MessageToUser("Sorry, you lost!");
     }
     else if (timeRemaining <= 0)
     {
@@ -786,7 +787,8 @@ function EndGame()
     DisableKeyPressListening();
     ClearInterval()
     interval = undefined;
-    mainAudio.pause();
+    if (mainAudio != null)
+        mainAudio.pause();
 }
 
 function ClearInterval()
