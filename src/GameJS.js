@@ -381,7 +381,7 @@ function UpdatePositionAndDraw()
 
     if (foodsOnBoard == 0)
     {
-        mainAudio.stop();
+        mainAudio.pause();
         ClearInterval();
         window.alert("Game completed");
         winAudio.play();
