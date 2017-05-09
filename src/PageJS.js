@@ -37,8 +37,6 @@ function SetValidation()
     SetCustomValidationFunctions();
     SetValidationErrorDesign();
     SetSignUpValidator();
-
-    SetSignUpValidator();
     SetLoginValidator();
 }
 
@@ -247,6 +245,13 @@ function OpenDiv(divID)
 {
     // Hide all divs
     $(".MainWinInformationDiv").css('visibility', 'hidden');
+
+    // Hide all forms errors:
+    $('*').filter(function ()
+    {
+        return $(this).data('tooltipsterNs');
+    }).tooltipster('hide');
+
     $('#' + divID).css('visibility', 'visible');
     if (divID != "GameDiv")
     {
@@ -262,6 +267,8 @@ function AddUser()
 {
     var form = $("#SignUpForm");
     var validator = form.validate();
+    // Show previously hidden errors:
+    $("#SignUpForm input").tooltipster('show');
     if (!form.valid())
         return;
 
@@ -292,6 +299,8 @@ function LoginFunc()
 {
     var form = $("#LoginForm");
     var validator = form.validate();
+    // Show previously hidden errors:
+    $("#LoginForm input").tooltipster('show');
     if (!form.valid())
         return;
 
