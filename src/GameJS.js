@@ -564,7 +564,6 @@ function Die()
 {
     var LifeId = "Life" + lives;
     lives--;
-    mainAudio.pause();
     document.getElementById(LifeId).style.visibility = "hidden";
     ClearInterval();
     interval = undefined;
