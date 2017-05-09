@@ -24,8 +24,6 @@ $(document).ready(function ()
         ];
 
     var select = document.getElementById("FoodsSelect");
-    //fixme Delete this:
-    select.options[select.options.length] = new Option(1);
     for (var i = 50; i <= 90; i++)
         select.options[select.options.length] = new Option(i);
     select.selectedIndex = 0;
