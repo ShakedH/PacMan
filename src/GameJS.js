@@ -112,8 +112,7 @@ var numOfGhosts;
 var ghostsPrevEntityQueue;
 var bonusPrevEntityQueue;
 var iceActive;
-var keyPressHandler;
-var boardRendered;
+var isDead;
 
 var fivePtsColor;
 var fifteenPtsColor;
@@ -199,39 +198,7 @@ function InitializeMembers()
     foodsOnBoard = MAX_FOOD;
     TILE_SIZE = Math.min(canvas.width, canvas.height) / ROWS;
     HALF_TILE_SIZE = TILE_SIZE / 2;
-    keyPressHandler = function (e)
-    {
-        e.preventDefault();     // Prevent window from moving on arrows key press
-        if (interval == null)
-            StartInterval();
-        switch (e.keyCode)
-        {
-            case Keys.Up:
-                if (pacShape.j > 0 && board[pacShape.i][pacShape.j - 1] != BoardEntity.Obstacle)
-                    SetKeyAsPressed();
-                break;
-            case Keys.Down:
-                if (pacShape.j < ROWS - 1 && board[pacShape.i][pacShape.j + 1] != BoardEntity.Obstacle)
-                    SetKeyAsPressed();
-                break;
-            case Keys.Left:
-                if (pacShape.i > 0 && board[pacShape.i - 1][pacShape.j] != BoardEntity.Obstacle)
-                    SetKeyAsPressed();
-                break;
-            case Keys.Right:
-                if (pacShape.i < COLS - 1 && board[pacShape.i + 1][pacShape.j] != BoardEntity.Obstacle)
-                    SetKeyAsPressed();
-                break;
-        }
-        function SetKeyAsPressed()
-        {
-            keysDown[Keys.Up] = false;
-            keysDown[Keys.Down] = false;
-            keysDown[Keys.Left] = false;
-            keysDown[Keys.Right] = false;
-            keysDown[e.keyCode] = true;
-        }
-    }
+    isDead = false;
     EnableKeyPressListening();
 }
 
@@ -360,7 +327,8 @@ function UpdatePositionAndDraw()
     if (HasGhost(pacShape.i, pacShape.j))
     {
         Die();
-        return;
+        if (lives == 0)
+            return;
     }
     else if (HasBonus(pacShape.i, pacShape.j))
     {
@@ -383,6 +351,32 @@ function UpdatePositionAndDraw()
     }
 
     MovePacman();
+
+    if (HasGhost(pacShape.i, pacShape.j))
+    {
+        Die();
+        if (lives == 0)
+            return;
+    }
+    else if (HasBonus(pacShape.i, pacShape.j))
+    {
+        mainAudio.pause();
+        bonusAudio.play();
+        bonus = undefined;
+        score += 50;
+    }
+    else if (HasIce(pacShape.i, pacShape.j))
+    {
+        mainAudio.pause();
+        iceAudio.play();
+        ice = undefined;
+        iceActive = true;
+        // Wait 5 seconds and change back to false:
+        setTimeout(function ()
+        {
+            iceActive = false;
+        }, 5000); // Start new thread with ActivateIce
+    }
     var pacmanNextMove = board[pacShape.i][pacShape.j];
     switch (pacmanNextMove)
     {
@@ -597,7 +591,6 @@ function Die()
     interval = undefined;
     if (lives == 0)
     {
-        // DisableKeyPressListening();
         EndGame();
         MessageToUser("Sorry, you lost!");
     }
@@ -786,6 +779,7 @@ function EndGame()
 {
     DisableKeyPressListening();
     ClearInterval()
+    isDead = true;
     interval = undefined;
     if (mainAudio != null)
         mainAudio.pause();
@@ -798,10 +792,44 @@ function ClearInterval()
 
 function DisableKeyPressListening()
 {
-    removeEventListener("keydown", keyPressHandler);
+    removeEventListener("keydown", keyPressHandler, true);
 }
 
 function EnableKeyPressListening()
 {
-    addEventListener("keydown", keyPressHandler, false);
+    addEventListener("keydown", keyPressHandler, true);
+}
+
+function keyPressHandler(e)
+{
+    e.preventDefault();     // Prevent window from moving on arrows key press
+    if (!isDead)
+        StartInterval();
+    switch (e.keyCode)
+    {
+        case Keys.Up:
+            if (pacShape.j > 0 && board[pacShape.i][pacShape.j - 1] != BoardEntity.Obstacle)
+                SetKeyAsPressed();
+            break;
+        case Keys.Down:
+            if (pacShape.j < ROWS - 1 && board[pacShape.i][pacShape.j + 1] != BoardEntity.Obstacle)
+                SetKeyAsPressed();
+            break;
+        case Keys.Left:
+            if (pacShape.i > 0 && board[pacShape.i - 1][pacShape.j] != BoardEntity.Obstacle)
+                SetKeyAsPressed();
+            break;
+        case Keys.Right:
+            if (pacShape.i < COLS - 1 && board[pacShape.i + 1][pacShape.j] != BoardEntity.Obstacle)
+                SetKeyAsPressed();
+            break;
+    }
+    function SetKeyAsPressed()
+    {
+        keysDown[Keys.Up] = false;
+        keysDown[Keys.Down] = false;
+        keysDown[Keys.Left] = false;
+        keysDown[Keys.Right] = false;
+        keysDown[e.keyCode] = true;
+    }
 }
