@@ -351,10 +351,7 @@ function UpdatePositionAndDraw()
     timeRemaining -= TIME_INTERVAL / 1000;
 
     if (timeRemaining <= 0)
-    {
-        lives = 1;
         Die();
-    }
 
     if (mainAudio.paused && (iceAudio.ended || iceAudio.played.length == 0) &&
         (bonusAudio.ended || bonusAudio.played.length == 0))
@@ -602,6 +599,14 @@ function Die()
     {
         DisableKeyPressListening();
         MessageToUser("You lost!");
+    }
+    else if (timeRemaining <= 0)
+    {
+        DisableKeyPressListening();
+        if (score < 150)
+            MessageToUser("You can do better");
+        else
+            MessageToUser("We have a winner!!!");
     }
     else
     {
