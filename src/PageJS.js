@@ -348,6 +348,7 @@ function ApplySettings()
     if (!timeInserted.validity.valid)
         return false;
     window.location.href = '#';
+    EndGame();
     Start();
 }
 
