@@ -534,10 +534,9 @@ function DrawGhost(ghostCenter, col, row)
 
 function DrawObstacle(obstacleCenter)
 {
-    canvasContext.beginPath();
-    canvasContext.rect(obstacleCenter.x - HALF_TILE_SIZE, obstacleCenter.y - HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
-    canvasContext.fillStyle = "grey"; //color
-    canvasContext.fill();
+    var image = new Image();
+    image.src = '../Images/wall.png';
+    canvasContext.drawImage(image, obstacleCenter.x - TILE_SIZE / 2, obstacleCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 }
 
 function DrawFood(foodCenter, entity)
