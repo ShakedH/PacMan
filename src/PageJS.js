@@ -287,6 +287,7 @@ function AddUser()
         BirthDate: birthDate.value
     };
 
+    document.SignUp.submit();
     document.getElementById("SignUpForm").reset();
     Users.push(user);
     MessageToUser("Signed up successfully");
@@ -377,12 +378,12 @@ function VerifyTime(textbox)
 function MessageToUser(message)
 {
     DisableKeyPressListening();
-    window.location.href = "#MessageDiv";
+    window.location.hash = "#MessageDiv";
     document.getElementById("TextMessage").innerHTML = message;
 }
 
 function MessageButtonPressed()
 {
     EnableKeyPressListening();
-    window.location.href = '#';
+    window.location.hash = '#';
 }
