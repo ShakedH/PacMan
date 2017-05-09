@@ -440,8 +440,9 @@ select option[value="gray"] {
 /*</editor-fold>*/
 
 #CanvasDiv {
-    margin-left: var(--scoreBoardWidth); /* The gap between the board and the left side of the screen */
+    margin-left: calc(var(--scoreBoardWidth) * 1.7); /* The gap between the board and the left side of the screen */
     width: calc(100% - (var(--scoreBoardWidth)));
     height: 100%;
 }
+
 /*</editor-fold>*/
