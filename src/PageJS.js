@@ -28,6 +28,15 @@ $(document).ready(function ()
         select.options[select.options.length] = new Option(i);
     select.selectedIndex = 0;
 
+    window.onhashchange = function ()
+    {
+        // Hide all forms errors:
+        $('*').filter(function ()
+        {
+            return $(this).data('tooltipsterNs');
+        }).tooltipster('hide');
+    };
+
     SetValidation();
 });
 
@@ -267,8 +276,10 @@ function AddUser()
 {
     var form = $("#SignUpForm");
     var validator = form.validate();
-    // Show previously hidden errors:
+
+    // // Show previously hidden errors:
     $("#SignUpForm input").tooltipster('show');
+
     if (!form.valid())
         return;
 
