@@ -122,6 +122,7 @@ var twentyFivePtsColor;
 var mainAudio;
 var iceAudio;
 var bonusAudio;
+var winAudio;
 
 // entities:
 var pacShape;
@@ -178,6 +179,8 @@ function InitializeMembers()
     iceAudio.setAttribute("src", "../Sounds/ice.mp3");
     bonusAudio = document.createElement("AUDIO");
     bonusAudio.setAttribute("src", "../Sounds/bonusSound.mp3");
+    winAudio = document.createElement("AUDIO");
+    winAudio.setAttribute("src", "../Sounds/win.mp3");
 
     startTime = new Date();
     board = new Array();
@@ -400,6 +403,7 @@ function UpdatePositionAndDraw()
     {
         ClearInterval();
         window.alert("Game completed");
+        winAudio.play();
     }
 
     board[pacShape.i][pacShape.j] = BoardEntity.Path;
@@ -704,7 +708,7 @@ function MoveGhosts()
         var originalJ = ghost.j;
         var nextStep = BFS(ghost.i, ghost.j);
         if (nextStep == null)    // Ghost caught Pacman
-            break;
+            continue;
         ghost.i = nextStep.i;
         ghost.j = nextStep.j;
     }
