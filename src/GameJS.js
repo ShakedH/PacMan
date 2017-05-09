@@ -379,8 +379,8 @@ function UpdatePositionAndDraw()
     if (foodsOnBoard == 0)
     {
         ClearInterval();
-        winAudio.play();
         window.alert("Game completed");
+        winAudio.play();
     }
 
     board[pacShape.i][pacShape.j] = BoardEntity.Path;
