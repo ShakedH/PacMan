@@ -317,7 +317,7 @@ function GetUsers(userName)
 function NewGamePressed()
 {
     ClearInterval();
-    StopKeyPressListening();
+    DisableKeyPressListening();
     window.location.href = "#SettingsModal";
 }
 
@@ -353,33 +353,6 @@ function ResetValidation(input)
     input.setCustomValidity("");
 }
 
-function VerifyUsernameLogin(textbox)
-{
-    var userName = textbox.value;
-    if (!userName || userName == '')
-        textbox.setCustomValidity('User Name is required');
-    else
-    {
-        var user = GetUsers(userName);
-        if (user.length != 1)
-            textbox.setCustomValidity("User name not exists!");
-        else
-            textbox.setCustomValidity("");
-    }
-}
-
-function VerifyPasswordLogin(textbox, user)
-{
-    var password = textbox.value;
-    var userPassword = user.Password;
-    if (!password || password == '')
-        textbox.setCustomValidity('Password is required');
-    else if (password != userPassword)
-        textbox.setCustomValidity('Incorrect password');
-    else
-        textbox.setCustomValidity('');
-}
-
 function VerifyTime(textbox)
 {
     var seconds = textbox.value;
@@ -394,5 +367,13 @@ function VerifyTime(textbox)
 
 function MessageToUser(message)
 {
-    window.alert(message)
+    DisableKeyPressListening();
+    window.location.href = "#MessageDiv";
+    document.getElementById("TextMessage").innerHTML = message;
+}
+
+function MessageButtonPressed()
+{
+    EnableKeyPressListening();
+    window.location.href = '#';
 }

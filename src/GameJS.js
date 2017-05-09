@@ -113,6 +113,7 @@ var ghostsPrevEntityQueue;
 var bonusPrevEntityQueue;
 var iceActive;
 var keyPressHandler;
+var boardRendered;
 
 var fivePtsColor;
 var fifteenPtsColor;
@@ -231,7 +232,7 @@ function InitializeMembers()
             keysDown[e.keyCode] = true;
         }
     }
-    addEventListener("keydown", keyPressHandler, false);
+    EnableKeyPressListening();
 }
 
 function FillBoardWithPathsAndWalls()
@@ -374,7 +375,7 @@ function UpdatePositionAndDraw()
         iceAudio.play();
         ice = undefined;
         iceActive = true;
-        // Wait 3 seconds and change back to false:
+        // Wait 5 seconds and change back to false:
         setTimeout(function ()
         {
             iceActive = false;
@@ -402,7 +403,7 @@ function UpdatePositionAndDraw()
     if (foodsOnBoard == 0)
     {
         ClearInterval();
-        window.alert("Game completed");
+        MessageToUser("Game completed");
         winAudio.play();
     }
 
@@ -595,13 +596,13 @@ function Die()
     interval = undefined;
     if (lives == 0)
     {
-        StopKeyPressListening();
+        DisableKeyPressListening();
         MessageToUser("You lost!");
     }
     else
     {
         PositionPacman();
-        MessageToUser("Ohh, a ghost just ate you.\nPress the arrow keys to play again");
+        MessageToUser("Ohh, a ghost just ate you.<br/>Press the arrow keys to play again");
     }
 }
 
@@ -773,7 +774,7 @@ function IsVisited(neighbor, visited)
 
 function EndGame()
 {
-    StopKeyPressListening();
+    DisableKeyPressListening();
     ClearInterval()
     interval = undefined;
     mainAudio.pause();
@@ -784,7 +785,12 @@ function ClearInterval()
     window.clearInterval(interval);
 }
 
-function StopKeyPressListening()
+function DisableKeyPressListening()
 {
     removeEventListener("keydown", keyPressHandler);
+}
+
+function EnableKeyPressListening()
+{
+    addEventListener("keydown", keyPressHandler, false);
 }
