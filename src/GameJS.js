@@ -68,11 +68,21 @@ var lives;
 var foodsOnBoard;
 var pathsList;
 var numOfGhosts;
-var ghostsPrevEntityQueue;
-var bonusPrevEntityQueue;
 var iceActive;
 var isDead;
+var keyPressHandler;
 
+//images:
+var pacmanImageUp;
+var pacmanImageDown;
+var pacmanImageLeft;
+var pacmanImageRight;
+var bonusImage;
+var obstacleImage;
+var iceImage;
+var ghostImagesArray;
+
+// food color:
 var fivePtsColor;
 var fifteenPtsColor;
 var twentyFivePtsColor;
@@ -158,6 +168,56 @@ function InitializeMembers()
     TILE_SIZE = Math.min(canvas.width, canvas.height) / ROWS;
     HALF_TILE_SIZE = TILE_SIZE / 2;
     isDead = false;
+
+    pacmanImageUp = new Image();
+    pacmanImageUp.src = '../Images/pacman_up.jpg';
+    pacmanImageDown = new Image();
+    pacmanImageDown.src = '../Images/pacman_down.jpg';
+    pacmanImageLeft = new Image();
+    pacmanImageLeft.src = '../Images/pacman_left.png';
+    pacmanImageRight = new Image();
+    pacmanImageRight.src = '../Images/pacman_right.jpg';
+    bonusImage = new Image();
+    bonusImage.src = '../Images/bonus.png';
+    obstacleImage = new Image();
+    obstacleImage.src = '../Images/wall.png';
+    iceImage = new Image();
+    iceImage.src = '../Images/ice.png';
+    ghostImagesArray = new Array();
+
+    keyPressHandler = function (e)
+    {
+        e.preventDefault();     // Prevent window from moving on arrows key press
+        if (!isDead && interval == null)
+            StartInterval();
+        switch (e.keyCode)
+        {
+            case Keys.Up:
+                if (pacShape.j > 0 && board[pacShape.i][pacShape.j - 1] != BoardEntity.Obstacle)
+                    SetKeyAsPressed();
+                break;
+            case Keys.Down:
+                if (pacShape.j < ROWS - 1 && board[pacShape.i][pacShape.j + 1] != BoardEntity.Obstacle)
+                    SetKeyAsPressed();
+                break;
+            case Keys.Left:
+                if (pacShape.i > 0 && board[pacShape.i - 1][pacShape.j] != BoardEntity.Obstacle)
+                    SetKeyAsPressed();
+                break;
+            case Keys.Right:
+                if (pacShape.i < COLS - 1 && board[pacShape.i + 1][pacShape.j] != BoardEntity.Obstacle)
+                    SetKeyAsPressed();
+                break;
+        }
+        function SetKeyAsPressed()
+        {
+            keysDown[Keys.Up] = false;
+            keysDown[Keys.Down] = false;
+            keysDown[Keys.Left] = false;
+            keysDown[Keys.Right] = false;
+            keysDown[e.keyCode] = true;
+        }
+    }
     EnableKeyPressListening();
 }
 
@@ -223,6 +283,9 @@ function PositionEntities()
         ghost.i = col;
         ghost.j = row;
         ghostsArray.push(ghost);
+        var image = new Image();
+        image.src = '../Images/Ghost' + (i + 1) + '.png';
+        ghostImagesArray.push(image);
     }
 
     // Position bonus
@@ -373,21 +436,13 @@ function UpdatePositionAndDraw()
 function GetKeyPressed()
 {
     if (keysDown[Keys.Up])
-    {
         return Keys.Up;
-    }
     if (keysDown[Keys.Down])
-    {
         return Keys.Down;
-    }
     if (keysDown[Keys.Left])
-    {
         return Keys.Left;
-    }
     if (keysDown[Keys.Right])
-    {
         return Keys.Right;
-    }
 }
 
 //region Draw Functions
@@ -416,94 +471,43 @@ function Draw()
             else if (board[col][row] == BoardEntity.Food_5 || board[col][row] == BoardEntity.Food_15 ||
                 board[col][row] == BoardEntity.Food_25)
                 DrawFood(entityCenter, board[col][row]);
-
         }
 }
 
 function DrawPacman(pacman)
 {
-    var image = new Image();
     switch (GetKeyPressed())
     {
         case Keys.Up:
-            image.src = '../Images/pacman_up.jpg';
-            // drawRotatedImage(image, pacman.x, pacman.y, 270);
+            canvasContext.drawImage(pacmanImageUp, pacman.x - TILE_SIZE / 2, pacman.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
             break;
         case Keys.Down:
-            image.src = '../Images/pacman_down.jpg';
-            // drawRotatedImage(image, pacman.x, pacman.y, 90);
+            canvasContext.drawImage(pacmanImageDown, pacman.x - TILE_SIZE / 2, pacman.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
             break;
         case Keys.Left:
-            image.src = '../Images/pacman_left.png';
-            // drawRotatedImage(image, pacman.x, pacman.y, 180);
-            // drawFlippedImage(image, pacman.x, pacman.y);
+            canvasContext.drawImage(pacmanImageLeft, pacman.x - TILE_SIZE / 2, pacman.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
             break;
         default:
         case Keys.Right:
-            image.src = '../Images/pacman_right.jpg';
-            // drawRotatedImage(image, pacman.x, pacman.y, 0);
+            canvasContext.drawImage(pacmanImageRight, pacman.x - TILE_SIZE / 2, pacman.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
             break;
-    }
-    canvasContext.drawImage(image, pacman.x - TILE_SIZE / 2, pacman.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
-
-    var direction;
-
-    function drawRotatedImage(image, x, y, angle)
-    {
-        var TO_RADIANS = Math.PI / 180;
-        // save the current co-ordinate system
-        // before we screw with it
-        canvasContext.save();
-
-        // move to the middle of where we want to draw our image
-        canvasContext.translate(x, y);
-
-        // rotate around that point, converting our
-        // angle from degrees to radians
-        canvasContext.rotate(angle * TO_RADIANS);
-
-        // draw it up and to the left by half the width
-        // and height of the image
-        canvasContext.drawImage(image, -(TILE_SIZE / 2), -(TILE_SIZE / 2), TILE_SIZE, TILE_SIZE);
-
-        // and restore the co-ords to how they were when we began
-        canvasContext.restore();
-    }
-
-    function drawFlippedImage(image, x, y)
-    {
-        canvasContext.save();
-        canvasContext.translate(x, y);
-        canvasContext.scale(-1, 1);
-        canvasContext.drawImage(image, -(TILE_SIZE / 2), -(TILE_SIZE / 2), TILE_SIZE, TILE_SIZE);
-        canvasContext.restore();
     }
 }
 
 function DrawBonus(bonusCenter)
 {
-    var image = new Image();
-    image.src = '../Images/bonus.png';
-    canvasContext.drawImage(image, bonusCenter.x - TILE_SIZE / 2, bonusCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
+    canvasContext.drawImage(bonusImage, bonusCenter.x - TILE_SIZE / 2, bonusCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 }
 
 function DrawGhost(ghostCenter, col, row)
 {
-    var image = new Image();
     var num = HasGhost(col, row);
-    image.src = '../Images/Ghost' + num + '.png';
-    canvasContext.drawImage(image, ghostCenter.x - TILE_SIZE / 2, ghostCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
+    canvasContext.drawImage(ghostImagesArray[num - 1], ghostCenter.x - TILE_SIZE / 2, ghostCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 }
 
 function DrawObstacle(obstacleCenter)
 {
-    canvasContext.beginPath();
-    canvasContext.rect(obstacleCenter.x - HALF_TILE_SIZE, obstacleCenter.y - HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
-    canvasContext.fillStyle = "grey"; //color
-    canvasContext.fill();
-    // var image = new Image();
-    // image.src = '../Images/wall.png';
-    // canvasContext.drawImage(image, obstacleCenter.x - TILE_SIZE / 2, obstacleCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
+    canvasContext.drawImage(obstacleImage, obstacleCenter.x - TILE_SIZE / 2, obstacleCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 }
 
 function DrawFood(foodCenter, entity)
@@ -543,9 +547,7 @@ function DrawFood(foodCenter, entity)
 
 function DrawIce(iceCenter)
 {
-    var image = new Image();
-    image.src = '../Images/ice.png';
-    canvasContext.drawImage(image, iceCenter.x - TILE_SIZE / 2, iceCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
+    canvasContext.drawImage(iceImage, iceCenter.x - TILE_SIZE / 2, iceCenter.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 }
 //endregion
 
@@ -759,44 +761,10 @@ function ClearInterval()
 
 function DisableKeyPressListening()
 {
-    removeEventListener("keydown", keyPressHandler, true);
+    removeEventListener("keydown", keyPressHandler);
 }
 
 function EnableKeyPressListening()
 {
-    addEventListener("keydown", keyPressHandler, true);
-}
-
-function keyPressHandler(e)
-{
-    e.preventDefault();     // Prevent window from moving on arrows key press
-    if (!isDead)
-        StartInterval();
-    switch (e.keyCode)
-    {
-        case Keys.Up:
-            if (pacShape.j > 0 && board[pacShape.i][pacShape.j - 1] != BoardEntity.Obstacle)
-                SetKeyAsPressed();
-            break;
-        case Keys.Down:
-            if (pacShape.j < ROWS - 1 && board[pacShape.i][pacShape.j + 1] != BoardEntity.Obstacle)
-                SetKeyAsPressed();
-            break;
-        case Keys.Left:
-            if (pacShape.i > 0 && board[pacShape.i - 1][pacShape.j] != BoardEntity.Obstacle)
-                SetKeyAsPressed();
-            break;
-        case Keys.Right:
-            if (pacShape.i < COLS - 1 && board[pacShape.i + 1][pacShape.j] != BoardEntity.Obstacle)
-                SetKeyAsPressed();
-            break;
-    }
-    function SetKeyAsPressed()
-    {
-        keysDown[Keys.Up] = false;
-        keysDown[Keys.Down] = false;
-        keysDown[Keys.Left] = false;
-        keysDown[Keys.Right] = false;
-        keysDown[e.keyCode] = true;
-    }
+    addEventListener("keydown", keyPressHandler);
 }
